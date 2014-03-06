@@ -41,18 +41,19 @@ public class KeyValueStore : OrigoDB.Core.Model
 
 The method calls are transparently intercepted by the proxy, mapped to command objects
 and persisted to the command journal.
-@devrexlabs - Github organisation page
-## Resources
-* Core documentation - http://github.com/devrexlabs/origodb/wiki/documentation
-* [http://origodb.com/] - Commercial site offering OrigoDB Server including enterprise features and support.
-* http://geekstream.devrexlabs.com - tech blog search demo built with OrigoDB
-* http://livedb.devrex.se/ - Old blog
-* http://robertfriberg.se/ - New blog
-* http://twitter.com/devrexlabs - announcements
-* http://twitter.com/robertfriberg - rants
+
+
+## Links
+
+* [OrigoDB Server](http://origodb.com/) - Commercial site offering OrigoDB Server including enterprise features and support.
+* [Geekstream - tech bloch search demo](http://geekstream.devrexlabs.com) powered by OrigoDB
+* [Old blog](http://livedb.devrex.se/) 
+* [New blog](http://robertfriberg.se/)
+* [@devrexlabs] (http://twitter.com/devrexlabs) - news and announcements on twitter
+* [@robertfriberg](http://twitter.com/robertfriberg) - personal twitter
  
-* http://eepurl.com/OGGHz - monthly newsletter
-* http://groups.google.com/origodb - The mailing list for discussions and support
-* http://www.nuget.org/packages/OrigoDB.Core/
-* http://nuget.org/packages?q=origodb&sortOrder=package-download-count - Nuget packages
+* [OrigoDB newsletter] (http://eepurl.com/OGGHz) - monthly newsletter 
+* [Mailing list](http://groups.google.com/origodb) for discussions and support
+* [Nuget packages](http://nuget.org/packages?q=origodb&sortOrder=package-download-count)
 * todo - Binary downloads
+* todo release notes
