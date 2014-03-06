@@ -1,5 +1,5 @@
 ---
-title: todo
+title: Engine
 layout: layout
 ---
 ## {{page.title}}
@@ -25,10 +25,11 @@ each with multiple overloads and generic counterparts.
 Most of the overloads for creating and loading take optional string location and EngineConfiguration arguments.
 
 ## Location
-Location of the journal and snapshots. If no location is specified, a default is used. If running in a web context the default is ~/App_Data/<model-type-name>, otherwise the default is <current-directory>\<model-type-name>.
+
 
 ## EngineConfiguration
-You might want to use a different location for journal and snapshots or configure the engine for non-default behavior. If you don't pass an EngineConfiguration, the default, provided by `EngineConfiguration.Create()`, will be used.
+You might want to use a different location for journal and snapshots or configure the engine for non-default behavior.
+If you don't pass an EngineConfiguration, the default, provided by `EngineConfiguration.Create()`, will be used.
 ```csharp
     var config = EngineConfiguration.Create();
     config.SnapshotLocation = "\\myserver\mysnapshots";

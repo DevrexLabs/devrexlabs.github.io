@@ -3,7 +3,9 @@ title: Partition Client
 layout: layout
 ---
 ## {{page.title}}
-OrigoDb Server, commercially available, supports horizontal data partitioning. `PartitionClusterClient` is the client class used to communicate with the nodes in the cluster. The client needs to know which nodes to send queries and commands to, either a specific node or all the nodes. The client also needs to know how to merge results obtained from multiple nodes.
+OrigoDb Server, commercially available, supports horizontal data partitioning. `PartitionClusterClient` is the client class used
+to communicate with the nodes in the cluster. The client needs to know which nodes to send queries and commands to, either a specific node
+or all the nodes. The client also needs to know how to merge results obtained from multiple nodes.
 
 Here's some example code to show how to configure a client.
 
@@ -38,13 +40,15 @@ Here's some example code to show how to configure a client.
        }
     );
 ```
-Consider creating a custom client class which derives from PartitionClusterClient and encapsulates the configuration. Alternatively, define a custom builder class.
+Consider creating a custom client class which derives from PartitionClusterClient and encapsulates the configuration.
+Alternatively, define a custom builder class.
 
 ## Dispatching
-The dispatcher returns either a zero-based index of the target node or an array of node indices for dispatching to multiple nodes. If you want to dispatch to all nodes, there is no need to register a dispatcher.
+The dispatcher returns either a zero-based index of the target node or an array of node indices for dispatching to multiple nodes.
+If you want to dispatch to all nodes, there is no need to register a dispatcher.
 
 ## Merging
-The merger is a function which merges results from multiple cluster nodes. For a query with the signature Query<M,R> a merger must have the signature Func<R[],R>.
+The merger is a function which merges results from multiple cluster nodes. For a query with the signature `Query<M,R>` a merger must have the signature `Func<R[],R>`.
 
 ## Transparent Execution
 The PartitionClusterClient implements the IEngine interface, use it. The client will transparently take care of dispatching and merging for you.
@@ -71,9 +75,15 @@ The PartitionClusterClient implements the IEngine interface, use it. The client 
 ```
 
 ## Partitioning schemes
-This example partitions using a modulus function. Adding/removing nodes means all the data needs to be repartitioned. With this scheme, repartioning can consume a lot of time,cpu and bandwidth. Also, the client needs to be refreshed with the number of nodes. To avoid repartitioning you can using a range partitioning scheme. With range partitioning you decide up front on which range of keys each node will handle. No data needs to be moved between nodes and the client need only be configured once.
+This example partitions using a modulus function. Adding/removing nodes means all the data needs to be repartitioned.
+With this scheme, repartitioning can consume a lot of time, cpu and bandwidth. Also, the client needs to be refreshed with the number of nodes.
+To avoid repartitioning you can using a range partitioning scheme. With range partitioning you decide up front on which range of keys each
+node will handle. No data needs to be moved between nodes and the client need only be configured once.
 
 ## Partitioning and ACID
-ACID is gauranteed If and only if every command _mutates_ a single node only. If a command mutates the state of more than one cluster node, any concurrent multinode transaction might operate on a mix of old and new states. Each node maintains its ACID properties but at the cluster level all but durability are jeapordized. Design accordingly.
+ACID is guaranteed If and only if every command _mutates_ a single node only. If a command
+mutates the state of more than one cluster node, any concurrent multi-node transaction might operate on a mix of old and new states.
+Each node maintains its ACID properties but at the cluster level all but durability are jeopardized. Design accordingly.
 
-*Atomicity* - A multinode command might fail on one or more of the nodes, either due to an exception, command abortion or system failure. In that case, the client will throw an exception. 
+*Atomicity* - A multi-node command might fail on one or more of the nodes, either due to an exception,
+command abortion or system failure. In that case, the client will throw an exception. 
