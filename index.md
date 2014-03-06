@@ -3,6 +3,8 @@ title: Start
 layout: layout
 ---
 
+Hey! We're building OrigoDB, the open source in-memory database toolkit for NET/Mono. You should probably try it out!
+
 ## What is OrigoDB?
 OrigoDB is an in-memory database platform. The engine is 100% ACID, runs in-process and hosts a user defined data model.
 The data model can be domain specific or generic and is defined using plain old NET types.
@@ -13,21 +15,33 @@ modularity, flexibility and extensibility. Performance was never a goal but Orig
 outperforms disk oriented systems. So there is room for performance optimizations.
 
  
-## Example using a proxy
-
-
+## Example user defined model
 {%highlight csharp%}
-   var db = Db.For<TwitterVerse>("mode=embedded");
-   db.AddUser("beavis");
-   var id = db.Tweet("beavis", "I need TP for my bunghole", DateTime.Now);
-   db.Favorite("beavis", id);
-   db.Follow("beavis", "butthead");
-   db.Favorite("butthead", id);
+[Serializable]
+public class KeyValueStore : OrigoDb.Core.Model
+{
+   Dictionary<string,object> _store = new Dictionary<string,object>();
+   
+   public void Put(string key, object value)
+   {
+      _store[key] = value;
+   }
+   
+   public void Remove(string key)
+   {
+      _store.Delete(key);
+   }
+}
+{% endhighlight %}
+## Sample usage using proxy
+{%highlight csharp%}
+   var db = Db.For<KeyValueStore>("mode=embedded");
+   db.Put("key", someValue);
 {% endhighlight %}
 
 The method calls are transparently intercepted by the proxy, mapped to command objects
 and persisted to the command journal.
-
+@devrexlabs - Github organisation page
 ## Resources
 * Core documentation - http://github.com/devrexlabs/origodb/wiki/documentation
 * http://origodb.com/ - Commercial site offering OrigoDB Server including enterprise features and support.
@@ -36,7 +50,7 @@ and persisted to the command journal.
 * http://robertfriberg.se/ - New blog
 * http://twitter.com/devrexlabs - announcements
 * http://twitter.com/robertfriberg - rants
-* @devrexlabs - Github organisation page
+ 
 * http://eepurl.com/OGGHz - monthly newsletter
 * http://groups.google.com/origodb - The mailing list for discussions and support
 * http://www.nuget.org/packages/OrigoDB.Core/
