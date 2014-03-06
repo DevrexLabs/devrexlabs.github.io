@@ -18,7 +18,7 @@ outperforms disk oriented systems. So there is room for performance optimization
 ## Example user defined model
 {%highlight csharp%}
 [Serializable]
-public class KeyValueStore : OrigoDb.Core.Model
+public class KeyValueStore : OrigoDB.Core.Model
 {
    Dictionary<string,object> _store = new Dictionary<string,object>();
    
@@ -44,7 +44,7 @@ and persisted to the command journal.
 @devrexlabs - Github organisation page
 ## Resources
 * Core documentation - http://github.com/devrexlabs/origodb/wiki/documentation
-* http://origodb.com/ - Commercial site offering OrigoDB Server including enterprise features and support.
+* [http://origodb.com/] - Commercial site offering OrigoDB Server including enterprise features and support.
 * http://geekstream.devrexlabs.com - tech blog search demo built with OrigoDB
 * http://livedb.devrex.se/ - Old blog
 * http://robertfriberg.se/ - New blog
