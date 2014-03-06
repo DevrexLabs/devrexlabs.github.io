@@ -1,20 +1,20 @@
 ---
-title: page title from page yml header
+title: Start
 layout: layout
 ---
 
-# What is OrigoDB?
-OrigoDB is an in-memory database platform. The engine is 100% ACID, runs in-process and hosts a user defined data model. The data model can be domain specific or generic and is defined using plain old NET types. Persistence is achieved snapshots and write-ahead command logging to the underlying storage.
+## What is OrigoDB?
+OrigoDB is an in-memory database platform. The engine is 100% ACID, runs in-process and hosts a user defined data model.
+The data model can be domain specific or generic and is defined using plain old NET types.
+Persistence is achieved by snapshots and write-ahead command logging to the underlying storage.
 
-Our design goals focus around rapid development, testability, simplicity, correctness, modularity, flexibility and extensibility. Performance was never a goal but OrigoDB easily outperforms disk oriented systems. Yet there is room for significant performance optimizations.
- 
- Title: {{page.title}}
+Our design goals focus around rapid development, testability, simplicity, correctness,
+modularity, flexibility and extensibility. Performance was never a goal but OrigoDB easily 
+outperforms disk oriented systems. So there is room for performance optimizations.
+
  
 ## Example using a proxy
-This is based on the twitter clone example in the http://github.com/devrexlabs/OrigoDb.Examples repository.
-```
-install-package origodb.core
-```
+
 
 {%highlight csharp%}
    var db = Db.For<TwitterVerse>("mode=embedded");
