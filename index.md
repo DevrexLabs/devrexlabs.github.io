@@ -1,5 +1,6 @@
 ---
 title: page title from page yml header
+layout: layout.html
 ---
 
 # What is OrigoDB?
