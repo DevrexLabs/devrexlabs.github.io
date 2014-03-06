@@ -4,9 +4,11 @@ layout: layout
 ---
 ## {{page.title}}
 
-The default storage provider uses the file system to store {"*.journal and *.snapshot"} files. Release 0.5.0 introduces support for alternative storage provider modules. The sql storage module is a available as a separate download.
+The default storage provider uses the file system to store .journal and .snapshot files. Release 0.5.0 introduces support for alternative storage provider modules.
+The sql storage module is a available as a separate download.
 
-Using Sql Storage allows you to benefit from all the reliability and maintainability features of an RDBMS. Also, the journal can be examined/manipulated using regular SQL. The provider creates a single table named CommandJournal with the following columns:
+Using Sql Storage allows you to benefit from all the reliability and maintainability features of an RDBMS. Also, the journal can
+be examined/manipulated using regular SQL. The provider creates a single table named CommandJournal with the following columns:
 
 Name | Description
 -----|------------
