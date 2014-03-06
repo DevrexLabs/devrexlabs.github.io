@@ -16,14 +16,15 @@ This is based on the twitter clone example in the http://github.com/devrexlabs/O
 install-package origodb.core
 ```
 
-```csharp
+{%highlight csharp%}
    var db = Db.For<TwitterVerse>("mode=embedded");
    db.AddUser("beavis");
    var id = db.Tweet("beavis", "I need TP for my bunghole", DateTime.Now);
    db.Favorite("beavis", id);
    db.Follow("beavis", "butthead");
    db.Favorite("butthead", id);
-```
+{% endhighlight %}
+
 The method calls are transparently intercepted by the proxy, mapped to command objects
 and persisted to the command journal.
 
