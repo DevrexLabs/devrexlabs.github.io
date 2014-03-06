@@ -5,7 +5,7 @@ layout: layout
 ## {{page.title}}
 **Note! This is an experimental feature and needs more testing!**
 This is a feature which enables reuse of existing models by including them in your Model. Here's a part of the Model class supporting this feature:
-{% highlighting csharp %}
+{% highlight csharp %}
     [Serializable]
     public class Model
     {
@@ -17,9 +17,9 @@ This is a feature which enables reuse of existing models by including them in yo
           //return a model of type T, creating one if necessary
        }
     }
-{% endhighlighting %}
+{% endhighlight %}
 And here's an example model (partial) which could be a good candidate for reuse:
-{% highlighting csharp %}
+{% highlight csharp %}
     [Serializable]
     public class UsersModel : Model
     {
@@ -32,9 +32,9 @@ And here's an example model (partial) which could be a good candidate for reuse:
           //omitted
        }
     }
-{% endhighlighting %}
+{% endhighlight %}
 Including and accessing the UserModel using a transparent proxy:
-{% highlighting csharp %}
+{% highlight csharp %}
     //get a proxy for the main model
     var db = Db.For<MyModel>();
 
@@ -43,9 +43,9 @@ Including and accessing the UserModel using a transparent proxy:
     string hash = CryptoHelper.HashFor("DOHnuts");
     userDb.Register("homer", hash);
     bool isAuthenticated = userDb.Authenticate("homer", "DOHnuts");
-{% endhighlighting %}
+{% endhighlight %}
 Or using traditional command/query style.
-{% highlighting csharp %}
+{% highlight csharp %}
     [Serializable]
     public class RegisterUserCommand : Command<UsersModel>
     {
@@ -56,4 +56,4 @@ Or using traditional command/query style.
 
     //Execute() now accept commands targeted for any model type and routes to child model
     engine.Execute(new RegisterUserCommand("homer", hash));
-{% endhighlighting %}
+{% endhighlight %}
