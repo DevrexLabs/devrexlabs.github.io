@@ -10,8 +10,8 @@ layout: layout
    <add name="test" connectionString="mode=remote;host=10.0.0.20;port=1234"/>
  </connnectionStrings>
 ```
-* Engine.For<MyModel>() will  create an LocalEngineClient based on the connection string named "MyModel"
-* Engine.For<MyModel>("test") will create a RemoteEngineClient based on the connection string named "test"
+* `Engine.For<MyModel>()` will  create a LocalEngineClient based on the connection string named "MyModel"
+* `Engine.For<MyModel>("test")` will create a RemoteEngineClient based on the connection string named "test"
 
 ## Local connection string parameters
 When mode is "embedded" the connection string properties are mapped to an instance of `EngineConfiguration`. View the class for a complete list of properties. Here are some of the common ones.

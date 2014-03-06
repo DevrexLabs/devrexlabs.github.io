@@ -12,7 +12,7 @@ Snapshots can be taken manually, by calling Engine.CreateSnapshot(), or automati
     var engine = Engine.Load<MyModel>(config);
 ```
 ## Load Performance
-Loading a snapshot is not necessarily faster than reexecuting commands. This is specific to each domain.  Measure before you decide on a snapshotting strategy.
+Loading a snapshot is not necessarily faster than reexecuting commands. This is specific to each domain.  Measure before you decide on a snapshot strategy.
 
 ## Snapshot naming scheme
 Snapshot names have the format `XXXXXXXXX.YYYYYYYYY.snapshot`, where YYY is the sequence number of the last command executed just before the snapshot was taken. XXX is a the file sequence number.
