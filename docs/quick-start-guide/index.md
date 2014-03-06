@@ -2,7 +2,7 @@
 title: Quick Start Guide
 layout: layout
 ---
-#Quick STart Guide
+#{{page.title}}
 Here's a complete guide to get you started with developing your first OrigoDB application!
 The following topics are covered:
 
