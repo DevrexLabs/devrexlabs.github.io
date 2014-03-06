@@ -3,8 +3,7 @@ layout: layout
 title: Documentation
 ---
 
-#OrigoDB Documentation
-
+#Documentation
 * [Quick Start Guide](quick-start-guide)
 
 ## Modeling
