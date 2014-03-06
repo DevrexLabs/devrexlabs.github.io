@@ -12,13 +12,15 @@ Transparent proxy is implemented as an extension method of `IEngine<T>`. This me
 
 The absolute easiest way to create a proxy is using `Db.For<MyModel>()`. This will call `Engine.For<MyModel>` and call the `GetTransparentProxy()`
 extension method of `IEngine` from the `OrigoDb.Core.Proxy` namespace:
-```csharp
+
+{% highlight csharp %}
 //create proxy using Db.For
 MyModel model = Db.For<MyModel>();
-```
+{% endhighlight %}
+
 Or you can create it explicitly:
 
-```csharp
+{% highlight csharp %}
    //create proxy explicitly
     using OrigoDb.Core.Proxy;
     var engine = Engine.For<MyModel>();
@@ -26,7 +28,7 @@ Or you can create it explicitly:
 
     //call a method on the proxy
     modelProxy.AddReminder("Write more documentation", DateTime.Now.AddDays(1));
-```
+{% endhighlight %}
 Here's what's happening under the hood:
 
 * The proxy intercepts the call to AddRemimder
@@ -34,51 +36,52 @@ Here's what's happening under the hood:
 * Executes the command on the `IEngine<T>` instance from which the proxy was created
 
 The exact same thing happens with queries.
-```csharp
+{% highlight csharp %}
     //query
     var reminders = modelProxy.GetRemindersDue();
-```
+{% endhighlight %}
 ## Commands and queries
 Void public methods are considered commands. Non-void public methods are considered queries.
 At this time nothing else is proxied. We haven't even tested with overloads or out, ref or params parameters.
 So keep it simple!
 
 Sometimes you want to return something from a command method. To avoid it being interpreted as a query, tag it with a `ProxyMethod` attribute:
-```csharp
+{% highlight csharp %}
     [ProxyMethod(OperationType.Command)]
     public bool Remove(string key)
     { 
        ...
        return keyWasRemoved; 
     }
-```
+{% endhighlight %}
 _Warning! If you forget the attribute, nothing gets recorded in the journal, the change is lost and you have a logically corrupt model on your hands._
 
 ### Safe results
 If your command or query returns results that don't need to be cloned you can set the `ResultIsSafe` property on the `ProxyMethod` attribute:
-```csharp
-    [ProxyMethod(ResultIsSafe=bool)]
+{% highlight csharp %}
+    [ProxyMethod(ResultIsSafe=true)]
     public ReminderView[] GetRemindersDue(DateTime dueBy)
     {
        return _reminders.Where(r => r.Due <= dueBy)
           .Select(r => new ReminderView(r)).ToArray();
     }
-```
+{% endhighlight %}
 _ Note. This is ugly design and needs reworking _
 
 ##  Design Considerations
 Keep in mind that query and command results and parameters are cloned. All results and arguments have to be serializable.
 Design your model as a façade for your domain and keep it simple! The following code will not do as intended because the object returned by `GetReminder()`
 is a clone of the real object
-```csharp
+{% highlight csharp %}
     //wrong!
     modelProxy.GetReminder(id).SetCompleted();
 
     //better
     model.SetCompleted(id);
-```
+{% endhighlight %}
 ## Versioning
 If you change a method signature on the model, `ProxyCommand` objects in the journal could fail.
 We are looking at some kind of declarative migrations or an upgrade utility, but for now we recommend not changing any existing command methods.
 
 Also, see the advice on the [Schema Evolution](schema-evolution) page. The reasoning applies also when proxying.
+
