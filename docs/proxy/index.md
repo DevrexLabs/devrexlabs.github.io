@@ -72,12 +72,10 @@ If your command or query returns results that don't need to be cloned you can se
 
 
 _Note. This is ugly design and needs reworking_
-{% comment %}
 ##  Design Considerations
 Keep in mind that query and command results and parameters are cloned. All results and arguments have to be serializable.
 Design your model as a facade for your domain and keep it simple!!
 The following code will not do as intended because the object returned by `GetReminder()` is a clone of the real object.
-{% endcomment %} 
 
 {% highlight csharp %}
     //wrong!
