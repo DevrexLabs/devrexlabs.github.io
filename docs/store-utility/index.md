@@ -18,8 +18,8 @@ The store utility is a standalone command line executable used to convert betwee
  `--source-snapshots` | Path to snapshots when source is sql 
  `--destination-snapshots` | Path to snapshots when destination is sql 
 ## Example convert file to SQL
-{% highlight csharp %}
- origodb.storeutility convert --source=c:\data\freedb --destination=origodbstorage 
+{% highlight bash %}
+$ origodb.storeutility convert --source=c:\data\freedb --destination=origodbstorage 
       --destination-type=sql --source-type=file-v0.5 --assembly=c:\freedb\freedb.core.dll
 {% endhighlight %}
 
