@@ -60,16 +60,18 @@ _Warning! If you forget the attribute, nothing gets recorded in the journal, the
 
 ### Safe results
 If your command or query returns results that don't need to be cloned you can set the `ResultIsSafe` property on the `ProxyMethod` attribute:
+{% comment %}
 {% highlight csharp %}
-    [ProxyMethod(ResultIsSafe)]
+    [ProxyMethod(ResultIsSafe=true)]
     public ReminderView[] GetRemindersDue(DateTime dueBy)
     {
        return _reminders.Where(r => r.Due <= dueBy)
           .Select(r => new ReminderView(r)).ToArray();
     }
 {% endhighlight %}
+{% endcomment %} 
 _ Note. This is ugly design and needs reworking _
-{% comment %}
+
 ##  Design Considerations
 Keep in mind that query and command results and parameters are cloned. All results and arguments have to be serializable.
 Design your model as a façade for your domain and keep it simple! The following code will not do as intended because the object returned by `GetReminder()`
@@ -87,4 +89,3 @@ We are looking at some kind of declarative migrations or an upgrade utility, but
 
 Also, see the advice on the [Schema Evolution](/docs/schema-evolution) page. The reasoning applies also when proxying.
 
-{% endcomment %} 
