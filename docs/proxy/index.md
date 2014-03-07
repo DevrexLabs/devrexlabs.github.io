@@ -61,10 +61,10 @@ _Warning! If you forget the attribute, nothing gets recorded in the journal, the
 ### Safe results
 If your command or query returns results that don't need to be cloned you can set the `ResultIsSafe` property on the `ProxyMethod` attribute:
 {% highlight csharp %}
-    [ProxyMethod(ResultIsSafe=true)]
+    [ProxyMethod(ResultIsSafe)]
     public ReminderView[] GetRemindersDue(DateTime dueBy)
     {
-       return _reminders.Where(r => r.Due = dueBy)
+       return _reminders.Where(r => r.Due <= dueBy)
           .Select(r => new ReminderView(r)).ToArray();
     }
 {% endhighlight %}
