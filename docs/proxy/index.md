@@ -2,6 +2,7 @@
 title: Proxy
 layout: layout
 ---
+{% comment %}
 ## {{page.title}}
 Transparent Proxy is a rapid development feature eliminating the need to author commands and queries. 
 The proxy  intercepts method calls and routes them through an engine using generic commands and queries, ProxyCommand and ProxyQuery.
@@ -30,7 +31,7 @@ Or you can create it explicitly:
     modelProxy.AddReminder("Write more documentation", DateTime.Now.AddDays(1));
 {% endhighlight %}
 Here's what's happening under the hood:
-
+{% endcomment %} 
 * The proxy intercepts the call to AddRemimder
 * Creates an instance of `ProxyCommand` containing the method name and arguments
 * Executes the command on the `IEngine<T>` instance from which the proxy was created
