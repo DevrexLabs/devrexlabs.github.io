@@ -64,7 +64,7 @@ If your command or query returns results that don't need to be cloned you can se
     [ProxyMethod(ResultIsSafe=true)]
     public ReminderView[] GetRemindersDue(DateTime dueBy)
     {
-       return _reminders.Where(r => r.Due <= dueBy)
+       return _reminders.Where(r => r.Due = dueBy)
           .Select(r => new ReminderView(r)).ToArray();
     }
 {% endhighlight %}
