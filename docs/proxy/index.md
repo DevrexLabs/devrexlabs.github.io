@@ -69,7 +69,7 @@ If your command or query returns results that don't need to be cloned you can se
           .Select(r => new ReminderView(r)).ToArray();
     }
 {% endhighlight %}
-{% endcomment %} 
+
 _ Note. This is ugly design and needs reworking _
 
 ##  Design Considerations
@@ -83,6 +83,7 @@ is a clone of the real object
     //better
     model.SetCompleted(id);
 {% endhighlight %}
+{% endcomment %} 
 ## Versioning
 If you change a method signature on the model, `ProxyCommand` objects in the journal could fail.
 We are looking at some kind of declarative migrations or an upgrade utility, but for now we recommend not changing any existing command methods.
