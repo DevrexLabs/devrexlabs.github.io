@@ -8,13 +8,13 @@ The engine:
 * executes commands and queries against the database
 * synchronizes requests for read and write access to the database
 
-The recommended way to create an engine is through the [client API](client-api):
+The recommended way to create an engine is through the [client API](/docs/client-api):
 {% highlight csharp %}
     var engine = Engine.For<MyModel>();
 {% endhighlight %}
 `Engine.For<MyModel>()` calls `Engine.LoadOrCreate<MyModel>()`, wraps the returned `Engine` with a `LocalEngineClient` which implements `IEngine<MyModel>`.
 
-The major benefit of using the [Client API](client-api) is that you can transparently upgrade from embedded engine to remote server by modifying the application configuration file.
+The major benefit of using the [Client API](/docs/client-api) is that you can transparently upgrade from embedded engine to remote server by modifying the application configuration file.
 
 An engine instance can be created directly by calling one of 3 static methods:
 * `Engine.Create(...)`
