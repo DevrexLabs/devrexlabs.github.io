@@ -45,7 +45,7 @@ The exact same thing happens with queries.
 Void public methods are considered commands. Non-void public methods are considered queries.
 At this time nothing else is proxied. And it won't work with out, ref or params parameters.
 So keep it simple!
-{% comment %}
+
 
 Sometimes you want to return something from a command method. To avoid it being interpreted as a query, tag it with a `ProxyMethod` attribute:
 {% highlight csharp %}
@@ -57,7 +57,7 @@ Sometimes you want to return something from a command method. To avoid it being 
     }
 {% endhighlight %}
 _Warning! If you forget the attribute, nothing gets recorded in the journal, the change is lost and you have a logically corrupt model on your hands._
-
+{% comment %}
 ### Safe results
 If your command or query returns results that don't need to be cloned you can set the `ResultIsSafe` property on the `ProxyMethod` attribute:
 {% highlight csharp %}
