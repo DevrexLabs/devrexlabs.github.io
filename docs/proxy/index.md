@@ -69,9 +69,9 @@ If your command or query returns results that don't need to be cloned you can se
           .Select(r => new ReminderView(r)).ToArray();
     }
 {% endhighlight %}
+{% comment %}
 
 _ Note. This is ugly design and needs reworking _
-{% comment %}
 
 ##  Design Considerations
 Keep in mind that query and command results and parameters are cloned. All results and arguments have to be serializable.
