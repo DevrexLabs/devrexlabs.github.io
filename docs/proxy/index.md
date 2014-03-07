@@ -57,7 +57,7 @@ Sometimes you want to return something from a command method. To avoid it being 
     }
 {% endhighlight %}
 _Warning! If you forget the attribute, nothing gets recorded in the journal, the change is lost and you have a logically corrupt model on your hands._
-{% comment %}
+
 ### Safe results
 If your command or query returns results that don't need to be cloned you can set the `ResultIsSafe` property on the `ProxyMethod` attribute:
 {% highlight csharp %}
@@ -69,7 +69,7 @@ If your command or query returns results that don't need to be cloned you can se
     }
 {% endhighlight %}
 _ Note. This is ugly design and needs reworking _
-
+{% comment %}
 ##  Design Considerations
 Keep in mind that query and command results and parameters are cloned. All results and arguments have to be serializable.
 Design your model as a façade for your domain and keep it simple! The following code will not do as intended because the object returned by `GetReminder()`
@@ -85,6 +85,6 @@ is a clone of the real object
 If you change a method signature on the model, `ProxyCommand` objects in the journal could fail.
 We are looking at some kind of declarative migrations or an upgrade utility, but for now we recommend not changing any existing command methods.
 
-Also, see the advice on the [Schema Evolution](schema-evolution) page. The reasoning applies also when proxying.
+Also, see the advice on the [Schema Evolution](/docs/schema-evolution) page. The reasoning applies also when proxying.
 
 {% endcomment %} 
