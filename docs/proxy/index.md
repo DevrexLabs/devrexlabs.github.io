@@ -71,12 +71,14 @@ If your command or query returns results that don't need to be cloned you can se
 {% endhighlight %}
 
 _ Note. This is ugly design and needs reworking _
+{% comment %}
 
 ##  Design Considerations
 Keep in mind that query and command results and parameters are cloned. All results and arguments have to be serializable.
-Design your model as a facade for your domain and keep it simple! The following code will not do as intended because the object returned by `GetReminder()`
-is a clone of the real object
-{% comment %}
+Design your model as a facade for your domain and keep it simple! The
+following code will not do as intended because the object returned by `GetReminder()` is a clone of the real object
+{% endcomment %} 
+
 {% highlight csharp %}
     //wrong!
     modelProxy.GetReminder(id).SetCompleted();
@@ -84,7 +86,6 @@ is a clone of the real object
     //better
     model.SetCompleted(id);
 {% endhighlight %}
-{% endcomment %} 
 ## Versioning
 If you change a method signature on the model, `ProxyCommand` objects in the journal could fail.
 We are looking at some kind of declarative migrations or an upgrade utility, but for now we recommend not changing any existing command methods.
