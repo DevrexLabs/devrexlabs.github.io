@@ -104,5 +104,5 @@ You can use either ad-hoc linq queries passed as lambdas to the engine or you ca
 We've covered the absolute basics here, but essentially there's not
 much more to developing than defining the model, and writing commands and queries.
 We used explicit transactions, an anemic model and the transaction script pattern.
-Next, you might wan't to check out [implicit transactions](proxying), where commands
+Next, you might wan't to check out [implicit transactions](/docs/proxy), where commands
 and queries are derived from methods on the model.

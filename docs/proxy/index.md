@@ -31,7 +31,6 @@ Or you can create it explicitly:
     modelProxy.AddReminder("Write more documentation", DateTime.Now.AddDays(1));
 {% endhighlight %}
 Here's what's happening under the hood:
-{% comment %}
 
 * The proxy intercepts the call to AddRemimder
 * Creates an instance of `ProxyCommand` containing the method name and arguments
@@ -44,8 +43,9 @@ The exact same thing happens with queries.
 {% endhighlight %}
 ## Commands and queries
 Void public methods are considered commands. Non-void public methods are considered queries.
-At this time nothing else is proxied. We haven't even tested with overloads or out, ref or params parameters.
+At this time nothing else is proxied. And it won't work with out, ref or params parameters.
 So keep it simple!
+{% comment %}
 
 Sometimes you want to return something from a command method. To avoid it being interpreted as a query, tag it with a `ProxyMethod` attribute:
 {% highlight csharp %}
