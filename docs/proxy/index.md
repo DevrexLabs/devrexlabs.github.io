@@ -69,14 +69,14 @@ If your command or query returns results that don't need to be cloned you can se
           .Select(r => new ReminderView(r)).ToArray();
     }
 {% endhighlight %}
+
+
+_Note. This is ugly design and needs reworking_
 {% comment %}
-
-_ Note. This is ugly design and needs reworking _
-
 ##  Design Considerations
 Keep in mind that query and command results and parameters are cloned. All results and arguments have to be serializable.
-Design your model as a facade for your domain and keep it simple! The
-following code will not do as intended because the object returned by `GetReminder()` is a clone of the real object
+Design your model as a facade for your domain and keep it simple!!
+The following code will not do as intended because the object returned by `GetReminder()` is a clone of the real object.
 {% endcomment %} 
 
 {% highlight csharp %}
