@@ -9,7 +9,7 @@ For a highly interconnected model, returning an entity or collection of entities
 
 ## Example
 Consider the model  below. A `Product` has a reference to one or more `Category` objects. Each `Category` has a list of `Product` objects. A single product contains a reference to 0 or more categories, and each category references a number of products resulting in an object graph.
-```csharp
+{% highlight csharp %}
     class Product
     {
         List<Category> _categories;
@@ -25,30 +25,30 @@ Consider the model  below. A `Product` has a reference to one or more `Category`
         List<Category> _categories;
         List<Product> _products;
     }
-```
+{% endhighlight %}
 Now say we want to display a dropdown list with categories. We want the name and id. 
 Here's what a beginner might do: 
-```csharp
+{% highlight csharp %}
     //BAD!
     var cats = engine.Execute(m => m.Categories.ToArray());
-```
+{% endhighlight %}
 It'll work but way too much data is being serialized and returned.
 
 You might think the following is a good idea:
-```csharp
+{% highlight csharp %}
     //runtime exception, anonymous type is not serializable
     var cats = engine.Execute(m => m.Categories.Select(c => new {Id=c.Id, Name=c.Name}).ToArray());
-```
+{% endhighlight %}
 Here's a better way to do it:
-```csharp
+{% highlight csharp %}
     //Better?
     var cats = engine.Execute(m => m.Categories.Select(c => new CategoryView(c)).ToList());
-```
+{% endhighlight %}
 Note how the `CategoryView` constructor takes a `Category` parameter. This is just one way to do it. What's
 important here is that the mapping is taking place within the Execute-method. 
 
 The `CategoryView` class might look something like this:
-```csharp
+{% highlight csharp %}
     [Serializable]
     public class CategoryView : IImutable
     {
@@ -61,12 +61,14 @@ The `CategoryView` class might look something like this:
           Name = category.Name;
        }
     }
-```
+{% endhighlight %}
 Note the IImutable interface. It will cause the engine to skip serialization because the result and model are isolated.
 
-Ad-hoc lambda queries in application code aren't always desirable, they can become a bit messy, they only work with an embedded engine and are more difficult to test. So here's another approach using a custom query class. It's cleaner and supports client/server.
+Ad-hoc lambda queries in application code aren't always desirable, they can become a bit messy, 
+they only work with an embedded engine and are more difficult to test. So here's another approach using a custom query class.
+It's cleaner and supports client/server.
 
-```csharp
+{% highlight csharp %}
     [Serializable]
     public class CategoryViewQuery : Query<MyModel, CategoryView[]>
     {
@@ -78,7 +80,8 @@ Ad-hoc lambda queries in application code aren't always desirable, they can beco
 
     // executing the query...
     var cats = engine.Execute(new CategoryViewQuery());
-```
+{% endhighlight %}
+
 ### Summary
 Returning specific view objects from commands and queries is a good practice with multiple benefits:
 * Performance - serialize and return only the data needed

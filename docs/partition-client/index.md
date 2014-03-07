@@ -9,7 +9,7 @@ or all the nodes. The client also needs to know how to merge results obtained fr
 
 Here's some example code to show how to configure a client.
 
-```csharp
+{% highlight csharp %}
     var client = new PartitionClusterClient<TaskModel>();
     var node0 = Engine.For<TaskModel>("mode=embedded;host=node1");
     var node1 = Engine.For<TaskModel>("mode=embedded;host=node2");
@@ -39,7 +39,8 @@ Here's some example code to show how to configure a client.
           return list.Reverse().Take(10).ToArray();
        }
     );
-```
+{% endhighlight %}
+
 Consider creating a custom client class which derives from PartitionClusterClient and encapsulates the configuration.
 Alternatively, define a custom builder class.
 
@@ -51,9 +52,9 @@ If you want to dispatch to all nodes, there is no need to register a dispatcher.
 The merger is a function which merges results from multiple cluster nodes. For a query with the signature `Query<M,R>` a merger must have the signature `Func<R[],R>`.
 
 ## Transparent Execution
-The PartitionClusterClient implements the IEngine interface, use it. The client will transparently take care of dispatching and merging for you.
+The `PartitionClusterClient` implements the IEngine interface, use it. The client will transparently take care of dispatching and merging for you.
 
-```csharp
+{% highlight csharp %}
     //execute commands. They will be dispatched to the correct nodes
     client.Execute(new AddTaskCommand{ 
        Id = 1, 
@@ -72,7 +73,8 @@ The PartitionClusterClient implements the IEngine interface, use it. The client 
     //using merger registered for the type TaskView[]
     var query = new GetTasksByCategoryQuery("Recreation");
     var tasksByCatetory = client.Execute<TaskModel, TaskView[]>(query);
-```
+{% endhighlight %}
+
 
 ## Partitioning schemes
 This example partitions using a modulus function. Adding/removing nodes means all the data needs to be repartitioned.
@@ -86,4 +88,4 @@ mutates the state of more than one cluster node, any concurrent multi-node trans
 Each node maintains its ACID properties but at the cluster level all but durability are jeopardized. Design accordingly.
 
 *Atomicity* - A multi-node command might fail on one or more of the nodes, either due to an exception,
-command abortion or system failure. In that case, the client will throw an exception. 
+command abortion or system failure. In that case, the client will throw an exception.

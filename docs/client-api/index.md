@@ -4,17 +4,20 @@ layout: layout
 ---
 ## {{page.title}}
 The client API is used to communicate with an OrigoDb Server server node.
-Since version 0.7.0 the client API is included with OrigoDb.Core. The client API contains local and remote clients and allows seamless switching between them by configuration only.
+Since version 0.7.0 the client API is included with `OrigoDb.Core`. The client
+API contains local and remote clients and allows seamless switching between them by configuration only.
 
 * LocalEngineClient
 * RemoteEngineClient
-* [PartitionClusterClient](partition-client) (code-only configuration)
+* [PartitionClusterClient](/docs/partition-client) (code-only configuration)
 
-All clients implement `IEngine<M>` and therefore support [Transparent Proxying](proxy) which is implemented as an extension method.
+All clients implement `IEngine<M>` and therefore support [Transparent Proxying](/docs/proxy) which is implemented as an extension method.
 
 ## Creating a client
-The recommended way to create a client is by calling `Engine.For<T>` passing either a string identifier, a model type,  an `EngineConfiguration` instance or nothing at all.
-```csharp
+The recommended way to create a client is by calling `Engine.For<T>()` passing either a string identifier, a model type, 
+an `EngineConfiguration` instance or nothing at all.
+
+{% highlight csharp %}
     //uses the model name, "MyModel", as identifier
     IEngine engine = Engine.For<MyModel>();
 
@@ -24,13 +27,13 @@ The recommended way to create a client is by calling `Engine.For<T>` passing eit
 
     //file location of command journal store for use with embedded engine
     IEngine engine = Engine.For<MyModel>("c:\\mymodel");
-```
+{% endhighlight %}
 Switching from embedded to remote without rebuilding:
-```xml
+{% highlight xml %}
     <connectionStrings>
        <add name="MyModel" connectionString="mode=remote;host=10.0.0.20"/>
     </connectionStrings>
-```
+{% endhighlight %}
 The identifier string passed to `Engine.For<T>(identifier)` for will be processed according to the following:
 1. Connection string name for connection string in app.config / web.config if it exists
 1. Connection string if it contains a "="
@@ -40,20 +43,24 @@ The return type of `Engine.For<T>()` is always `IEngine<T>` but the actual type 
 
 
 ## IEngine lifecycle
-Remote clients have connection pooling built in. When you create a remote client for the first time a number of tcp connections are pre-opened and pooled. Tou don't have to manage the connection. Just call `Engine.For<T>()` on a per-call basis.
+Remote clients have connection pooling built in. When you create a remote client for the first time a number of
+tcp connections are pre-opened and pooled. Tou don't have to manage the connection. Just call `Engine.For<T>()` on a per-call basis.
 
-A local client has similar behavior. The first call to `Engine.For<T>()` will load or create an `Engine<T>` instance in the current process while subsequent calls will return a reference to the same engine instance. The instance will be Disposed when the process exits. If you need to Dispose earlier you can call `Config.Engines.CloseAll()` or cast to `LocalEngineClient<MyModel>` and grab the engine instance from the Engine property.
-```csharp
+A local client has similar behavior. The first call to `Engine.For<T>()` will load or create an `Engine<T>` instance in the current process
+while subsequent calls will return a reference to the same engine instance. The instance will be Disposed when the process exits. If you need to
+Dispose earlier you can call `Config.Engines.CloseAll()` or cast to `LocalEngineClient<MyModel>` and grab the engine instance from the Engine property.
+{% highlight csharp %}
     //Shutdown all local engines
     Config.Engines.CloseAll(); // note, this design is due to change
 
     //Shutdown specific engine
     IEngine client = Engine.For<MyModel>();
     (client as LocalEngineClient<MyModel>).Engine.Close();
-```
+{% endhighlight %}
 ## Transparent Proxy
-The client API supports proxying as well. For all of the examples above, `Engine.For<T>` can be replaced with `Db.For<T>` returning a transparent proxy. It's equivalent to the following:
-```csharp
+The client API supports proxying as well. For all of the examples above, `Engine.For<T>` can be replaced with `Db.For<T>` returning a transparent proxy.
+It's equivalent to the following:
+{% highlight csharp %}
     var engine = Engine.For<MyModel>();
     var db = engine.GetTransparentProxy();
-```
+{% endhighlight %}

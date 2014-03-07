@@ -19,7 +19,7 @@ title: Documentation
 ## Hosting and configuration
 * [Engine](engine)
 * [Kernels](kernels)
-* [Transparent Proxying](proxying)
+* [Transparent Proxy](proxy)
 * [Configuration](configuration)
 * [Extensibility](extensibility)
 * [Logging](logging)

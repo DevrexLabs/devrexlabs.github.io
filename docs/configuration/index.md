@@ -3,7 +3,9 @@ title: Configuration
 layout: layout
 ---
 ## {{page.title}}
-The engine and it's collaborating components can be configured/customized by passing an instance of EngineConfiguration when creating your engine. The [Extensibility](extensibility) page covers what can be customized and how you inject your own custom implementations of the extensible interfaces.
+The engine and it's collaborating components can be configured/customized by passing an instance
+of `EngineConfiguration` when creating your engine. The [Extensibility](/docs/extensibility) page
+covers what can be customized and how you inject your own custom implementations of the extensible interfaces.
 
 ## EngineConfiguration Properties
 * **AsynchronousJournaling** - Write commands to the journal in the background. Default is false. Can increase command/query throughput in the short term at the risk of buffered commands getting lost in case of system failure.
@@ -11,8 +13,8 @@ The engine and it's collaborating components can be configured/customized by pas
 * **CloneCommands** - whether or not to clone commands before executing and journaling, default is true.
 * **Location** - Location of the journal files and snapshots if using file storage. Refers to a connection string name or connection string when using Sql Storage.
 * **SnapshotLocation** - an alternative snapshot location, defaults to Location
-* **StoreType** - Don't set store type directly, inject a `StorageFactory` see [Extensibility](extensibility)
-* **Kernel** - Set what type of kernel to use, see [Kernels](kernels)
+* **StoreType** - Don't set store type directly, inject a `StorageFactory` see [Extensibility](/docs/extensibility)
+* **Kernel** - Set what type of kernel to use, see [Kernels](/docs/kernels)
 * **ObjectFormatting** - What format to use for serialization
 * **PacketOptions** - Set compression and checksum options for command journal packets
 * **Synchronization** - Controls which ISynchronizer to use, default is `SingleWriterMultipleReaders`
