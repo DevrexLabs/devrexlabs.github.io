@@ -48,7 +48,7 @@ Alternatively, you can set `Location` to a connection string directly. If so, yo
    config.ProviderName = "System.Data.SqlClient";
    config.SnapshotLocation = @"c:\\temp";
    var engine = Engine.LoadOrCreate<MyModel>(config);
-{% highlight csharp %}
+{% endhighlight %}
 
 ## Converting existing journal
 Use the StorageUtility to copy an existing journal from file to sql or sql to file.
