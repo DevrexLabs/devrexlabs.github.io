@@ -21,7 +21,8 @@ We often see people using domain specific object-oriented modeling with either a
 * **Transaction script style** - The model is mainly a data container exposing its data fields, usually collections.
  The domain logic is represented by commands and queries which manipulate the model.
 * **Rich domain model** - The model is a facade for your domain exposing behavior in the form of methods while encapsulating data. 
-Commands and Queries contain little or no logic, simply mapping properties to arguments passed to methods on the model. This style plays well with [Transparent Proxy](proxy) feature.
+Commands and Queries contain little or no logic, simply mapping properties to arguments passed to methods on the model.
+This style plays well with [Transparent Proxy](proxy) feature.
 
 ## Choosing collection classes
 You have to consider performance when choosing data structures. Analyzing data access patterns and estimated data volume will help you choose between dictionaries,

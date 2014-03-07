@@ -14,7 +14,8 @@ The recommended way to create an engine is through the [client API](/docs/client
 {% endhighlight %}
 `Engine.For<MyModel>()` calls `Engine.LoadOrCreate<MyModel>()`, wraps the returned `Engine` with a `LocalEngineClient` which implements `IEngine<MyModel>`.
 
-The major benefit of using the [Client API](/docs/client-api) is that you can transparently upgrade from embedded engine to remote server by modifying the application configuration file.
+The major benefit of using the [Client API](/docs/client-api) is that you can transparently upgrade from embedded engine to remote server
+by modifying the application configuration file.
 
 An engine instance can be created directly by calling one of 3 static methods:
 * `Engine.Create(...)`
@@ -22,7 +23,7 @@ An engine instance can be created directly by calling one of 3 static methods:
 * `Engine.LoadOrCreate(...)`
 each with multiple overloads and generic counterparts.
 
-Most of the overloads for creating and loading take optional string location and EngineConfiguration arguments.
+Most of the overloads for creating and loading take optional string location and `EngineConfiguration` arguments.
 
 ## Location
 Location of the journal and snapshots. If no location is specified, a default is used. 
