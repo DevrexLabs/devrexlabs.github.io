@@ -3,6 +3,7 @@ title: Engine
 layout: layout
 ---
 ## {{page.title}}
+{% comment %}
 The engine:
 * encapsulates the database which is an instance of your `Model` class
 * executes commands and queries against the database
@@ -39,3 +40,4 @@ If you don't pass an EngineConfiguration, the default, provided by `EngineConfig
     config.Location = "c:\journal";
     var engine = Engine.Load<MyModel>(config);
 {% endhighlight %}
+{% endcomment %}
