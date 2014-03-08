@@ -6,7 +6,7 @@ layout: layout
 We're building OrigoDB, an open source in-memory database toolkit for NET/Mono.
 This is the main project site for developers. 
 
-## Examples
+## Appetizer
 {%highlight csharp%}
 
    // Generic model
@@ -15,7 +15,7 @@ This is the main project site for developers.
    db.Remove("key2");
    
    // Domain specific model
-   var db = Db.For<BookmarkModel>("mode=remote;host=localhost;port=3001);
+   var db = Db.For<BookmarkModel>("mode=remote;host=localhost;port=3001");
    var bookmark = new Bookmark("http://origodb.com/", "OrigoDB Server");
    bookmark.Tags.Add("in-memory");
    db.SaveBookmark(bookmark);
@@ -27,8 +27,8 @@ This is the main project site for developers.
 * So what is it? Start with the [introduction] (/intro)
 * [Engine and developer documentation](/docs)
 * Download [example projects](/examples) to experiment with
-* Read stuff on the [Old blog](http://livedb.devrex.se/) 
-* Read stuff on the [New blog](http://robertfriberg.se/)
+* Check out the [repositories](/repos)
+* Read stuff on at [Le Blog](http://robertfriberg.se/)
 * Read [OrigoDb Server documentation](http://devrexlabs.com/docs) (external)
 {% comment %} todo API docs {% endcomment %}
 
