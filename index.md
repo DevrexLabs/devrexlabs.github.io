@@ -28,9 +28,8 @@ This is the main project site for developers.
 * [Engine and developer documentation](/docs)
 * Download [example projects](/examples) to experiment with
 * Check out the [repositories](/repos)
-* Read stuff on at [Le Blog](http://robertfriberg.se/)
-* Read [OrigoDb Server documentation](http://devrexlabs.com/docs) (external)
-{% comment %} todo API docs {% endcomment %}
+* Read stuff at [Le Blog](http://robertfriberg.se/) (external link)
+* Read [OrigoDb Server documentation](http://devrexlabs.com/docs) (external link)
 
 
 ## Contributing
@@ -57,8 +56,8 @@ Devrex Labs offers [commercial support](http://devrexlabs.com/) and consulting s
 
 
 ## Contact
-* [@devrexlabs] (http://twitter.com/devrexlabs) - news and announcements on twitter
-* [@robertfriberg](http://twitter.com/robertfriberg) - project coordinator, personal twitter
+* [@devrexlabs] (http://twitter.com/devrexlabs) - news and announcements
+* [@robertfriberg](http://twitter.com/robertfriberg) - project coordinator, personal account
 * Mail: origodb at devrexlabs.com
 * [Chatroom on JabbR](https://jabbr.net/#/rooms/OrigoDB)
 

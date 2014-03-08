@@ -4,12 +4,10 @@ layout: layout
 ---
 
 #{{page.title}}
-
-## Examples
-Example repositories have an Example.* prefix. See the [Examples](page)
+Besides the core library there are modules, tools, examples and shared data models. [Example projects](/examples) are on their own page.
 
 ## OrigoDb.Core
-This is the core library containing the engine, kernels, core modules and the native client.
+This is the main library containing the engine, kernels, core modules and the native client.
 * [Project source](http://github.com/devrexlabs/origodb/issues)
 * [Issue tracker](http://github.com/devrexlabs/origodb/issues)
 
@@ -18,10 +16,15 @@ todo: create separate repos for each module, add them here
 
 ### SqlStorage
 Use a backing Sql Server for command journal storage.
+* todo
 
-## Models
+## Tools
 todo
-Reusable data models, either generic or custom. Use Models.* prefix
+* StoreUtility
+* Benchmark
+
+## Shared Models
+todo: Reusable data models, either generic or custom. Use Models.* prefix
 
 
 
