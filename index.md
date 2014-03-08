@@ -4,7 +4,7 @@ layout: layout
 ---
 # In-memory database toolkit for NET/Mono
 We're building OrigoDB, an open source in-memory database toolkit for NET/Mono.
-This is the main project site for developers. 
+This site is for developers. For the commercial OrigoDB Server with enterprise features see [http://origodb.com](http://origodb.com)
 
 ## Appetizer
 {%highlight csharp%}
