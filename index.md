@@ -6,12 +6,12 @@ layout: layout
 We're building OrigoDB, an open source in-memory database toolkit for NET/Mono.
 This is the main project site for developers. If this is your first visit you should
 probably start with the [Introduction](/intro).
-<div class="hero-unit">
+
 {%highlight csharp%}
    var db = Db.For<KeyValueStore>("mode=embedded");
    db.Put("key", someValue);
 {% endhighlight %}
-</div>
+
 
 ## Learning
 * What is it? Start with the [introduction] (/intro)
