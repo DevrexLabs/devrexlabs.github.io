@@ -3,35 +3,44 @@ title: Introduction
 layout: layout
 ---
 
-## {{page.title}}
-
-
 ## What is OrigoDB?
-OrigoDB is an in-memory database toolkit. The engine is 100% ACID, runs in-process and hosts
-a user defined data model. The data model can be domain specific or generic and is defined using
-plain old NET types. Persistence is achieved by snapshots and write-ahead command logging to the
-underlying storage. Find out more on the [Introduction](/intro) page or the [Quick Start Guide](/docs/quick-start-guide).
+OrigoDB is an in-memory database toolkit. The core component is the `Engine`. The engine is 100% ACID,
+runs in-process and hosts a user defined data model. The data model can be domain specific or
+generic and is defined using plain old NET types. Persistence is based on snapshots and write-ahead
+command logging to the underlying storage.
+
+![image](figure1.png)
+
+### The data model
+* is an instance of the user defined data model
+* lives in RAM only
+* is the "data"
+* is a projection of the entire sequence of commands applied to the initial model, usually empty.
 
 
-This is a short introduction to OrigoDB to help you understand what it is which a lot of people have a problem with :)
-First of all, the name OrigoDB implies database. We didn't call it a database at first
+### Clients 
+* interact with the Engine by passing query and command objects
+* have no direct reference to the model
 
-## Build faster systems, faster
+### Engine
+The Engine encapsulates an instance of the model and is responsible for atomicity, consistency, isolation and durability.
+It performs the following tasks:
+* writes commands to the journal
+* executes commands and queries
+* reads and writes snapshots
+* restores the model on startup
 
-Accessing data from RAM is orders of magnitude faster than reading from disk.
-Also, data in RAM can be in a native format eliminating the need for object/relational
-mapping or other translation, significantly reducing developer time and cost.
 
-With OrigoDB, you write an in-memory data model, commands and queries using a NET language of your choice.
-The engine is 100% ACID, taking care of persisting transactions and synchronizing access to the
-in-memory model from multiple threads.
+### We call it a toolkit because you have a lot of options:
+* Modeling - define your own model or use an existing one. Generic or domain specific. It's up to you.
+* Concurrency - An ISynchronizer provides read, write and upgrade locks. The default is single writer or multiple readers.
+* Storage - Default is to file,  
+* Kernels - The kernel defines the innermost logic 
+* Data format - Choose wire and storage format by plugging in different IFormatter implementations.
+
 
 ### Design goals
-Our design goals focus around rapid development, testability, simplicity, correctness,
-modularity, flexibility and extensibility. Performance was never a goal but OrigoDB easily 
-outperforms disk oriented systems. That said, there is plenty of room for performance optimizations.
-
-### Bring your own data model
-Most database products build upon a single generic data model. Sql Server, Postgres, MariaDB et al use a relational data model.
-With relational modelling you create a domain specific schema.
+Our initial design goals were focused on rapid development, testability, simplicity, correctness,
+modularity, flexibility and extensibility. Performance was never a goal but running in-memory with
+memory optimized data structures outperforms any disk oriented system. But of course a lot of optimization is possible.
 
