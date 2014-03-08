@@ -19,8 +19,11 @@ command logging to the underlying storage.
 * can only be accessed through the engine
 
 ### The Client
-* interacts with the Engine by passing query and command objects
 * has no direct reference to the model
+* interacts directly with the Engine either in-process or remote
+* or indirectly via a proxy with the same interface as the model
+* passes query and command objects to the engine
+
 
 ### The Engine
 The Engine encapsulates an instance of the model and is responsible for atomicity, consistency, isolation and durability.
@@ -30,11 +33,11 @@ It performs the following tasks:
 * reads and writes snapshots
 * restores the model on startup
 
-
 ### We call it a toolkit because you have a lot of options
 * Modelling - define your own model or use an existing one. Generic or domain specific. It's up to you.
 * Storage - Default is FileStore. SqlStore or write your own module.
 * Data format - Choose wire and storage format by plugging in different IFormatter implementations. Binary, JSON, ProtoBuf, etc
+
 Read more in the docs on [Extensibility](/docs/extensibility)
 
 ### Design goals
