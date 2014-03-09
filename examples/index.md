@@ -27,7 +27,8 @@ This is the example used in the [Quick start guide](/docs/quick-start-guide).
 ## Examples.TwitterClone
 A domain specific OO model for with no explicit commands or queries. MS Test
 unit tests and a command line demo application.
-* [Repository](http://github.com/devrexlabs/Examples.TwitterClone)
+
+[Repository](http://github.com/devrexlabs/Examples.TwitterClone)
 
 ## Examples.GettingStarted
 A single project solution with a console application covering the basics using explicit commands and queries.
@@ -41,7 +42,7 @@ A single project solution with a console application covering the basics using e
 
 [Repository](http://github.com/devrexlabs/Examples.GettingStarted)
 
-### Examples.Gameworld
+## Examples.Gameworld
 A 2D map to tracking positions of all the online players. Proxy style OO domain model.
 
 [Repository](http://github.com/devrexlabs/Examples.Gameworld)
