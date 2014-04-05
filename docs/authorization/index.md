@@ -8,7 +8,7 @@ layout: layout
 
 The OrigoDB engine supports role bases authorization for commands and queries based on their type.
 By default, every user has full access. To activate authorization, register a custom
-IAuthorizer<Type> with the EngineConfiguration before starting the engine. The identity is taken from
+`IAuthorizer<Type>` with the EngineConfiguration before starting the engine. The identity is taken from
 the current threads `IPrincipal`, normally the account which the process is running as.
 
 Here's an example:
