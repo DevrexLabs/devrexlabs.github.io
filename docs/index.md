@@ -23,6 +23,7 @@ title: Documentation
 * [Transparent Proxy](proxy)
 * [Configuration](configuration)
 * [Extensibility](extensibility)
+* [Persistence modes](persistence)
 * [Logging](logging)
 
 

@@ -3,7 +3,7 @@ title: Child Models
 layout: layout
 ---
 ## {{page.title}}
-**Note! This is an experimental feature and needs more testing!**
+**Note! This feature has been removed from version 0.12**
 This is a feature which enables reuse of existing models by including them in your Model. Here's a part of the Model class supporting this feature:
 {% highlight csharp %}
     [Serializable]

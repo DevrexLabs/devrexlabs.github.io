@@ -30,25 +30,25 @@ content to be modified. Finally, note that both `_tasks` and the returned array 
 strings are immutable, this is completely safe.
 
 {% highlight csharp %}
-    [Serializable]
-	public class TodoModel : Model
-	{
-		private String[] _tasks = {};
-		
-		public TodoModel AddTask(string task)
-		{
-			var newState = new TodoModel();
-			var temp = _tasks.ToList();
-			temp.Add(task);
-			newState._tasks  = temp.ToArray();
-			return newState;
-		}
-		
-		public IEnumerable<String> Tasks()
-		{
-		   return _tasks.ToArray();
-		}
-	}
+   [Serializable]
+   public class TodoModel : Model
+   {
+      private String[] _tasks = {};
+
+      public TodoModel AddTask(string task)
+      {
+         var newState = new TodoModel();
+         var temp = _tasks.ToList();
+         temp.Add(task);
+         newState._tasks  = temp.ToArray();
+         return newState;
+      }
+
+      public IEnumerable<String> Tasks()
+      {
+         return _tasks.ToArray();
+      }
+   }
 {% endhighlight %}
 
 ### Immutable entity classes
@@ -57,28 +57,27 @@ Here's another example immutable type, this time an entity class. Note again tha
 the state of a Task once it has been instantiated.
 
 {% highlight csharp %}
-	public class Task
-	{
-
-		public readonly string Title;
-		public readonly DateTime? Completed;
+   public class Task
+   {
+      public readonly string Title;
+      public readonly DateTime? Completed;
 		
-		public Task(string title, DateTime? completed = null)
-		{
-		   Title = title;
-		   Completed = completed;
-		}
+      public Task(string title, DateTime? completed = null)
+      {
+         Title = title;
+         Completed = completed;
+      }
 		
-		public Task Complete(DateTime completed)
-		{
-		   return new Task(Title, completed);
-		}
-	}
+      public Task Complete(DateTime completed)
+      {
+         return new Task(Title, completed);
+      }
+   }
 {% endhighlight %}
 
 
 ## The Microsoft.Bcl.Immutable collections
-Microsoft has provided a set of immutable collection classes available on Nuget. There are implementations of Dictionary, List, Queue,
+Microsoft has provided a set of immutable collection classes available on Nuget including implementations of Dictionary, List, Queue,
 Stack and Set. The library requires NET 4.5.
 
 The MS collections are not serializable. It is necessary to write custom serialization code for the model by
