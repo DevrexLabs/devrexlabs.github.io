@@ -2,7 +2,8 @@
 title: Authorization
 layout: layout
 ---
-** Note: Experimental feature and subject to change! **
+
+Note: Experimental feature and subject to change!
 
 # Authorization
 
