@@ -12,6 +12,7 @@ title: Documentation
 * Writing Queries
 * [Child Models](child-models)
 * [Views](views)
+* [Immutability](immutability)
 * [Compiled Linq Queries](compiled-linq-queries)
 * [Schema evolution](schema-evolution)
 * Generic models
