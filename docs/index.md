@@ -24,6 +24,7 @@ title: Documentation
 * [Configuration](configuration)
 * [Extensibility](extensibility)
 * [Persistence modes](persistence)
+* [Role based authorization](authorization)
 * [Logging](logging)
 
 
