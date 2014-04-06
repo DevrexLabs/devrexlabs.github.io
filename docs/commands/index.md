@@ -8,6 +8,18 @@ The command is the atomic transactional write operation of OrigoDB. Commands are
 in-memory model to the `Prepare` and `Execute` methods. To gaurantee isolation, commands may only modify the
 in-memory model during `Execute`.
 
+## Command classes
+
+Derive from one of the following abstract generic command classes:
+
+* Command<TModel>
+* Command<TModel, TResult>
+* ImmutabilityCommand<TModel>
+* ImmutabilityCommand<TModel,TResult>
+
+Override the abstract `Execute` method and optionally the virtual `Prepare` method. Use `Prepare`
+for validation or cpu intensive preparation without blocking readers.
+
 ## Repeatable and side-effect free
 Commands are executed once when first submitted and once again for each time the model is restored from the journal.
 The commands must produce the exact same change on each invocation. The safest way to achieve this is to only take input
@@ -49,16 +61,26 @@ and throw it back to the client. Any exception during `Prepare` will cause an ab
 Call `Command.Abort()` to abandon a command. The engine will assume the model unaltered, throw the `CommandAbortedException` to the
 client and proceed with the next transaction.
 
-
+## Example
 
 {% highlight csharp %}
-    //uses the model name, "MyModel", as identifier
-    IEngine engine = Engine.For<MyModel>();
-
-    //when identifier.Contains("=") , interpret as connection string
-    string location = "mode=remote;host=10.0.0.20;port=1336";
-    IEngine engine = Engine.For<MyModel>(location);
-
-    //file location of command journal store for use with embedded engine
-    IEngine engine = Engine.For<MyModel>("c:\\mymodel");
+    
+   //Command with result
+   [Serializable]
+   public class AddTaskCommand : Command<TodoModel, int>
+   {
+      public readonly string Title;
+	  
+	  public AddTaskCommand(string title)
+	  {
+	     Title = title;
+      }
+		 
+      public override int Execute(TodoModel model)
+	  {
+		 int taskId = model.AddTask(new Task(Title));
+		 return taskId;
+	  }
+	  
+   }
 {% endhighlight %}
