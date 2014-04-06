@@ -8,7 +8,7 @@ title: Documentation
 
 ## Modeling
 * [Modeling basics](basic-modeling)
-* Writing Commands
+* [Writing Commands](commands)
 * Writing Queries
 * [Child Models](child-models)
 * [Views](views)
