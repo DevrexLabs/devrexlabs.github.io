@@ -4,21 +4,21 @@ layout: layout
 ---
 ## {{page.title}}
 
-A commands is an atomic transactional unit. Commands are executed by the engine which passes a reference of the
-in-memory model to the `Prepare` and `Execute` methods. To gaurantee isolation, commands must only modify the
+The command is the atomic transactional write operation of OrigoDB. Commands are executed by the engine which passes a reference of the
+in-memory model to the `Prepare` and `Execute` methods. To gaurantee isolation, commands may only modify the
 in-memory model during `Execute`.
 
 ## Repeatable and side-effect free
 Commands are executed once when first submitted and once again for each time the model is restored from the journal.
-The commands must produce the exact same change on each invocation. The safest way to achieve this is to only rely
-on the current state of the model and the commands fields or properties. Using external input like `Random` objects,
+The commands must produce the exact same change on each invocation. The safest way to achieve this is to only take input
+from the current state of the model and the commands fields and properties. Using external input like `Random` objects,
 calling date or time functions, reading file system, queues, databases etc are all bad.
 
 For the same reason you should not perform any actions other than writing to the model. Sending messages, writing to queues,
 database, file or sending confirmation emails are all examples of what not to do. Put this type of behavior in an above
 layer or as a response to the `Engine.CommandExecuted` event, which is never fired during replay.
 
-Commands are written to the journal before execution. So don't modify a command object itself during Prepare/Execute expecting
+Commands are written to the journal before execution. So don't modify the command itself during Prepare/Execute expecting
 the changes to be persisted, they will be lost.
 
 ## Don't use DateTime.Now and friends
