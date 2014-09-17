@@ -37,7 +37,7 @@ Create a class that derives from `Model` and add members to hold data, usually c
 {% endhighlight %}
 
 ## Create commands
-Commands are used to update the model. Derive from `Command<M>` or `CommandWithResults<M,R>` where `M` is the type of your model and `R` is the result type
+Commands are used to update the model. Derive from `Command<M>` or `Command<M,R>` where `M` is the type of your model and `R` is the result type
 
 {% highlight csharp %}
     [Serializable]
@@ -101,8 +101,4 @@ You can use either ad-hoc linq queries passed as lambdas to the engine or you ca
 {% endhighlight %}
 
 ## Summary
-We've covered the absolute basics here, but essentially there's not
-much more to developing than defining the model, and writing commands and queries.
-We used explicit transactions, an anemic model and the transaction script pattern.
-Next, you might wan't to check out [implicit transactions](/docs/proxy), where commands
-and queries are derived from methods on the model.
+We've covered the absolute basics here, but essentially there's not much more to developing than defining the model, and writing commands and queries. We used explicit transactions, an anemic model and the transaction script pattern. Next, you might wan't to check out [implicit transactions](/docs/proxy), where commands and queries are derived from methods on the model.
