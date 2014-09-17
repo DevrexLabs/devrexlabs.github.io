@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
 	
 
-    <title>{{page.title}} - OrigoDB</title>
+    <title>OrigoDB meets scriptcs - OrigoDB</title>
 
 
     <!-- Custom styles for this template -->
@@ -60,8 +60,50 @@
     <div class="container">
 
       <div class="starter-template">
-		{{content}}
-		{% if page.comments %}
+		<h1 id="origodb-meets-scriptcs">OrigoDB meets scriptcs</h1>
+<p>Extending OrigoDB with some kind of scripting feature is something we have been thinking about for a long time. An obvious application would be the OrigoDB server console which now only understands ‘exit’. Imagine the power of an interactive shell within the server process itself. So, I decided to play around with scriptcs to see what I could come up with.</p>
+
+<p>It didn’t go well at first. After fighting for hours (<a href="https://github.com/chocolatey/chocolatey/issues/438">for this reason</a>) with powershell trying to install chocolatey I gave up and decided to try building and installing from source which wen’t amazingly well!</p>
+<ul>
+	<li>Download and unzip the source</li>
+	<li>Double click the build.cmd file</li>
+	<li>Copy the output from ./Artefacts/Release/bin somewhere</li>
+	<li>Add the deployment location to the PATH environment variable</li>
+</ul>
+<p>After trying out the samples guided by <a title="Getting started with scriptcs" href="http://scottksmith.com/blog/2013/05/08/getting-started-with-scriptcs/">Scott Smith’s ‘Getting started with scriptcs’</a> I was ready for some experiments.</p>
+
+<p>Running a git bash console on windows I fired up vi, typed the following script and saved as start.csx in an empty folder:</p>
+
+<script src="https://gist.github.com/rofr/9682677.js"> </script>
+
+<p>In order to execute, we need to grab the origodb.core nuget package. From the folder with the script:</p>
+<pre>
+   <code>$ scriptcs -install origodb.core</code>
+
+</pre>
+<p>This will create a packages.config file and a packages sub folder in the current directory. Next step is to run the script:</p>
+<pre>
+   <code>$ scriptcs start.csx</code>
+
+</pre>
+<p>A directory called MyModel is created containing a snapshot and journal file. Running the script again should restore the<br />
+previous state but instead a SerializationException is thrown. So what’s happening? Looking at the stack trace,<br />
+the roslyn generated assembly seems to have a random name which is included by the BinaryFormatter in the snapshot file.<br />
+Running the script again we get a new random name which doesn’t match the one from the previous execution and the load fails.<br />
+If we used a model from a precompiled assembly this would not be an issue. For now I just deleted the data directory:</p>
+<pre>
+   <code>$ rm -fr MyModel</code>
+
+</pre>
+<p>Next I ran the script again but instead of terminating entered REPL mode and typed some interactive commands.<br />
+Here’s a transcript:</p>
+
+<script src="https://gist.github.com/rofr/9683255.js"> </script>
+
+<p>Alright! This is fun and looks really promising. The next step is writing some useful examples like journal/snapshot maintenance, backups, ad-hoc qeurying, connecting to a remote OrigoDB server and finally hosting a server with scriptcs.</p>
+
+
+		
 <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
@@ -77,7 +119,7 @@
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     
 		
-		{% endif %}
+		
       </div>
 		<div class="well well-sm">
 		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 

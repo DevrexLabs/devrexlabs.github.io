@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
 	
 
-    <title>{{page.title}} - OrigoDB</title>
+    <title>Store Utility - OrigoDB</title>
 
 
     <!-- Custom styles for this template -->
@@ -60,24 +60,39 @@
     <div class="container">
 
       <div class="starter-template">
-		{{content}}
-		{% if page.comments %}
-<div id="disqus_thread"></div>
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'devrexlabsgithubio'; // required: replace example with your forum shortname
+		<h2 id="store-utility">Store Utility</h2>
+<p>The store utility is a standalone command line executable used to convert between storage formats or upgrade from a previous version.</p>
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    
+<h2 id="syntax">Syntax</h2>
+<p><code>$ origodb.storeutility convert &lt;args&gt;</code><br />
+### Args
+<em>Name</em> | <em>Description</em>
+——-|————–<br />
+ <code>--source</code> | Path to source store, or name of sql connectionstring in config file <br />
+ <code>--destination</code> | Path to destination source, or name of sql connectionstring in config file <br />
+ <code>--source-type</code> | One of <code>file-v0.4 file-v0.5</code> or <code>sql</code><br />
+ <code>--destination-type</code> | file-v0.5 or sql <br />
+ <code>--assembly</code> | path to model assembly <br />
+ <code>--source-snapshots</code> | Path to snapshots when source is sql <br />
+ <code>--destination-snapshots</code> | Path to snapshots when destination is sql <br />
+## Example convert file to SQL</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>origodb.storeutility convert --source<span class="o">=</span>c:<span class="se">\d</span>ata<span class="se">\f</span>reedb --destination<span class="o">=</span>origodbstorage 
+      --destination-type<span class="o">=</span>sql --source-type<span class="o">=</span>file-v0.5 --assembly<span class="o">=</span>c:<span class="se">\f</span>reedb<span class="se">\f</span>reedb.core.dll</code></pre></div>
+
+<p>and the file <code>origodb.storeutility.exe.config</code> :</p>
+
+<div class="highlight"><pre><code class="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;configuration&gt;</span>
+  <span class="nt">&lt;connectionStrings&gt;</span>
+    <span class="nt">&lt;add</span> <span class="na">name=</span><span class="s">&quot;origodbstorage&quot;</span>
+        <span class="na">connectionString=</span><span class="s">&quot;Data Source=.;Initial Catalog=freedb;Integrated Security=True&quot;</span>
+        <span class="na">providerName=</span><span class="s">&quot;System.Data.SqlClient&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/connectionStrings&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span></code></pre></div>
+
+
 		
-		{% endif %}
       </div>
 		<div class="well well-sm">
 		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 

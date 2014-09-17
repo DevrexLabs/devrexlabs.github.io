@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
 	
 
-    <title>{{page.title}} - OrigoDB</title>
+    <title>Persistence modes - OrigoDB</title>
 
 
     <!-- Custom styles for this template -->
@@ -60,24 +60,35 @@
     <div class="container">
 
       <div class="starter-template">
-		{{content}}
-		{% if page.comments %}
-<div id="disqus_thread"></div>
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'devrexlabsgithubio'; // required: replace example with your forum shortname
+		<h2 id="persistence-modes">Persistence modes</h2>
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    
+<p>There are 3 different modes of persistence:</p>
+
+<ul>
+  <li>Journaling</li>
+  <li>SnapshotPerTransaction</li>
+  <li>ManualSnaphots</li>
+</ul>
+
+<h2 id="journaling">Journaling</h2>
+<p>This is the default. Each command is written to the journal before execution.</p>
+
+<h2 id="snapshotpertransaction">SnapshotPerTransaction</h2>
+<p>Writes a snapshot after every successful command. No journaling.</p>
+
+<h2 id="manual-snapshots">Manual snapshots</h2>
+<p>No journaling. Nothing is saved until Engine.CreateSnaphot() is called or if<br />
+SnapshotBehavior is set to either AfterRestore or OnShutdown</p>
+
+<h2 id="example">Example</h2>
+
+<div class="highlight"><pre><code class="csharp"><span class="kt">var</span> <span class="n">config</span> <span class="p">=</span> <span class="n">EngineConfiguration</span><span class="p">.</span><span class="n">Create</span><span class="p">();</span>
+   <span class="n">config</span><span class="p">.</span><span class="n">PersistenceMode</span> <span class="p">=</span> <span class="n">PersistenceMode</span><span class="p">.</span><span class="n">SnapshotPerTransaction</span><span class="p">;</span>
+   
+   <span class="kt">var</span> <span class="n">db</span> <span class="p">=</span> <span class="n">Engine</span><span class="p">.</span><span class="n">For</span><span class="p">&lt;</span><span class="n">MyModel</span><span class="p">&gt;(</span><span class="n">config</span><span class="p">);</span></code></pre></div>
+
+
 		
-		{% endif %}
       </div>
 		<div class="well well-sm">
 		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 

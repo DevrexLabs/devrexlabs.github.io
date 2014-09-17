@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
+	
+
+    <title>Schema Evolution - OrigoDB</title>
+
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+  
+  <a href="https://github.com/devrexlabs"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+                  <a class="brand" href="/" style="float: left; font-size: small">
+                    <img style="margin-top: 12px; margin-left:16px; height: 26px; width: 26px" src="/images/origodb.png" /></a>
+
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+		<li><a class="brand" href="/">Start</a></li>
+		  <li><a href="/intro">Intro</a></li>
+			<li><a href="/examples">Examples</a></li>
+			<li><a href="/repos">Repositories</a></li>
+			<li><a href="/docs">Documentation</a></li>
+			<!-- <li><a href="/blog">Blog</a></li> -->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="starter-template">
+		<h2 id="schema-evolution">Schema Evolution</h2>
+<p>Upgrading an existing database can be a challenge whatever type of database you use.<br />
+This section describes what kinds of problems can arise when using OrigoDb and how you can deal with them.</p>
+
+<h2 id="serialization">Serialization</h2>
+<p>The main issue to look out for is serialization exceptions due to serialized objects no longer compatible with a newer type definition. If you rename or remove a<br />
+field or rename the type, including changing namespace, you will break compatibility. Adding fields is no problem,<br />
+if a field is missing in the deserialization stream, it will be assigned the type default.</p>
+
+<h2 id="so-what-gets-serialized">So what gets serialized?</h2>
+<p>The command journal contains serialized command objects. Snapshots are serialized model instances. The model is usually a large object<br />
+graph containing entities and other custom types. So here’s a list of types you need to consider:<br />
+* Commands and queries<br />
+* Any types referenced by the commands in fields <br />
+* the model itself<br />
+* Any types referenced by the model  (for example custom entities)</p>
+
+<p>Remote queries and commands are serialized during transfer. This can become an issue if you use different model versions on the server<br />
+and client side or different serialization formats.</p>
+
+<h2 id="guidelines">Guidelines</h2>
+<p>The guiding principle is <em>serialize as few types as possible</em>. Obviously, commands need to be serialized, but you can avoid<br />
+embedding custom objects within commands. Here are two commands that achieve the same thing. The first example creates a <code>Task</code><br />
+during execution, the second example has a field of type <code>Task</code>.</p>
+
+<h3 id="commands">Commands</h3>
+
+<div class="highlight"><pre><code class="csharp"><span class="c1">//Good design</span>
+<span class="na">    [Serializable]</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">AddTaskCommand</span> <span class="p">:</span> <span class="n">Command</span><span class="p">&lt;</span><span class="n">MyModel</span><span class="p">&gt;</span>
+    <span class="p">{</span>
+       <span class="k">public</span> <span class="k">readonly</span> <span class="n">Guid</span> <span class="n">TaskId</span><span class="p">;</span>
+       <span class="k">public</span> <span class="k">readonly</span> <span class="kt">string</span> <span class="n">Name</span><span class="p">;</span>
+       <span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">Execute</span><span class="p">(</span><span class="n">MyModel</span> <span class="n">model</span><span class="p">)</span>
+       <span class="p">{</span>
+          <span class="kt">var</span> <span class="n">task</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Task</span><span class="p">{</span><span class="n">Id</span> <span class="p">=</span> <span class="n">TaskId</span><span class="p">,</span> <span class="n">Name</span> <span class="p">=</span> <span class="n">Name</span><span class="p">};</span>
+          <span class="n">model</span><span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">task</span><span class="p">);</span>
+       <span class="p">}</span>
+       <span class="c1">//constructor omitted for brevity...</span>
+    <span class="p">}</span></code></pre></div>
+
+<p>Bad design, Task object is serialized with the command</p>
+
+<div class="highlight"><pre><code class="csharp"><span class="na">[Serialized]</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">AddTaskCommand</span> <span class="p">:</span> <span class="n">Command</span><span class="p">&lt;</span><span class="n">MyModel</span><span class="p">&gt;</span>
+    <span class="p">{</span>
+       <span class="k">public</span> <span class="k">readonly</span> <span class="n">Task</span> <span class="n">Task</span><span class="p">;</span>
+       <span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">Execute</span><span class="p">(</span><span class="n">MyModel</span> <span class="n">model</span><span class="p">)</span>
+       <span class="p">{</span>
+          <span class="n">model</span><span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">Task</span><span class="p">);</span>
+       <span class="p">}</span>
+       <span class="c1">//constructor omitted for brevity</span>
+    <span class="p">}</span></code></pre></div>
+
+<p>If you need to make a breaking change to a command, consider creating a new similar command with a version suffix, eg <code>AddTaskCommand_v2</code>.</p>
+
+<h3 id="keep-a-complete-journal-history-and-delete-snapshots">Keep a complete journal history and delete snapshots</h3>
+<p>Snapshots are most often used to speed up load time and can be deleted during upgrade if you have the entire journal preserved.<br />
+If you can afford the storage space you should keep the entire journal. </p>
+
+<p>Another benefit of a complete journal is that you can define entirely new projections over the commands.</p>
+
+<h3 id="initializing-added-fields">Initializing added fields</h3>
+<p><em>Note</em> - this applies to the default formatter, BinaryFormatter.</p>
+
+<p>Constructors are not called during deserialization. Initializing added fields has to be done somewhere else.<br />
+You can override <code>Model.SnapshotRestored</code> or use lazy initialization in a property wrapping the field.</p>
+
+<div class="highlight"><pre><code class="csharp"><span class="c1">//added field. WRONG, wont get initialized!</span>
+    <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="n">Product</span><span class="p">&gt;</span> <span class="n">_productsByCategory</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="n">Product</span><span class="p">&gt;();</span>
+
+    <span class="c1">//better</span>
+    <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="n">Product</span><span class="p">&gt;</span> <span class="n">ProductsByCategory</span>
+    <span class="p">{</span>
+       <span class="k">get</span>
+       <span class="p">{</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">_productsByCategory</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="n">_productsByCategory</span> <span class="p">=</span> <span class="k">new</span> <span class="n">_productsByCategory</span><span class="p">();</span>
+          <span class="k">return</span> <span class="n">_productsByCategory</span><span class="p">;</span>
+       <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">//assign and initialize using SnapshotRestored</span>
+    <span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">SnapshotRestored</span><span class="p">()</span>
+    <span class="p">{</span>
+       <span class="c1">//initialize field added in version 4.2</span>
+       <span class="k">if</span> <span class="p">(</span><span class="n">_productsByCategory</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="n">_productsByCategory</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="n">Product</span><span class="p">&gt;();</span>
+
+       <span class="c1">//populate index added in version 4.2</span>
+       <span class="k">foreach</span><span class="p">(</span><span class="n">_products</span><span class="p">.</span><span class="n">SelectMany</span><span class="p">(</span><span class="n">p</span> <span class="p">=&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">Categories</span><span class="p">))</span>
+       <span class="p">{</span>
+          <span class="c1">//code excluded in example for brevity...</span>
+       <span class="p">}</span>
+    <span class="p">}</span></code></pre></div>
+
+<h2 id="summary">Summary</h2>
+<ul>
+  <li>Serialize as few types as possible</li>
+  <li>Don’t rename or remove fields</li>
+  <li>Add a lazy property to initialize added fields</li>
+  <li>Don’t embed custom objects in commands</li>
+  <li>Keep a complete journal history</li>
+  <li>Delete snapshots during update (requires a complete journal)</li>
+  <li>Replace initial snapshot during upgrade</li>
+  <li>Add a version suffix to commands</li>
+  <li>Implement custom serialization (implement <code>ISerializable</code>)</li>
+  <li>Use a custom serializer, default is <code>BinaryFormatter</code></li>
+</ul>
+
+		
+      </div>
+		<div class="well well-sm">
+		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 
+		</div>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+  </body>
+</html>
+	

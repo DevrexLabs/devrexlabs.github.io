@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
 	
 
-    <title>{{page.title}} - OrigoDB</title>
+    <title>Some random Geekstream metrics - OrigoDB</title>
 
 
     <!-- Custom styles for this template -->
@@ -60,8 +60,50 @@
     <div class="container">
 
       <div class="starter-template">
-		{{content}}
-		{% if page.comments %}
+		<h1 id="some-random-geekstream-metrics">Some random Geekstream metrics</h1>
+<p>Here is some technical data about the LiveDB database backing the Geekstream search engine. The data was collected on 2012-08-21. Geekstream runs on a virtual win2008 standard server with 2GB of RAM assigned. The web application has a pool of stateful tcp/ip connections to the LiveDB server running on the same virtual machine. Also, an XSockets server is running to handle websocket connections for the LiveSearch feature.</p>
+
+<p>The web server caches nothing at all. For each web request one or more tcp/ip requests are sent to the LiveDB server. A bit foolish, but we want to exercise the server and client library thoroughly to see how they behave.</p>
+
+<h2 id="disk">Disk</h2>
+<p><em>Snapshots</em> - There are no snapshots besides the initial snapshot, which has a size of 5KB.</p>
+
+<p><em>Journal</em> - Size of command journal on disk: 620 MB in 1MB  sized journal files.</p>
+
+<p>When the server starts, the most recent snapshot is restored and then the subsequent commands in the journal are replayed. Load time varies depending on disk performance. With the current setup, time from start until the server is ready to handle requests takes 30 seconds. It loads considerably faster on my SSD-blessed laptop.</p>
+
+<p><em>Growth</em> – A 1MB journal file is created every 40 minutes = 36MB per day. The crawler pushes 1500 SetFeedLastCollectedCommands every 30 minutes, which probably makes up for a major part of the journal size. (It feels like a redesign is needed here!)</p>
+
+<h2 id="memory">Memory</h2>
+<p>LiveDB Server hosting the data uses 460MB RAM. It’s a 32-bit process so references are 32-bit pointers and the maximum process size is theoretically 4GB. Switching to 64-bit would double the size of the references, increasing RAM usage significantly (can be calculated by analyzing the model), but in return eliminating the 4GB limit.</p>
+
+<h2 id="model">Model</h2>
+
+<ul>
+  <li>1 508 feeds</li>
+  <li>51 678 feed items</li>
+  <li>162 103 unique search terms</li>
+  <li>4 832 883 search nodes (links from search terms to feed items)</li>
+</ul>
+
+<h2 id="performance">Performance</h2>
+<p>Search queries execute extremely fast. Client-server (web server &lt;–&gt; LiveDB server on same VM) round trip times are included in the search results and range from a few hundredths to tenths of seconds depending on the number of hits. The LiveSearch timings include roundtrip time from the web browser so aren’t really comparable.</p>
+
+<h2 id="scalability">Scalability</h2>
+<p>I’m not sure I want to know what a Cisco extended memory server with 384GB RAM installed would cost. And even if that’s a lot of memory it’s still an upper limit. We have designed the model to support partitioning, allowing the data to be spread over several database instances. Partitioning, along with failover clustering, is a LiveDB feature we’re working on. Partitioning will allow in practice unlimited growth at the cost of slightly slower queries as the client has to merge and sort query results from each server in the partition.</p>
+
+<h2 id="links">Links</h2>
+<p>The geekstream site: <a href="http://geekstream.devrex.se/">http://geekstream.devrex.se/</a></p>
+
+<p>The source code on github: <a href="http://github.com/devrexlabs/geekstream">http://github.com/devrexlabs/geekstream</a></p>
+
+<p>Cisco Extended Memory Overview: <a href="http://bit.ly/NDI0UL">http://bit.ly/NDI0UL</a></p>
+
+<p>Cisco Extended Memory (&lt;=384GB) Blade Server: <a href="http://bit.ly/PtkyMX">http://bit.ly/PtkyMX</a></p>
+
+<p>XSockets real time web framework: <a href="http://xsockets.net/">http://xsockets.net/</a></p>
+
+		
 <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
@@ -77,7 +119,7 @@
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     
 		
-		{% endif %}
+		
       </div>
 		<div class="well well-sm">
 		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 

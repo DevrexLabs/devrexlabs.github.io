@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
+	
+
+    <title>Views - OrigoDB</title>
+
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+  
+  <a href="https://github.com/devrexlabs"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+                  <a class="brand" href="/" style="float: left; font-size: small">
+                    <img style="margin-top: 12px; margin-left:16px; height: 26px; width: 26px" src="/images/origodb.png" /></a>
+
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+		<li><a class="brand" href="/">Start</a></li>
+		  <li><a href="/intro">Intro</a></li>
+			<li><a href="/examples">Examples</a></li>
+			<li><a href="/repos">Repositories</a></li>
+			<li><a href="/docs">Documentation</a></li>
+			<!-- <li><a href="/blog">Blog</a></li> -->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="starter-template">
+		<h2 id="views">Views</h2>
+<p>Queries that return objects directly from the in-memory model should be avoided. Objects are seldom isolated, they have references to other objects which have references to yet other objects and so on. </p>
+
+<p>For a highly interconnected model, returning an entity or collection of entities will result in a lot of related data being extracted from the model. At worst, the entire model could be returned! The data returned is usually serialized, could contain sensitive information and exposes unwanted behavior and properties in the calling context. One way to address this issue is using views.</p>
+
+<h2 id="example">Example</h2>
+<p>Consider the model  below. A <code>Product</code> has a reference to one or more <code>Category</code> objects. Each <code>Category</code> has a list of <code>Product</code> objects. A single product contains a reference to 0 or more categories, and each category references a number of products resulting in an object graph.</p>
+
+<div class="highlight"><pre><code class="csharp"><span class="k">class</span> <span class="nc">Product</span>
+    <span class="p">{</span>
+        <span class="n">List</span><span class="p">&lt;</span><span class="n">Category</span><span class="p">&gt;</span> <span class="n">_categories</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">class</span> <span class="nc">Category</span>
+    <span class="p">{</span>
+        <span class="n">List</span><span class="p">&lt;</span><span class="n">Product</span><span class="p">&gt;</span> <span class="n">_products</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">class</span> <span class="nc">ProductModel</span> <span class="p">:</span> <span class="n">Model</span>
+    <span class="p">{</span>
+        <span class="n">List</span><span class="p">&lt;</span><span class="n">Category</span><span class="p">&gt;</span> <span class="n">_categories</span><span class="p">;</span>
+        <span class="n">List</span><span class="p">&lt;</span><span class="n">Product</span><span class="p">&gt;</span> <span class="n">_products</span><span class="p">;</span>
+    <span class="p">}</span></code></pre></div>
+
+<p>Now say we want to display a dropdown list with categories. We want the name and id. <br />
+Here’s what a beginner might do: </p>
+
+<div class="highlight"><pre><code class="csharp"><span class="c1">//BAD!</span>
+    <span class="kt">var</span> <span class="n">cats</span> <span class="p">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">m</span> <span class="p">=&gt;</span> <span class="n">m</span><span class="p">.</span><span class="n">Categories</span><span class="p">.</span><span class="n">ToArray</span><span class="p">());</span></code></pre></div>
+
+<p>It’ll work but way too much data is being serialized and returned.</p>
+
+<p>You might think the following is a good idea:</p>
+
+<div class="highlight"><pre><code class="csharp"><span class="c1">//runtime exception, anonymous type is not serializable</span>
+    <span class="kt">var</span> <span class="n">cats</span> <span class="p">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">m</span> <span class="p">=&gt;</span> <span class="n">m</span><span class="p">.</span><span class="n">Categories</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">c</span> <span class="p">=&gt;</span> <span class="k">new</span> <span class="p">{</span><span class="n">Id</span><span class="p">=</span><span class="n">c</span><span class="p">.</span><span class="n">Id</span><span class="p">,</span> <span class="n">Name</span><span class="p">=</span><span class="n">c</span><span class="p">.</span><span class="n">Name</span><span class="p">}).</span><span class="n">ToArray</span><span class="p">());</span></code></pre></div>
+
+<p>Here’s a better way to do it:</p>
+
+<div class="highlight"><pre><code class="csharp"><span class="c1">//Better?</span>
+    <span class="kt">var</span> <span class="n">cats</span> <span class="p">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">m</span> <span class="p">=&gt;</span> <span class="n">m</span><span class="p">.</span><span class="n">Categories</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">c</span> <span class="p">=&gt;</span> <span class="k">new</span> <span class="n">CategoryView</span><span class="p">(</span><span class="n">c</span><span class="p">)).</span><span class="n">ToList</span><span class="p">());</span></code></pre></div>
+
+<p>Note how the <code>CategoryView</code> constructor takes a <code>Category</code> parameter. This is just one way to do it. What’s<br />
+important here is that the mapping is taking place within the Execute-method. </p>
+
+<p>The <code>CategoryView</code> class might look something like this:</p>
+
+<div class="highlight"><pre><code class="csharp"><span class="na">[Serializable]</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">CategoryView</span> <span class="p">:</span> <span class="n">IImutable</span>
+    <span class="p">{</span>
+       <span class="k">public</span> <span class="k">readonly</span> <span class="kt">int</span> <span class="n">Id</span><span class="p">;</span>
+       <span class="k">public</span> <span class="k">readonly</span> <span class="kt">string</span> <span class="n">Name</span><span class="p">;</span>
+
+       <span class="k">public</span> <span class="nf">CategoryView</span><span class="p">(</span><span class="n">Category</span> <span class="n">category</span><span class="p">)</span>
+       <span class="p">{</span>
+          <span class="n">Id</span> <span class="p">=</span> <span class="n">category</span><span class="p">.</span><span class="n">Id</span><span class="p">;</span>
+          <span class="n">Name</span> <span class="p">=</span> <span class="n">category</span><span class="p">.</span><span class="n">Name</span><span class="p">;</span>
+       <span class="p">}</span>
+    <span class="p">}</span></code></pre></div>
+
+<p>Note the IImutable interface. It will cause the engine to skip serialization because the result and model are isolated.</p>
+
+<p>Ad-hoc lambda queries in application code aren’t always desirable, they can become a bit messy, <br />
+they only work with an embedded engine and are more difficult to test. So here’s another approach using a custom query class.<br />
+It’s cleaner and supports client/server.</p>
+
+<div class="highlight"><pre><code class="csharp"><span class="na">[Serializable]</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">CategoryViewQuery</span> <span class="p">:</span> <span class="n">Query</span><span class="p">&lt;</span><span class="n">MyModel</span><span class="p">,</span> <span class="n">CategoryView</span><span class="p">[]&gt;</span>
+    <span class="p">{</span>
+       <span class="k">public</span> <span class="n">CategoryView</span><span class="p">[]</span> <span class="nf">Execute</span><span class="p">(</span><span class="n">MyModel</span> <span class="n">model</span><span class="p">)</span>
+       <span class="p">{</span>
+          <span class="k">return</span> <span class="n">model</span><span class="p">.</span><span class="n">Categories</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">c</span> <span class="p">=&gt;</span> <span class="k">new</span> <span class="n">CategoryView</span><span class="p">(</span><span class="n">c</span><span class="p">)).</span><span class="n">ToArray</span><span class="p">();</span>
+       <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// executing the query...</span>
+    <span class="kt">var</span> <span class="n">cats</span> <span class="p">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="k">new</span> <span class="n">CategoryViewQuery</span><span class="p">());</span></code></pre></div>
+
+<h3 id="summary">Summary</h3>
+<p>Returning specific view objects from commands and queries is a good practice with multiple benefits:<br />
+* Performance - serialize and return only the data needed<br />
+* Security - return only the data needed without exposing sensitive information<br />
+* Encapsulation - hide the details of the domain model<br />
+* Simplicity - return only data and behavior needed without exposing complex domain entities</p>
+
+		
+      </div>
+		<div class="well well-sm">
+		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 
+		</div>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+  </body>
+</html>
+	

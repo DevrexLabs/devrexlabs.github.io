@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
 	
 
-    <title>{{page.title}} - OrigoDB</title>
+    <title>Extensibility - OrigoDB</title>
 
 
     <!-- Custom styles for this template -->
@@ -60,24 +60,25 @@
     <div class="container">
 
       <div class="starter-template">
-		{{content}}
-		{% if page.comments %}
-<div id="disqus_thread"></div>
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'devrexlabsgithubio'; // required: replace example with your forum shortname
+		<h2 id="extensibility">Extensibility</h2>
+<p>OrigoDb can be extended with custom behavior by choosing between existing or writing your own implementations of one or more of the following interfaces:<br />
+* <code>ILogFactory</code> - logging module, see <a href="/docs/logging">Logging</a><br />
+* <code>ISynchronizer</code> - Handles reader/writer sychronization, used by the Kernel.<br />
+* <code>IStore</code> - custom storage provider. <code>FileStore</code>, <code>NullStore</code> and <code>SqlStore</code> are available.<br />
+* <code>ICommandJournal</code><br />
+* <code>ISerializer</code><br />
+* <code>IFormatter</code> - Xml, Json, BinaryFormatter (default), ProtoBuf…</p>
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    
+<h3 id="example">Example</h3>
+
+<div class="highlight"><pre><code class="csharp"><span class="kt">var</span> <span class="n">config</span> <span class="p">=</span> <span class="k">new</span> <span class="n">EngineConfiguration</span><span class="p">();</span>
+    <span class="n">config</span><span class="p">.</span><span class="n">SetStoreFactory</span><span class="p">(</span><span class="n">cfg</span> <span class="p">=&gt;</span> <span class="k">new</span> <span class="n">MyStorageProvider</span><span class="p">(</span><span class="n">cfg</span><span class="p">));</span>
+    <span class="n">_db</span> <span class="p">=</span> <span class="n">Db</span><span class="p">.</span><span class="n">For</span><span class="p">&lt;</span><span class="n">MyModel</span><span class="p">&gt;(</span><span class="n">config</span><span class="p">);</span></code></pre></div>
+
+<p>When the engine requests an instance of <code>IStore</code>, the injected custom constructor function is invoked,<br />
+overriding the default <code>FileStore</code> implementation. Similar injection methods are available for the other interfaces are available.</p>
+
 		
-		{% endif %}
       </div>
 		<div class="well well-sm">
 		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 

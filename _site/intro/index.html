@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
 	
 
-    <title>{{page.title}} - OrigoDB</title>
+    <title>Introduction - OrigoDB</title>
 
 
     <!-- Custom styles for this template -->
@@ -60,24 +60,55 @@
     <div class="container">
 
       <div class="starter-template">
-		{{content}}
-		{% if page.comments %}
-<div id="disqus_thread"></div>
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'devrexlabsgithubio'; // required: replace example with your forum shortname
+		<h2 id="what-is-origodb">What is OrigoDB?</h2>
+<p>OrigoDB is an in-memory database toolkit. The core component is the <code>Engine</code>. The engine is 100% ACID,<br />
+runs in-process and hosts a user defined data model. The data model can be domain specific or<br />
+generic and is defined using plain old NET types. Persistence is based on snapshots and write-ahead<br />
+command logging to the underlying storage. </p>
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    
+<p><img src="figure1.png" alt="image" /></p>
+
+<h3 id="the-model">The Model</h3>
+<ul>
+  <li>is an instance of the user defined data model</li>
+  <li>lives in RAM only</li>
+  <li><em>is</em> the data</li>
+  <li>is a projection of the entire sequence of commands applied to the initial model, usually empty.</li>
+  <li>can only be accessed through the engine</li>
+</ul>
+
+<h3 id="the-client">The Client</h3>
+<ul>
+  <li>has no direct reference to the model</li>
+  <li>interacts directly with the Engine either in-process or remote</li>
+  <li>or indirectly via a proxy with the same interface as the model</li>
+  <li>passes query and command objects to the engine</li>
+</ul>
+
+<h3 id="the-engine">The Engine</h3>
+<p>The Engine encapsulates an instance of the model and is responsible for atomicity, consistency, isolation and durability.<br />
+It performs the following tasks:<br />
+* writes commands to the journal<br />
+* executes commands and queries<br />
+* reads and writes snapshots<br />
+* restores the model on startup</p>
+
+<h3 id="we-call-it-a-toolkit-because-you-have-a-lot-of-options">We call it a toolkit because you have a lot of options</h3>
+<ul>
+  <li>Modelling - define your own model or use an existing one. Generic or domain specific. It’s up to you.</li>
+  <li>Storage - Default is FileStore. SqlStore or write your own module.</li>
+  <li>Data format - Choose wire and storage format by plugging in different IFormatter implementations. Binary, JSON, ProtoBuf, etc</li>
+</ul>
+
+<p>Read more in the docs on <a href="/docs/extensibility">Extensibility</a></p>
+
+<h3 id="design-goals">Design goals</h3>
+<p>Our initial design goals were focused on rapid development, testability, simplicity, correctness,<br />
+modularity, flexibility and extensibility. Performance was never a goal but running in-memory with<br />
+memory optimized data structures outperforms any disk oriented system. But of course a lot of optimization is possible.</p>
+
+
 		
-		{% endif %}
       </div>
 		<div class="well well-sm">
 		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 

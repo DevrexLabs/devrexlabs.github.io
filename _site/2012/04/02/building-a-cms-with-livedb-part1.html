@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
+	
+
+    <title>Building a CMS with LiveDB - part 1 - OrigoDB</title>
+
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+  
+  <a href="https://github.com/devrexlabs"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+                  <a class="brand" href="/" style="float: left; font-size: small">
+                    <img style="margin-top: 12px; margin-left:16px; height: 26px; width: 26px" src="/images/origodb.png" /></a>
+
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+		<li><a class="brand" href="/">Start</a></li>
+		  <li><a href="/intro">Intro</a></li>
+			<li><a href="/examples">Examples</a></li>
+			<li><a href="/repos">Repositories</a></li>
+			<li><a href="/docs">Documentation</a></li>
+			<!-- <li><a href="/blog">Blog</a></li> -->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="starter-template">
+		<h1 id="building-a-cms-with-livedb---part-1">Building a CMS with LiveDB - part 1</h1>
+<p>This is the first article in a series aiming to provide more detail of #liveDB development  than the getting start guide does. You can hack along or sit back and enjoy the ride and download the zipped VS2010 project later.</p>
+
+<p>So, why on earth a CMS when there are so many available out-of-the box? Well, we’re actually building this for a client and they have pretty basic requirements at the moment, so integrating an existing CMS will probably cost more than implementing from scratch using #liveDB. Also, the client has kindly agreed to let us release the code under an open-source license. We believe it will serve as a good example for learning #liveDB. The primary focus will be on building the CMS backend. UI, if any will, be very limited.</p>
+
+<h2 id="customers-requirements">Customers Requirements</h2>
+
+<ul>
+  <li>Edit content  using a WYSIWYG editor</li>
+  <li>Define and use templates for content</li>
+  <li>Manage mail message templates</li>
+  <li>Multiple Hierarchical menus</li>
+  <li>Independent menus for different sub-sites</li>
+  <li>Embedded videos in content pages</li>
+  <li>Image galleries and slideshows</li>
+  <li>Widgets to display editable content on the site</li>
+  <li>Blogroll widget – display list of latest items</li>
+</ul>
+
+<p>I convinced the client to use youtube and picasa for videos and images. We simply store whatever the WYSIWYG editor contains as content.</p>
+
+<h2 id="part-1">Part 1</h2>
+<p>In this first article, we will set up the project a #liveDB project from scratch and get some basic page handling working including root model, entities, commands and queries. Given the requirements I think a common Page class can be used to represent content pages, blog articles, templates, widgets etc.  The backend doesn’t really need to know what the content is being used for. We may have to rethink this later but let’s try to be a bit agile for the moment.</p>
+
+<p>Start out by creating a new class library and adding a reference to LiveDomain.Core, rename Class1 to Page and mark it with the Serializable attribute. Add some fields, properties and a constructor. Your code should look something like this:</p>
+
+<script src="https://gist.github.com//rofr/d56cfe45a49b213ea879.js"> </script>
+
+<p>As you can see there are no comments, no categories, no author etc. We can add these later if requested by the client, but for now, let’s keep things at a minimum.</p>
+
+<p>The read-only fields communicate intent much better than auto-properties with private setters. The Id will serve as a unique identifier within the model and can be used in urls. Contents can hold just about anything, markup, markdown, plain text, xml, xsl etc.</p>
+
+<p>Now lets create our main model.  During runtime, an instance of this model is your in-memory database, an object graph.  Add a serializable class called CmsModel derived from LiveDomain.Core.Model, a dictionary to hold the pages, a constructor to initialize the dictionary and a few methods to handle pages.</p>
+
+<script src="https://gist.github.com/rofr/a7e287063d23219af8bf.js"> </script>
+
+<p>Notice how the choice of dictionary as a data structure is encapsulated. We could have made it visible and let the commands access it directly. We prefer to put behavior in the model and entities keeping commands and queries as thin as possible. This makes testing easier and reduces dependencies on the model internals.</p>
+
+<h2 id="authoring-commands">Authoring commands</h2>
+
+<p>Modifying the model in any way can only be performed with command objects, so let’s create our first command. Add a class called PutPageCommand derived from Command<cmsmodel>, mark it serializable, add a constructor and an override for the Execute method:</cmsmodel></p>
+
+<script src="https://gist.github.com/rofr/90a1f6c2beab7fbc87da.js"> </script>
+
+<p>Now things are getting interesting. Execute() will be called by the engine passing in the one and only instance of CmsModel. The constructor gaurantees that the Page property is set to a valid instance making the call to PutPage safe.  A command should verify that any preconditions are satisfied before modifying any data, preferably by overriding Prepare() and throwing an exception. The engine will in this case abort the command and throw the exception back to the calling client code without writing the command to the journal. Optionally, Execute() can throw a CommandFailedException. Any other exception type will cause a complete restore to the state just prior to the command.</p>
+
+<p>The next command will demonstrate throwing CommandFailedException. Add a new class, RemovePageCommand with the following content:</p>
+
+<script src="https://gist.github.com/rofr/d78202a17709e5d462d8.js"> </script>
+
+<h2 id="start-your-engines">Start your engines!</h2>
+
+<p>Now that we have an entity, a model and some commands, lets write some tests. Right-click any class and generate at least one unit test just to have the boilerplate done for us. The first test shows how simple it is to test behavior independent of commands and the #livedb engine thanks to our design choices earlier. The other test demonstrates how the engine, model and commands interact.</p>
+
+<script src="https://gist.github.com/rofr/b8d73a302d2ea08422b4.js"> </script>
+
+<p>Here’s the contents of the c:\livedb\cms folder. If you run the SmokeTest again, the in-memory model will be restored from these files. For each run there will be one more document in the database! </p>
+
+<p><img src="/images/building-cms-1.png" /></p>
+
+<p>In part 2 of this series we will have a closer look at querying. In the meantime, feel free to comment below. Your input will influence the direction of future posts and features of the CMS.</p>
+
+		
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'devrexlabsgithubio'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+		
+		
+      </div>
+		<div class="well well-sm">
+		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 
+		</div>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+  </body>
+</html>
+	

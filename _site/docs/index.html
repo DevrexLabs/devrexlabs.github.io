@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
 	
 
-    <title>{{page.title}} - OrigoDB</title>
+    <title>Documentation - OrigoDB</title>
 
 
     <!-- Custom styles for this template -->
@@ -60,24 +60,52 @@
     <div class="container">
 
       <div class="starter-template">
-		{{content}}
-		{% if page.comments %}
-<div id="disqus_thread"></div>
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'devrexlabsgithubio'; // required: replace example with your forum shortname
+		<h1 id="documentation">Documentation</h1>
+<ul>
+  <li><a href="quick-start-guide">Quick Start Guide</a></li>
+</ul>
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    
+<h2 id="modeling">Modeling</h2>
+<ul>
+  <li><a href="basic-modeling">Modeling basics</a></li>
+  <li><a href="commands">Writing Commands</a></li>
+  <li>Writing Queries</li>
+  <li><a href="child-models">Child Models</a></li>
+  <li><a href="views">Views</a></li>
+  <li><a href="immutability">Immutability</a></li>
+  <li><a href="compiled-linq-queries">Compiled Linq Queries</a></li>
+  <li><a href="schema-evolution">Schema evolution</a></li>
+  <li>Generic models</li>
+</ul>
+
+<h2 id="hosting-and-configuration">Hosting and configuration</h2>
+<ul>
+  <li><a href="engine">Engine</a></li>
+  <li><a href="kernels">Kernels</a></li>
+  <li><a href="proxy">Transparent Proxy</a></li>
+  <li><a href="configuration">Configuration</a></li>
+  <li><a href="extensibility">Extensibility</a></li>
+  <li><a href="persistence">Persistence modes</a></li>
+  <li><a href="authorization">Role based authorization</a></li>
+  <li><a href="logging">Logging</a></li>
+</ul>
+
+<h2 id="client-library">Client library</h2>
+<ul>
+  <li><a href="client-api">Client API</a></li>
+  <li><a href="partition-client">Partition Client</a></li>
+  <li><a href="connection-strings">Connection strings</a></li>
+</ul>
+
+<h2 id="storage">Storage</h2>
+<ul>
+  <li><a href="file-storage">File storage</a></li>
+  <li><a href="sql-storage">Sql storage</a></li>
+  <li><a href="snapshots">Snapshots</a></li>
+  <li><a href="store-utility">Store Utility</a> - journal and snapshot conversion tool</li>
+</ul>
+
 		
-		{% endif %}
       </div>
 		<div class="well well-sm">
 		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 

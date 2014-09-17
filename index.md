@@ -2,9 +2,11 @@
 title: Start
 layout: layout
 ---
-# In-memory database toolkit for NET/Mono
-We're building OrigoDB, an open source in-memory database toolkit for NET/Mono.
-This site is for developers. For the commercial OrigoDB Server with enterprise features see [http://origodb.com](http://origodb.com)
+# OrigoDB
+OrigoDB is an open source in-memory database toolkit for NET/Mono. 
+This site is intended for developers and includes documentation, articles, 
+examples and other resources.
+For the commercial OrigoDB Server with enterprise features see [http://origodb.com](http://origodb.com)
 
 ## Appetizer
 {%highlight csharp%}
@@ -24,11 +26,10 @@ This site is for developers. For the commercial OrigoDB Server with enterprise f
 
 
 ## Learning
-* So what is it? Start with the [introduction] (/intro)
+* So what is it? Start by reading the [Introduction](/intro)
 * [Engine and developer documentation](/docs)
 * Download [example projects](/examples) to experiment with
 * Check out the [repositories](/repos)
-* Read stuff at [Le Blog](http://robertfriberg.se/) (external link)
 * Read [OrigoDb Server documentation](http://devrexlabs.com/docs) (external link)
 
 
@@ -59,6 +60,5 @@ Devrex Labs offers [commercial support](http://devrexlabs.com/) and consulting s
 * [@devrexlabs] (http://twitter.com/devrexlabs) - news and announcements
 * [@robertfriberg](http://twitter.com/robertfriberg) - project coordinator, personal account
 * Mail: origodb at devrexlabs.com
-* [Chatroom on JabbR](https://jabbr.net/#/rooms/OrigoDB)
 
 --

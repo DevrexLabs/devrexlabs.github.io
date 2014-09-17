@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
+	
+
+    <title>Immutability - OrigoDB</title>
+
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+  
+  <a href="https://github.com/devrexlabs"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+                  <a class="brand" href="/" style="float: left; font-size: small">
+                    <img style="margin-top: 12px; margin-left:16px; height: 26px; width: 26px" src="/images/origodb.png" /></a>
+
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+		<li><a class="brand" href="/">Start</a></li>
+		  <li><a href="/intro">Intro</a></li>
+			<li><a href="/examples">Examples</a></li>
+			<li><a href="/repos">Repositories</a></li>
+			<li><a href="/docs">Documentation</a></li>
+			<!-- <li><a href="/blog">Blog</a></li> -->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="starter-template">
+		<h1 id="immutability">Immutability</h1>
+
+<h2 id="what-is-immutability">What is immutability?</h2>
+<p>An immutable data structure can not be modified once it has been created. <code>DateTime</code> and <code>String</code> are types of which<br />
+all instances are immutable. Methods like <code>ToUpper()</code> and <code>AddDays()</code> never mutate the object itself, instead they<br />
+return new instances representing the new values. </p>
+
+<p>One benefit of immutable data structures is that they are safe to read from any number of concurrent threads without the need<br />
+for synchronization. By applying this principle to the entire OrigoDB in-memory model, some performance benefits can be achieved.<br />
+A command takes the current state of the model as input and returns a new model which becomes the new current state.</p>
+
+<p><img src="concurrency.png" alt="image" /></p>
+
+<p>In the figure, time flows from left to right. Commands are red, qeuries are green. Commands can only execute one at a time but they<br />
+do not need an exclusive lock on the model. Queries can be started at any time and will take the most recent state as input<br />
+and keep a reference to it for the duration of the query. So queries are not blocked by, and won’t block commands.</p>
+
+<p>It’s also safe to return direct references to any objects within the model. By default, command and query results are cloned<br />
+using binary serialization, which gaurantees isolation but costs time and CPU, often much more than executing the domain logic itself.</p>
+
+<h2 id="modeling">Modeling</h2>
+<p>Here’s an example immutable collection type. Notice how the <code>AddTask()</code> method returns a new instance of <code>TodoModel</code> and that the underlying array<br />
+is never modified. Notice also how the <code>Tasks()</code> method creates a new array. Returning a direct reference to <code>_tasks</code> would allow the<br />
+content to be modified. Finally, note that both <code>_tasks</code> and the returned array reference the same underlying string objects. But since<br />
+strings are immutable, this is completely safe.</p>
+
+<div class="highlight"><pre><code class="csharp"><span class="na">[Serializable]</span>
+   <span class="k">public</span> <span class="k">class</span> <span class="nc">TodoModel</span> <span class="p">:</span> <span class="n">Model</span>
+   <span class="p">{</span>
+      <span class="k">private</span> <span class="n">String</span><span class="p">[]</span> <span class="n">_tasks</span> <span class="p">=</span> <span class="p">{};</span>
+
+      <span class="k">public</span> <span class="n">TodoModel</span> <span class="nf">AddTask</span><span class="p">(</span><span class="kt">string</span> <span class="n">task</span><span class="p">)</span>
+      <span class="p">{</span>
+         <span class="kt">var</span> <span class="n">newState</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TodoModel</span><span class="p">();</span>
+         <span class="kt">var</span> <span class="n">temp</span> <span class="p">=</span> <span class="n">_tasks</span><span class="p">.</span><span class="n">ToList</span><span class="p">();</span>
+         <span class="n">temp</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">task</span><span class="p">);</span>
+         <span class="n">newState</span><span class="p">.</span><span class="n">_tasks</span>  <span class="p">=</span> <span class="n">temp</span><span class="p">.</span><span class="n">ToArray</span><span class="p">();</span>
+         <span class="k">return</span> <span class="n">newState</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="k">public</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;</span> <span class="n">Tasks</span><span class="p">()</span>
+      <span class="p">{</span>
+         <span class="k">return</span> <span class="n">_tasks</span><span class="p">.</span><span class="n">ToArray</span><span class="p">();</span>
+      <span class="p">}</span>
+   <span class="p">}</span></code></pre></div>
+
+<h3 id="immutable-entity-classes">Immutable entity classes</h3>
+
+<p>Here’s another example immutable type, this time an entity class. Note again that there is no way to change<br />
+the state of a Task once it has been instantiated.</p>
+
+<div class="highlight"><pre><code class="csharp"><span class="k">public</span> <span class="k">class</span> <span class="nc">Task</span>
+   <span class="p">{</span>
+      <span class="k">public</span> <span class="k">readonly</span> <span class="kt">string</span> <span class="n">Title</span><span class="p">;</span>
+      <span class="k">public</span> <span class="k">readonly</span> <span class="n">DateTime</span><span class="p">?</span> <span class="n">Completed</span><span class="p">;</span>
+		
+      <span class="k">public</span> <span class="nf">Task</span><span class="p">(</span><span class="kt">string</span> <span class="n">title</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">?</span> <span class="n">completed</span> <span class="p">=</span> <span class="k">null</span><span class="p">)</span>
+      <span class="p">{</span>
+         <span class="n">Title</span> <span class="p">=</span> <span class="n">title</span><span class="p">;</span>
+         <span class="n">Completed</span> <span class="p">=</span> <span class="n">completed</span><span class="p">;</span>
+      <span class="p">}</span>
+		
+      <span class="k">public</span> <span class="n">Task</span> <span class="nf">Complete</span><span class="p">(</span><span class="n">DateTime</span> <span class="n">completed</span><span class="p">)</span>
+      <span class="p">{</span>
+         <span class="k">return</span> <span class="k">new</span> <span class="nf">Task</span><span class="p">(</span><span class="n">Title</span><span class="p">,</span> <span class="n">completed</span><span class="p">);</span>
+      <span class="p">}</span>
+   <span class="p">}</span></code></pre></div>
+
+<h2 id="the-microsoftbclimmutable-collections">The Microsoft.Bcl.Immutable collections</h2>
+<p>Microsoft has provided a set of immutable collection classes available on Nuget including implementations of Dictionary, List, Queue,<br />
+Stack and Set. The library requires NET 4.5.</p>
+
+<p>The MS collections are not serializable. It is necessary to write custom serialization code for the model by<br />
+implementing <code>ISerializable</code>.</p>
+
+<h2 id="immutable-commands">Immutable commands</h2>
+<p>Commands return a new model and must not change the current model. Derive commands from <code>ImmutableCommand&lt;TModel&gt;</code> or <code>ImmutableCommand&lt;TModel, TResult&gt;</code><br />
+and override either <code>public abstract void Execute(TModel model, out TModel result);</code> or <code>public abstract TResult Execute(TModel model, out TModel nextModel)</code>.</p>
+
+<div class="highlight"><pre><code class="csharp"><span class="na">[Serializable]</span>
+   <span class="k">public</span> <span class="k">class</span> <span class="nc">AddTaskCommand</span> <span class="p">:</span> <span class="n">ImmutableCommand</span><span class="p">&lt;</span><span class="n">TodoModel</span><span class="p">&gt;</span>
+   <span class="p">{</span>
+      <span class="k">public</span> <span class="k">readonly</span> <span class="kt">string</span> <span class="n">Task</span><span class="p">;</span>
+  
+      <span class="k">public</span> <span class="nf">AddTaskCommand</span><span class="p">(</span><span class="kt">string</span> <span class="n">task</span><span class="p">)</span>
+      <span class="p">{</span>
+         <span class="n">Task</span> <span class="p">=</span> <span class="n">task</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">Execute</span><span class="p">(</span><span class="n">TodoModel</span> <span class="n">model</span><span class="p">,</span> <span class="k">out</span> <span class="n">TodoModel</span> <span class="n">next</span><span class="p">)</span>
+      <span class="p">{</span>
+         <span class="n">next</span> <span class="p">=</span> <span class="n">model</span><span class="p">.</span><span class="n">AddTask</span><span class="p">(</span><span class="n">task</span><span class="p">);</span>
+      <span class="p">}</span>
+   <span class="p">}</span></code></pre></div>
+
+<h2 id="configuration">Configuration</h2>
+<p>The engine needs to be configured to use the <code>ImmutabilityKernel</code> and optionally with lock free concurrency.</p>
+
+<div class="highlight"><pre><code class="csharp"><span class="kt">var</span> <span class="n">config</span> <span class="p">=</span> <span class="n">EngineConfiguration</span><span class="p">.</span><span class="n">Create</span><span class="p">();</span>
+   <span class="n">config</span><span class="p">.</span><span class="n">Kernel</span> <span class="p">=</span> <span class="n">Kernels</span><span class="p">.</span><span class="n">Immutability</span><span class="p">;</span>
+   <span class="n">config</span><span class="p">.</span><span class="n">Synchronization</span> <span class="p">=</span> <span class="n">SynchronizationMode</span><span class="p">.</span><span class="n">None</span><span class="p">;</span>
+
+   <span class="c1">// or to get both settings</span>
+   <span class="kt">var</span> <span class="n">config</span> <span class="p">=</span> <span class="n">EngineConfiguration</span><span class="p">.</span><span class="n">Create</span><span class="p">().</span><span class="n">WithImmutability</span><span class="p">();</span>
+
+   <span class="c1">//pass config when creating engine</span>
+   <span class="kt">var</span> <span class="n">engine</span> <span class="p">=</span> <span class="n">Engine</span><span class="p">.</span><span class="n">For</span><span class="p">&lt;</span><span class="n">TodoModel</span><span class="p">&gt;(</span><span class="n">config</span><span class="p">);</span>
+
+   <span class="c1">//execute commands as usual</span>
+   <span class="n">engine</span><span class="p">.</span><span class="n">Execute</span><span class="p">(</span><span class="k">new</span> <span class="n">AddTaskCommand</span><span class="p">(</span><span class="s">&quot;500 backhand volley drop shots&quot;</span><span class="p">));</span></code></pre></div>
+
+<h2 id="proxy-not-supported">Proxy not supported</h2>
+<p>Immutability does not yet work with the proxy feature.</p>
+
+<h2 id="example">Example</h2>
+<p>See a complete example in the Examples.Immutability repository.</p>
+
+
+		
+      </div>
+		<div class="well well-sm">
+		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 
+		</div>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+  </body>
+</html>
+	

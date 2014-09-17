@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/stylesheets/pygment_trac.css">
+	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
+	
+
+    <title>Kernels - OrigoDB</title>
+
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+  
+  <a href="https://github.com/devrexlabs"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+                  <a class="brand" href="/" style="float: left; font-size: small">
+                    <img style="margin-top: 12px; margin-left:16px; height: 26px; width: 26px" src="/images/origodb.png" /></a>
+
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+		<li><a class="brand" href="/">Start</a></li>
+		  <li><a href="/intro">Intro</a></li>
+			<li><a href="/examples">Examples</a></li>
+			<li><a href="/repos">Repositories</a></li>
+			<li><a href="/docs">Documentation</a></li>
+			<!-- <li><a href="/blog">Blog</a></li> -->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="starter-template">
+		<h2 id="kernels">Kernels</h2>
+<p>The <code>Kernel</code> is the engine component responsible for transactional integrity. It has the only reference to the in-memory model and controls all access to it. The Kernel loads, restores, creates, executes commands and queries, reads and writes snapshots. Using the default configuration, all operations on the model are <em>atomic</em>, <em>consistent</em> (for well-behaved commands), <em>isolated</em> and <em>durable</em>.</p>
+
+<p>There are 3 kernels to choose from. Optimistic (default), Pessimistic (deprecated) and the Royal Food Taster.</p>
+
+<div class="highlight"><pre><code class="csharp"><span class="c1">//Choosing a kernel</span>
+    <span class="kt">var</span> <span class="n">config</span> <span class="p">=</span> <span class="n">EngineConfiguration</span><span class="p">.</span><span class="n">Create</span><span class="p">();</span>
+    <span class="n">config</span><span class="p">.</span><span class="n">Kernel</span> <span class="p">=</span> <span class="n">Kernels</span><span class="p">.</span><span class="n">RoyalFoodTaster</span><span class="p">;</span>
+    <span class="n">_db</span> <span class="p">=</span> <span class="n">Db</span><span class="p">.</span><span class="n">For</span><span class="p">&lt;</span><span class="n">MyModel</span><span class="p">&gt;(</span><span class="n">config</span><span class="p">);</span></code></pre></div>
+
+<p>One task performed by the kernel is rolling back after a failed command. There is (currently) no way to undo the effects of a failed command. The only way is to replace the model with the version just prior to the failure. The different kernel types do this replacement in slightly different ways.</p>
+
+<h2 id="optimistic-kernel">Optimistic Kernel</h2>
+<p>The optimistic kernel assumes that commands are well behaved, thus writes them to the journal before executing them. If the command fails then a <code>RollbackMarker</code> is written to the journal forcing the failed command to be ignored in the future. Rollback is achieved by doing a full restore from storage!</p>
+
+<h2 id="pessimistic-kernel">Pessimistic Kernel</h2>
+<p>The pessimistic kernel executes the command before writing to the journal. This means that failed commands never reach the journal. For rollback, a full restore is still necessary. More importantly, to guarantee isolation, the pessimistic kernel keeps the write lock on the model until the command has been persisted. If there are a lot of writes, query throughput will be seriously limited. The optimistic kernel will persist the command before aquiring the write lock allowing reads while waiting for I/O operation to complete. For this reason, the pessimistic kernel will be removed in a coming release.</p>
+
+<h2 id="royal-food-taster">Royal Food Taster</h2>
+<p>A full restore rollback can take time to perform during which all access to the model is blocked. The Royal Food Taster alleviates this problem at the cost of twice as much RAM, a so called space/time trade-off.</p>
+
+<p>The food taster keeps 2 identical copies of the in-memory model where one is designated as the taster. Commands are executed on the taster first. If a command fails, the taster is discarded and replaced with a clone of the real model, without requiring full restore. More importantly, the real model is readable while the taster is being rebuilt.</p>
+
+<h2 id="summary">Summary</h2>
+<p>Choose between the optimistic and food taster kernels by benchmarking under realistic workloads.<br />
+The food taster works well for smaller models. Deserializing large object graphs (which is what happens when the real model is cloned) can be very slow. </p>
+
+		
+      </div>
+		<div class="well well-sm">
+		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 
+		</div>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+  </body>
+</html>
+	

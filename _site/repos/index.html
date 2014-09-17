@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
 	
 
-    <title>{{page.title}} - OrigoDB</title>
+    <title>Repositories - OrigoDB</title>
 
 
     <!-- Custom styles for this template -->
@@ -60,24 +60,31 @@
     <div class="container">
 
       <div class="starter-template">
-		{{content}}
-		{% if page.comments %}
-<div id="disqus_thread"></div>
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'devrexlabsgithubio'; // required: replace example with your forum shortname
+		<h1 id="repositories">Repositories</h1>
+<p>Besides the core library there are modules, tools, examples and shared data models. <a href="/examples">Example projects</a> are on their own page.</p>
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    
+<h2 id="origodbcore">OrigoDb.Core</h2>
+<p>This is the main library containing the engine, kernels, core modules and the native client.<br />
+* <a href="http://github.com/devrexlabs/origodb/issues">Project source</a><br />
+* <a href="http://github.com/devrexlabs/origodb/issues">Issue tracker</a></p>
+
+<h2 id="modules">Modules</h2>
+<p>todo: create separate repos for each module, add them here</p>
+
+<h3 id="sqlstorage">SqlStorage</h3>
+<p>Use a backing Sql Server for command journal storage.<br />
+* todo</p>
+
+<h2 id="tools">Tools</h2>
+<p>todo<br />
+* StoreUtility<br />
+* Benchmark</p>
+
+<h2 id="shared-models">Shared Models</h2>
+<p>todo: Reusable data models, either generic or custom. Use Models.* prefix</p>
+
+
 		
-		{% endif %}
       </div>
 		<div class="well well-sm">
 		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 

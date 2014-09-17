@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
 	
 
-    <title>{{page.title}} - OrigoDB</title>
+    <title>Basic Modeling - OrigoDB</title>
 
 
     <!-- Custom styles for this template -->
@@ -60,24 +60,41 @@
     <div class="container">
 
       <div class="starter-template">
-		{{content}}
-		{% if page.comments %}
-<div id="disqus_thread"></div>
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'devrexlabsgithubio'; // required: replace example with your forum shortname
+		<h1 id="basic-modeling">Basic Modeling</h1>
+<p>There are many different approaches to modeling with OrigoDb. We try to give you as much freedom as possible. There are just a few constraints:</p>
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    
+<ul>
+  <li>You must define a root model class which derives from <code>OrigoDb.Core.Model</code></li>
+  <li>The model must be marked with <code>Serializable</code></li>
+  <li>Any types referenced by the model must also be marked with <code>Serializable</code> (required for snapshots)</li>
+</ul>
+
+<p>One of the core strengths of Origo is that you can choose the most appropriate data representation for your application.<br />
+You can do object-oriented domain modeling, relational, key/value, graph, document, column store or whatever else you can think of.<br />
+Wan’t a 4-dimensional array of Quark-objects? No problem.</p>
+
+<p>Want automatic versioning, snapshots and lock-free concurrency? No problem, build your model using the new awesome immutable collection classes.</p>
+
+<p>We often see people using domain specific object-oriented modeling with either an anemic model and fat transactions or a rich model with thin transactions:</p>
+
+<ul>
+  <li><strong>Transaction script style</strong> - The model is mainly a data container exposing its data fields, usually collections.<br />
+ The domain logic is represented by commands and queries which manipulate the model.</li>
+  <li><strong>Rich domain model</strong> - The model is a facade for your domain exposing behavior in the form of methods while encapsulating data. <br />
+Commands and Queries contain little or no logic, simply mapping properties to arguments passed to methods on the model.<br />
+This style plays well with <a href="/docs/proxy">Transparent Proxy</a> feature.</li>
+</ul>
+
+<h2 id="choosing-collection-classes">Choosing collection classes</h2>
+<p>You have to consider performance when choosing data structures. Analyzing data access patterns and estimated data volume will help you choose between dictionaries,<br />
+lists, hashsets, queues, stacks, arrays etc</p>
+
+<p>Traditional disk-based relational databases use B-trees for tables and indexes.<br />
+B-trees provide a reasonable and balanced performance for all types of operations: seek,<br />
+scan, insert, delete, etc. <code>SortedSet&lt;T&gt;</code>, <code>SortedList&lt;K,V&gt;</code> and <code>SortedDictionary&lt;K,V&gt;</code> are pretty good<br />
+equivalents.</p>
+
 		
-		{% endif %}
       </div>
 		<div class="well well-sm">
 		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 

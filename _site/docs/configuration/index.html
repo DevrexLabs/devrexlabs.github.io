@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/stylesheets/stylesheet.css">
 	
 
-    <title>{{page.title}} - OrigoDB</title>
+    <title>Configuration - OrigoDB</title>
 
 
     <!-- Custom styles for this template -->
@@ -60,24 +60,28 @@
     <div class="container">
 
       <div class="starter-template">
-		{{content}}
-		{% if page.comments %}
-<div id="disqus_thread"></div>
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'devrexlabsgithubio'; // required: replace example with your forum shortname
+		<h2 id="configuration">Configuration</h2>
+<p>The engine and it’s collaborating components can be configured/customized by passing an instance<br />
+of <code>EngineConfiguration</code> when creating your engine. The <a href="/docs/extensibility">Extensibility</a> page<br />
+covers what can be customized and how you inject your own custom implementations of the extensible interfaces.</p>
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    
+<h2 id="engineconfiguration-properties">EngineConfiguration Properties</h2>
+<ul>
+  <li><strong>AsynchronousJournaling</strong> - Write commands to the journal in the background. Default is false. Can increase command/query throughput in the short term at the risk of buffered commands getting lost in case of system failure.</li>
+  <li><strong>EnsureSafeResults</strong> - Engine takes responsibility for ensuring no mutable object references are returned by commands or queries. Default is true. Turning it off can yield increased performance (no serialization) but at the risk of data corruption, in case the model is manipulated through a reference returned by a command or query. Temporary corruption can also occur when a subsequent command modifies objects returned which are still in use.</li>
+  <li><strong>CloneCommands</strong> - whether or not to clone commands before executing and journaling, default is true.</li>
+  <li><strong>Location</strong> - Location of the journal files and snapshots if using file storage. Refers to a connection string name or connection string when using Sql Storage.</li>
+  <li><strong>SnapshotLocation</strong> - an alternative snapshot location, defaults to Location</li>
+  <li><strong>StoreType</strong> - Don’t set store type directly, inject a <code>StorageFactory</code> see <a href="/docs/extensibility">Extensibility</a></li>
+  <li><strong>Kernel</strong> - Set what type of kernel to use, see <a href="/docs/kernels">Kernels</a></li>
+  <li><strong>ObjectFormatting</strong> - What format to use for serialization</li>
+  <li><strong>PacketOptions</strong> - Set compression and checksum options for command journal packets</li>
+  <li><strong>Synchronization</strong> - Controls which ISynchronizer to use, default is <code>SingleWriterMultipleReaders</code></li>
+  <li><strong>MaxEntriesPerJournalSegment</strong> - Default is 10_000</li>
+  <li><strong>MaxBytesPerJournalSegment</strong> - Default is 8MB</li>
+</ul>
+
 		
-		{% endif %}
       </div>
 		<div class="well well-sm">
 		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 
