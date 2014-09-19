@@ -1,2 +1,6 @@
 kramdown:
   input: GFM
+  
+name: OrigoDB Blog
+description: Build faster systems faster using OrigoDB, an in-memory database for NET/Mono. 
+url: http://devrexlabs.github.io/blog  
