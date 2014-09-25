@@ -15,6 +15,7 @@ title: Documentation
 * [Immutability](immutability)
 * [Compiled Linq Queries](compiled-linq-queries)
 * [Schema evolution](schema-evolution)
+* [Domain Events](domain-events)
 * Generic models
 
 ## Hosting and configuration
