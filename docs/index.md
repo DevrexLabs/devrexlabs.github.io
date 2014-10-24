@@ -9,7 +9,8 @@ title: Documentation
 ## Modeling
 * [Modeling basics](basic-modeling)
 * [Writing Commands](commands)
-* Writing Queries
+* [Writing Queries](queries)
+* [Transactions](transactions)
 * [Child Models](child-models)
 * [Views](views)
 * [Immutability](immutability)

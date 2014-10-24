@@ -9,8 +9,8 @@ An OrigoDb engine can compile and cache parameterized linq queries passed as a s
 
 The following extension methods are defined in the namespace `OrigoDB.Core.Linq`:
 {% highlight csharp %}
-    public object Engine.Execute(string linqQuery, param object[] args);
-    public TResult Engine.Execute<TModel, TResult>(string linqQuery, param object[] args);
+public object Engine.Execute(string linqQuery, param object[] args);
+public TResult Engine.Execute<TModel, TResult>(string linqQuery, param object[] args);
 {% endhighlight %}
 The linqQuery must be a valid c# expression. The expression is evaluated with the provided arguments and the result is returned to the caller.
 
