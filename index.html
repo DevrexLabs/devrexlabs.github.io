@@ -1,0 +1,208 @@
+---
+layout: layout
+---
+<div class="splash">
+	<h1>OrigoDB</h1>
+	<h3>in-memory database toolkit for Mono/.NET
+		<br />
+		<i>Build faster systems, faster</i></h3>
+	<p>
+		<a href="/download" class="btn btn-primary btn-large"><span class="download-button">Download Now</span></a>
+	</p>
+</div>
+
+<div class="well large container-fluid">
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<h1><em>If the data fits in RAM why move it back and forth between memory and disk?</em></h1>
+
+			<p style="line-height: 1.7">
+				In-memory technology is not just the latest buzz, it's spreading fast and is predicted to be highly disruptive.
+				
+				The first version of Oracle ran on a PDP-11 with 128KB or RAM. The amount of available RAM is constantly increasing 
+				with commodity servers approaching the 1TB mark, enough to hold 99% of all OLTP databases in memory<sup>1</sup>.
+				The traditional RDBMS architecture, and the relational model along with it, are now obsolete.
+			</p>
+			<p style="line-height: 1.7">
+				OrigoDB enables you to build high quality, mission critical systems with real-time performance at a fraction of the cost. 
+				This is not marketing gibberish! Please read on for a no nonsense description of our features.
+				Get in touch if you have questions or download and try it out today!
+			</p>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+</div>
+
+<div class="well-large container-fluid">
+	<style>
+		h2 {
+			margin-top: 2em;
+		}
+	</style>
+	<div class="row">
+		<div class="col-md-4">
+			<h2>Blazing speed</h2>
+			<p>
+				In-memory operations are orders of magnitude faster than disk operations. A single OrigoDB engine can execute millions of read transactions per second and thousands of write transactions per second with synchronous command journaling to a local SSD.
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h2>Productivity</h2>
+			<p>
+				This is the #1 reason we built OrigoDB. A single object oriented domain model is far simpler
+				than the full stack including a relational model, object/relational mapping, data access code,
+				views and stored procedures. That's a lot of waste that can be eliminated!
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h2>Software quality</h2>
+			<p>
+				The OrigoDB engine is 100% ACID out of the box. Commands execute one a time, transitioning the in-memory
+				model from one consistent state to the next. The data model, commands and queries are all strongly typed,
+				compile time checked, version controlled with the rest of your code and easily unit tested.
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<h2>Bring your own data model</h2>
+			<p>
+				OrigoDB data models, commands and queries are written in C# with runtime
+				access to the entire Mono/.NET class library. Create your own domain
+				specific model, or go with a generic one:
+			</p>
+			<ul>
+				<li>Relational</li>
+				<li>Document</li>
+				<li>Key/value</li>
+				<li>Graph</li>
+				<li>Xml</li>
+				<li>Redis clone</li>
+				<li>Javascript</li>
+			</ul>
+		</div>
+		<div class="col-md-4">
+			<h2>Use cases</h2>
+			<p>
+				Given the choice of data models, the possible applications are endless.
+				Here are a few examples just to give you a general picture:
+			</p>
+			<ul>
+				<li>General RDBMS alternative</li>
+				<li>Real time analytics</li>
+				<li>Real time search</li>
+				<li>In-process distributed caching</li>
+				<li>Rapid prototyping</li>
+				<li>Multiplayer online game state engines</li>
+			</ul>
+		</div>
+
+		<div class="col-md-4">
+			<h2>Modular architecture</h2>
+			<p>
+				OrigoDB can be easily customized to meet your specific requirements. 
+				Choose from existing modules or implement custom plugins. 
+				Storage and wire formats:
+				<ul>
+					<li>JSON</li>
+					<li>Native binary</li>
+					<li>Protobuf</li>
+					<li>MessagePack</li>
+				</ul>
+				Command journal and snapshot storage:
+				<ul>
+					<li>File system</li>
+					<li>Sql Server</li>
+				</ul>
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<h2>Traceability</h2>
+			<p>
+				The command journal contains a complete history of every change ever made to the database.
+			</p>
+			<ul>
+				<li>Browse, query, define projections or restore to any point in time</li>
+				<li>Know exactly who did what and when</li>
+				<li>Go back in time and fix bugs that corrupted the data model</li>
+			</ul>
+		</div>
+		<div class="col-md-4">
+			<h2>Not just .NET</h2>
+			<p>
+				The REST api uses the widely supported JSON format allowing access from
+				virtually any platform.
+				Use the native NET client for optimal performance and the full set of features.
+				Both interfaces support ad-hoc queries using the powerful LINQ syntax.
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h2>Simple management</h2>
+			<p>
+				Easily administer OrigoDB using a simple and intuitive web-based interface.
+			</p>
+			<ul>
+				<li>Monitor, start and stop nodes</li>
+				<li>Manage slaves and standbys</li>
+				<li>Execute ad-hoc queries</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<h2>Multi node partitioning</h2>
+			<p>
+				If you're dealing with more data that can fit on a single server, OrigoDB supports data partitioning. 
+				Choose an appropriate data model, define a partitioning scheme then set up as many servers nodes as necessary.
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h2>Multiplatform and open source</h2>
+			<p>
+				OrigoDB Server runs on Mono<sup>2</sup>/.NET on either Windows, Linux or MacOS and is 
+				based on the <a href="http://github.com/devrexlabs/origodb">open source OrigoDB engine</a>.
+			</p>
+		</div>
+		<div class="col-md-4">
+			<h2>High availability</h2>
+			<p>
+				OrigoDB Server features master/slave replication with any number of readonly slaves,
+				manual role switching and automatic client redirection.
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 col-md-offset-2">
+			<h2>How does it work?</h2>
+			Persistence is achieved using write-ahead command logging with optional full model snapshots.
+			On startup, the in-memory model is restored from the most recent snapshot followed by command replay.
+			Commands and queries are processed by the kernel, the component responsible for atomicity,
+			isolation and durability.
+		</div>
+		<div class="col-md-4">
+			<h2>So what's the catch?</h2>
+			<p>
+				Here are the major drawbacks:
+				<ul>
+					<li>The command journal, unless truncated, will become large over time</li>
+					<li>Truncating the journal erases the history of events</li>
+					<li>Snapshots take time to read and write</li>
+					<li>System is readonly while snapshot is being taken</li>
+					<li>Bringing a large system online can take time</li>
+					<li>Rolling back a failed command involves a full restore<sup>3</sup></li>
+				</ul>
+			</p>
+		</div>
+	</div>
+	<div style="color:gray;margin-top: 2em">
+		<ol style="list-style-type: none">
+			
+			<li><sup>1</sup>Urban myths about SQL, presentation by Michael Stonebraker of VoltDB, <a href="http://slidesha.re/1i6uTuU">http://slidesha.re/1i6uTuU</a> </li>
+			<li><sup>2</sup>No one is running on anything other than Windows so we don't test every build on Mono. If you wan't to be the first, get in touch and we'll help you out!</li>
+			<li><sup>3</sup> Unless using the RoyalFoodTaster kernel option which maintains 2 identical in-memory models</li>
+		</ol>
+	</div>
+</div>

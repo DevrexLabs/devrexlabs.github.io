@@ -1,0 +1,71 @@
+﻿body {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+h1{
+  font-size:38.5px;
+}
+h1,h2,h3,h4{
+	font-weight:bold;
+}
+
+div.splash {
+    text-align:right;
+    background-image:url('/images/loopy.jpg');
+    color:#ff14d0;
+    background-size:cover;
+	padding: 60px;
+	margin-bottom:30px;
+	line-height: 30px;
+	font-weight:200;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+span.downloadbutton {
+    font-size:larger;
+}
+
+div.body {
+    margin-left:30px;
+    margin-right:30px;
+}
+
+div.arguments {
+
+background-color:#eeeeee;
+}
+
+ul.masthead-links{
+    list-style:lower-greek;
+    font-size:small;
+}
+
+    ul.masthead-links li {
+        display:inline;
+    }
+
+
+    ul.masthead-links li a{
+        color:#c0c0c0;
+    }
+
+        ul.masthead-links li a:hover{
+        color:#ff14d0;
+        text-decoration:none;
+    }
+
+.row-fluid h4 {
+    margin-top:30px;
+}
+
+h1.pageHeader {
+    margin-top: 50px;
+}
+
+
+
+
+    td:last-child a.btn {
+        width:100px;
+    }
