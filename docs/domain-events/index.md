@@ -1,5 +1,5 @@
 ---
-layout: layout
+layout: submenu
 title: Domain Events
 ---
 # Domain Events

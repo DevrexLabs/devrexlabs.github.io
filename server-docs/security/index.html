@@ -1,0 +1,21 @@
+---
+layout: submenu
+---
+
+<h1>Security</h1>
+<p>
+	Almost none. The web based ui is password protected. Other than that there is no authentication, 
+	encryption or authorization on any of the interfaces. Act accordingly.
+</p>
+<h2>Password</h2>
+<p>
+	The web ui password hash is stored in the server config db. There is no way to retrieve a lost password
+	but there is a procedure to clear the password allowing a new one to be created.
+</p>
+<h2>Engine Authorization</h2>
+<p>
+	The engine will pick up the identity of the currently running thread and authorize against a set of rules with a
+	default of ALLOW for all requests. This behavior can be customized (programming required).
+	However, all the server threads have the same identity as the server process so there is no point in doing so yet.
+	This might change in a future version.
+</p>

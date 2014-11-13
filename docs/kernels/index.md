@@ -1,6 +1,6 @@
 ---
 title: Kernels
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 The `Kernel` is the engine component responsible for transactional integrity. It has the only reference to the in-memory model and controls all access to it. The Kernel loads, restores, creates, executes commands and queries, reads and writes snapshots. Using the default configuration, all operations on the model are _atomic_, _consistent_ (for well-behaved commands), _isolated_ and _durable_.

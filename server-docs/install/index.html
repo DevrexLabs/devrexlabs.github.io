@@ -1,0 +1,100 @@
+---
+layout: submenu
+---
+
+<h1>Install</h1>
+<p>
+	Installing is fairly simple. Start by downloading and unpacking the latest binary distribution package.
+	Don't worry about disk size, data will be stored elsewhere. The following folders are created:
+</p>
+<ul>
+	<li>/x86 - 32-bit binaries</li>
+	<li>/x64 - 64-bit binaries</li>
+	<li>/scripts</li>
+</ul>
+<p>
+	The scripts folder contains examples for installing, running, starting and stopping the the server and a default configuration file.
+	Feel free to modify or use as templates. Pro tip: Copy any modified or custom files to a different location to avoid having them overwritten when upgrading.
+</p>
+<h2>Configure</h2>
+<p>
+	Most configuration is done using the web based interface. However, some information needs to be passed to the server during startup.
+	Modify the <code>scripts/origo.config</code> xml file if you need to change any of the following defaults: 
+</p>
+<table class="table table-bordered table-condensed table-striped">
+	<tr>
+		<td>Key</td>
+		<td>Default</td>
+		<td>Description</td>
+	</tr>
+	<tr>
+		<td>AdminHost</td>
+		<td>127.0.0.1</td>
+		<td>The host name used to access the web based administration app.</td>
+	</tr>
+	<tr>
+		<td>AdminPort</td>
+		<td>8088</td>
+		<td>TCP port of the web based administration app</td>
+	</tr>
+	<tr>
+		<td>DefaultDataDirectory</td>
+		<td>c:\data</td>
+		<td>The default location for data (model binaries, command journal and snapshots)</td>
+	</tr>
+	<tr>
+		<td>&lt;log4net></td>
+		<td>custom xml</td>
+		<td>The logging configuration, for details see the <a href="http://logging.apache.org/log4net/">log4net documentation</a></td>
+	</tr>
+</table>
+<p>
+	If you change the admin server host and/or port you need to adjust the url in <code>scripts/set-env.cmd</code> accordingly.
+</p>
+
+<h2>Install as a service</h2>
+In a production Windows environment OrigoDB should be run as a Windows service. To install as a service run <code>scripts/install-service.cmd</code>
+
+<h2>Multiple instances</h2>
+<p>
+	You can create or attach multiple databases to a single OrigoDB server process. 
+	However, the current version only supports a single database online at a time.
+	If you need multiple databases, you can run multiple server processes. 
+	Setting it up is a bit tricky. You need a separate data directory for the master database, 
+	a unique endpoint for the web based ui and a unique service name.
+	Here's the procedure for setting up a second server instance as a windows service:
+	</p>
+	<ol>
+		<li>Make a copy of the entire scripts folder</li>
+		<li>Modify data directory and host/port in the <code>scripts/origo.config</code> file</li>
+		<li>Modify <code>set-env.cmd</code>, including:
+			<ul>
+				<li>A service instance name, example <code>set instancename=second</code></li>
+				<li>The service name, example: <code>set servicename=origodb.second</code></li>
+				<li>The admin url to reflect the host/port as per the config file</li>
+				<li>the config parameter pointing to the modified file</li>
+			</ul>
+		</li>
+		<li>Run <code>install-service.cmd</code> as administrator</li>
+	</ol>
+<p>
+	The rest of the scripts will use the settings from <code>set-env.cmd</code>
+</p>
+<p>
+	<strong>Important!</strong>When running multiple instances, make sure the native and sync interfaces have unique ip/port combinations. 
+	This is configured on the "Configuration" tab of each database.
+</p>
+
+<h2>System requirements</h2>
+OrigoDB Server requires the .NET Framework 4 or Mono 3. Note: We don't test every build against Mono, so there's a good chance it's broken.
+If you find a bug please let us know using the community support forum on Google Groups and we'll jump right on it!
+
+<h2>Choosing between 32-bit and 64-bit binaries</h2>
+<p>
+	The maximum amount of memory available to a 32-bit process is &lt; 4GB due to pointers being 32-bits long. 64-bit processes use 64-bit pointers thus can address more memory.
+The drawback is that every object reference in the in-memory model uses 8 bytes instead of 4 AND every object on the heap consumes few bytes extra internally.
+We recommend you to use the 64-bit version unless you know for sure that you won't need more than 4GB RAM and you wan't to keep the actual memory consumed to a minimum.
+</p>
+<p>
+	Modify <code>scripts/set-env.cmd</code> to switch to 64-bit binaries. You will need to reinstall the windows service if switching between x32/x64.
+</p>

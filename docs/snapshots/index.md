@@ -1,6 +1,6 @@
 ---
 title: Snapshots
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 A snapshot is a complete static image of the model written to disk at a specific time.

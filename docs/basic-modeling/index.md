@@ -1,6 +1,6 @@
 ---
 title: Basic Modeling
-layout: layout
+layout: submenu
 ---
 
 #Basic Modeling

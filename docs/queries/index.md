@@ -1,6 +1,6 @@
 ---
 title: Writing Queries
-layout: layout
+layout: submenu
 ---
 
 # {{page.title}}

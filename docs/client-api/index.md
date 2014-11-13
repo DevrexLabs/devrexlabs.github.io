@@ -1,6 +1,6 @@
 ---
 title: Client API
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 The client API is used to communicate with an OrigoDb Server server node.

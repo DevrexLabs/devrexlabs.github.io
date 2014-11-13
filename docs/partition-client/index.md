@@ -1,6 +1,6 @@
 ---
 title: Partition Client
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 OrigoDb Server, commercially available, supports horizontal data partitioning. `PartitionClusterClient` is the client class used

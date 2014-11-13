@@ -1,6 +1,6 @@
 ---
 title: Connection Strings
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 ## Example configuration file

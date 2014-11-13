@@ -1,6 +1,6 @@
 ---
 title: Transactions
-layout: layout
+layout: submenu
 ---
 # {{page.title}}
 By default, OrigoDB transactions are serialized providing perfect isolation and the strictest possible consistency. Command and query execution (writes and reads) are the implicit transactional units. The thread safe [Engine](https://github.com/DevrexLabs/OrigoDB/blob/master/src/OrigoDB.Core/Engine.cs) is responsible for proper transaction management. Explicit transactions are not supported, nor are they necessary. 

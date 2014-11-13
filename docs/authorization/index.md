@@ -1,6 +1,6 @@
 ---
 title: Authorization
-layout: layout
+layout: submenu
 ---
 
 Note: Experimental feature and subject to change!

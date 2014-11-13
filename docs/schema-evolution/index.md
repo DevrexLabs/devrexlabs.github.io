@@ -1,6 +1,6 @@
 ---
 title: Schema Evolution
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 Upgrading an existing database can be a challenge whatever type of database you use.

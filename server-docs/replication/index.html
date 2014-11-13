@@ -1,0 +1,92 @@
+---
+layout: submenu
+---
+
+<h1>Replication</h1>
+<p>
+	OrigoDB supports master/slave replication with a single master and multiple slaves in either standby or readonly mode.
+	Commands are always handled at the master and replicated to each slave over a tcp connection, either synchronously (default) or asynchronously.
+</p>
+<h2>Switchover</h2>
+<p>
+	Switchover is when the master and a designated slave exchange roles. Switchover is performed manually and can be initiated
+	from either the master or a slave. Native clients will be automatically redirected to the new master. The transition is
+	completed within milliseconds. Switchover allows system maintenance without downtime, just ensure a master is running
+	at all times.
+</p>
+
+<h2>Failover</h2>
+<p>
+	Failover is when a slave takes on the master role in the event of a failure at the master. OrigoDB supports manual failover 
+	meaning a slave can be promoted to new master even if the connection to the master is lost. 
+</p>
+<p>
+</p>
+<h2>Dynamic client reconfiguration</h2>
+<p>
+	The native client has information about the current cluster configuration.
+	In the event of a switchover, clients will be automatically redirected to the new master at the cost of a network roundtrip.
+	If a client loses connection with the master it will attempt to reconnect a slave.
+</p>
+<h2>Readonly vs. Standby mode</h2>
+<p>
+	A readonly slave will respond to queries and commands on the native interface. 
+	This is useful for distributing heavy read load across multiple servers.
+	In standby mode, a slave will not listen on the native interface. 
+	Use standby mode to have a hot standby replica ready to take on the
+	role of master. Standby mode requires no additional license.
+</p>
+
+<h2>Sync vs. Async</h2>
+<p>
+	Each slave can be configured with either synchronous or asynchronous replication. 
+	In sync mode the master will wait for the slave to acknowledge each transaction.
+	Sync mode provides 100% consistency and protection against data loss but adds latency
+	to each transaction. 
+</p>
+<p>
+	In async mode, the master puts commands in an internal queue and commits immediately, 
+	eliminating extra latency. The internal queue is processed in the background. Under load, async slaves can lag behind. If the
+	master were to crash the queued commands will never reach the slave. Promoting a slave to master under
+	this condition will result in lost transactions. 
+</p>
+<h2>Example use cases</h2>
+<p>
+	There is no limit to the number of possible slaves. Using different configurations
+	it's possible to achieve a number different goals.
+	Here are some example use cases.
+</p>
+<h3>Single Hot Standby</h3>
+<p>
+	This is the normal high availability configuration. One master and one slave
+	in standby sync mode both connected to the same LAN.
+</p>
+<h3>Async read load scaling</h3>
+<p>
+	A single master and one or more slaves in read only async mode with one slave
+	in read only sync mode for HA. Each async slave will be eventually consistent.
+	How far they lag behind will depend on both the write load and the read load
+	at each slave.
+	</p>
+<p>
+	A search engine would be a good fit for this configuration. The eventual consistency won't
+	be a problem, it means some users will be served slightly dated results. The crawler(s) might need
+	a 100% consistent view. This can be achieved by directing their queries to the master.
+</p>
+<h3>Sync read load scaling</h3>
+<p>
+	This is similar to the async read load scaling scenario but all the slaves are in sync.
+	It won't scale as well because write througput will diminish with increasing read load and
+	for each added slave. Use this configuration when eventual consistency is unacceptable.
+</p>
+
+<h3>Off site read replica</h3>
+<p>
+	A slave in async read only mode connected over WAN/VPN can be used for analytics/reporting
+	or to bring data closer to the user. Client applications can be configured to send commands
+	to the master and read from the local replica.
+</p>
+<h3>Off site backup</h3>
+<p>
+	A slave in async standby mode connected over LAN/WAN/VPN is a useful backup strategy.
+</p>

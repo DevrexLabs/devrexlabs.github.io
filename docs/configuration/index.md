@@ -1,6 +1,6 @@
 ---
 title: Configuration
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 The engine and it's collaborating components can be configured/customized by passing an instance

@@ -1,6 +1,6 @@
 ---
 title: File Storage
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 By default, the command journal is written to a file system directory.

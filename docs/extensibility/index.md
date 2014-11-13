@@ -1,6 +1,6 @@
 ---
 title: Extensibility
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 OrigoDb can be extended with custom behavior by choosing between existing or writing your own implementations of one or more of the following interfaces:

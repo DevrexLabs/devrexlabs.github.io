@@ -1,6 +1,6 @@
 ---
 title: Store Utility
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 The store utility is a standalone command line executable used to convert between storage formats or upgrade from a previous version.

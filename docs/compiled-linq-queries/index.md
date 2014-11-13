@@ -1,6 +1,6 @@
 ---
 title: Compiled Linq Queries
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 _Note! This is an experimental feature and subject to change!_

@@ -3,10 +3,7 @@ title: Start
 layout: layout
 ---
 # OrigoDB
-OrigoDB is an open source in-memory database toolkit for NET/Mono. 
-This site is intended for developers and includes documentation, articles, 
-examples and other resources.
-For the commercial OrigoDB Server with enterprise features see [http://origodb.com](http://origodb.com)
+OrigoDB is an open source in-memory database toolkit for NET/Mono. This site is intended for developers and includes documentation, articles, examples and other resources. For the commercial OrigoDB Server with enterprise features see [http://origodb.com](http://origodb.com)
 
 ## Appetizer
 {%highlight csharp%}
@@ -34,16 +31,14 @@ For the commercial OrigoDB Server with enterprise features see [http://origodb.c
 
 
 ## Contributing
-Like to help out? Check out the [Issue tracker](https://github.com/DevrexLabs/origodb/issues) to get some ideas then get in
-touch to see how we proceed. The preferred procedure is:
+Like to help out? Check out the [Issue tracker](https://github.com/DevrexLabs/origodb/issues) to get some ideas then get in touch to see how we proceed. The preferred procedure is:
 1. Make a fork
 2. Create a feature branch for your contribution
 3. Make a pull request
 
 ## Support
 Please post questions on the community support forum and general discussion list at [OrigoDb Google Group](https://groups.google.com/forum/#!forum/origodb).
-It's really empty at the moment but the team is ready to jump on your question. Need more than the community can offer? 
-Devrex Labs offers [commercial support](http://devrexlabs.com/) and consulting services, on site or remote.
+It's really empty at the moment but the team is ready to jump on your question. Need more than the community can offer? Devrex Labs offers [commercial support](http://devrexlabs.com/) and consulting services, on site or remote.
 
 ## Links
 

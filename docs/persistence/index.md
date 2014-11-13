@@ -1,6 +1,6 @@
 ---
 title: Persistence modes
-layout: layout
+layout: submenu
 ---
 
 ## {{page.title}}

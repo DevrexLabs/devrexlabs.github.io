@@ -1,6 +1,6 @@
 ---
 title: Authoring commands
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 

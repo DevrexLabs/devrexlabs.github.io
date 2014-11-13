@@ -1,6 +1,6 @@
 ---
 title: Sql Storage
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 

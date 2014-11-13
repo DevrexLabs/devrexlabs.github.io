@@ -1,42 +1,8 @@
 ---
-layout: layout
+layout: submenu
 title: Documentation
 ---
 
 #Documentation
-* [Quick Start Guide](quick-start-guide)
-
-## Modeling
-* [Modeling basics](basic-modeling)
-* [Writing Commands](commands)
-* [Writing Queries](queries)
-* [Transactions](transactions)
-* [Child Models](child-models)
-* [Views](views)
-* [Immutability](immutability)
-* [Compiled Linq Queries](compiled-linq-queries)
-* [Schema evolution](schema-evolution)
-* [Domain Events](domain-events)
-* Generic models
-
-## Hosting and configuration
-* [Engine](engine)
-* [Kernels](kernels)
-* [Transparent Proxy](proxy)
-* [Configuration](configuration)
-* [Extensibility](extensibility)
-* [Persistence modes](persistence)
-* [Role based authorization](authorization)
-* [Logging](logging)
-
-
-## Client library
-* [Client API](client-api)
-* [Partition Client](partition-client)
-* [Connection strings](connection-strings)
-
-## Storage
-* [File storage](file-storage)
-* [Sql storage](sql-storage)
-* [Snapshots](snapshots)
-* [Store Utility](store-utility) - journal and snapshot conversion tool
+This is the documentation for OrigoDB core engine and OrigoDB Server.
+Navigate the menu on the left.

@@ -1,6 +1,6 @@
 ---
 title: Views
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 Queries that return objects directly from the in-memory model should be avoided. Objects are seldom isolated, they have references to other objects which have references to yet other objects and so on. 

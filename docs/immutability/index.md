@@ -1,6 +1,6 @@
 ---
 title: Immutability
-layout: layout
+layout: submenu
 ---
 #{{page.title}}
 

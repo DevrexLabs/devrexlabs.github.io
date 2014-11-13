@@ -1,0 +1,102 @@
+---
+layout: submenu
+title: Quick start guide
+---
+
+<h1>Quick start guide</h1>
+
+<p>
+	Here's a quick start for the impatient. With a little luck, you'll be up and running in a few minutes.
+</p>
+<h2>Install and start the server</h2>
+<ol>
+	<li>Extract the installation package</li>
+	<li>Launch a command prompt as administrator</li>
+	<li>Navigate (CD) to the scripts folder in the installation directory</li>
+	<li>Start OrigoDB server by executing <code>start-console.cmd</code></li>
+</ol>
+<h2>Configure</h2>
+<ol>
+	<li>Start <code>start-web-ui.cmd</code> or point your web browser to <a href="http://127.0.0.1:8088">http://127.0.0.1:8088</a></li>
+	<li>Follow the instructions to perform the first time setup</li>
+	<li>Order a <a href="/order">free trial license</a> unless you already have one</li>
+	<li>Click on the License menu and upload a license</li>
+</ol>
+
+<h2>Deploy an example database</h2>
+<p>Now your ready to deploy a database! This guide will use the example found in the <code>%installdir%/resources/examples/todo</code> folder.</p>
+<ol>
+	<li>Click New Database on the menu</li>
+	<li>Give it a name, 'Todo' will do</li>
+	<li>Click choose files and pick the todo.core.dll file from the example directory</li>
+	<li>Take notice of the ip and port of the native interface</li>
+	<li>Click Next and then Load db on the following page</li>
+	<li>Congratulations! You're up and running with an in-memory instance of the Todo database</li>
+</ol>
+
+<h2>Run a client</h2>
+<p>
+	The todo example comes with a simple console based client. Start <code>Todo.CLI.exe</code>, it connects to http://localhost:3001/
+	Type the following commands:
+</p>
+<ol>
+	<li>addlist shopping</li>
+	<li>setlist shopping</li>
+	<li>add beer</li>
+	<li>add donuts</li>
+	<li>addlist learn</li>
+	<li>setlist learn</li>
+	<li>add origodb</li>
+	<li>add XSockets.NET</li>
+</ol>
+<p>
+	Return to the web console and notice the connection in the list of clients. Type exit to quit the client.
+</p>
+
+<h2>Razor Queries</h2>
+<p>
+	In the web console, click the 'Razor Queries' tab and modify the query (or paste if you're lazy) so it looks like this:
+</p>
+{% highlight html %}
+@using Todo.Core
+ 
+@{}
+ 
+<pre>
+@Json(Query(db => db))
+</pre>
+{% endhighlight %}
+<p>
+	Execute it. If you typed it correctly, you get a JSON representation of the entire Todo database. Be careful with that.
+	Here's another query you can try:
+</p>
+{% highlight html %}
+@using Todo.Core
+@{
+var listNames = Query(m => m.Lists.Select(list => list.Name).ToArray());
+}
+<ul>
+@foreach (var name in listNames)
+{
+	var tasks = Query(db => db.Lists.Single(list => list.Name == name)
+		.Tasks.Select(task => task.Title).ToArray());
+	
+	<li>@name</li>
+	<ul>
+	@foreach(var task in tasks)
+	{
+		<li>@task</li>
+	}
+	</ul>
+}
+</ul>
+{% endhighlight %}
+
+<h2>Shutting down</h2>
+<p>
+	Type exit and hit the return key in the server console window. Behind the scenes, a <code>c:\data</code> folder was created, 
+	with <code>.origo</code> and <code>Todo</code> subfolders for the system configuration and todo database respectively. 
+</p>
+<h2>Summary</h2>
+Well, that was a short tutorial to give a little taste of the basics.
+

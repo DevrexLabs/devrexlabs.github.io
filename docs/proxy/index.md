@@ -1,6 +1,6 @@
 ---
 title: Proxy
-layout: layout
+layout: submenu
 ---
 
 ## {{page.title}}

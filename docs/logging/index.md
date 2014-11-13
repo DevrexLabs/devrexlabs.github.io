@@ -1,6 +1,6 @@
 ---
 title: Logging
-layout: layout
+layout: submenu
 ---
 ## {{page.title}}
 OrigoDb components produce detailed log information. The core library includes a `ConsoleLogger` which is used by default.

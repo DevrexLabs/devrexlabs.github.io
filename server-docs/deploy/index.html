@@ -1,0 +1,41 @@
+---
+layout: submenu
+---
+
+<h1>Deploying a database</h1>
+<p>
+	There are two ways to deploy a database, either setting up a new one from scratch or attaching an existing.
+</p>
+<h2>New database</h2>
+<p>
+	The database definition and its dependencies are delivered in one or more files, known as assemblies, usually with a .DLL extension.
+	Before you start, you need to have these files and know which one is the primary. During deployment they will be copied to the data directory.
+</p>
+
+<h2>Attach existing database</h2>
+<p>
+	If you want to deploy an existing database select "Attach Database" on the menu. This is useful when migrating from one server to another,
+	setting up a slave, switching from embedded mode, restoring a backup or setting up a test environment. 
+	First, put the assemblies and the datafiles in the desired location using this procedure.
+</p>
+<ol>
+	<li>Create a directory for the database</li>
+	<li>Create a subdirectory named bin</li>
+	<li>Create a subdirectory named store</li>
+	<li>Put the datafiles in the store directory</li>
+	<li>Put the assemblies in the bin directory</li>
+</ol>
+<p>
+	If the database was previously detached, it will already have the correct directory structure.
+	Once the files are in place, just type the path to the folder created in step 1(absolute or relative to the DefaultData directory) and click the "Attach" button.
+</p>
+
+<h2>Detaching a database</h2>
+<p>Detaching a database removes it's registration from the server allowing you to delete or move the files.
+	Click the Detach dropdown button on the Database Status page. You have the option to include the configuration, 
+	including for example native host and port. The configuration will be written to a file named <code>configuration.json</code> in the database directory. 
+	The file will be picked up when the database is attached.
+</p>
+<p>
+	Note: Razor queries are not included in the exported configuration. They are stored in the server configuration, associatied with database model type.
+</p>
