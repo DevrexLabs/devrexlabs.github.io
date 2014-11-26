@@ -12,12 +12,15 @@
         })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    
-		
+
+
 		{% endif %}
       </div>
-		<div class="well well-sm">
-		&copy; Devrex Labs | OrigoDB - In-memory database toolkit for NET/Mono | Build faster systems, faster 
+
+		<div class="footer" style="margin:30px; text-align:center">
+		        <hr />
+        <small>&copy; Devrex Labs | Fractal image courtesy of <a href="http://www.sgeier.net/fractals/">Sven Geier</a>
+        </small>
 		</div>
 
     </div><!-- /.container -->
@@ -37,6 +40,16 @@
   ga('create', 'UA-39226646-2', 'auto');
   ga('send', 'pageview');
 
+
+  $("a.mailto").attr("href", function () {
+		var domain = "devrexlabs.com";
+		var self = $(this);
+		var href = "mailto:" + self.attr("data-mailto") + "@" + domain;
+		var subject = self.attr("data-subject");
+		if (subject) href += "?Subject=" + subject;
+		return href;
+	});
+
 </script>
-  </body>
-</html>
+ </body>
+ </html>
