@@ -2,11 +2,12 @@
 title: System prevalence in the ddd/cqrs forum
 layout: layout
 comments: true
+excerpt: System prevalence has a lot in common with event sourcing and cqrs. I'm not sure about how aware the two communities are of each other so I posted the following to the ddd/cqrs google group. 
 ---
 
 # {{page.title}}
-System prevalence has a lot in common with event sourcing and cqrs. I'm not sure about how aware the two communities are of each 
-other so I posted the following to the ddd/cqrs google group. 
+System prevalence has a lot in common with event sourcing and cqrs. I'm not sure about how aware the two communities are of each
+other so I posted the following to the ddd/cqrs google group.
 Here's a <a href="http://bit.ly/TWU3hx">link to the post</a>, in case you
 want to follow the discussion.
 
@@ -28,7 +29,7 @@ want to follow the discussion.
 > * In memory is so fast that we can get away with an exclusive lock on the entire system for each command.
 > * Full ACID support
 
-> As you can see System Prevalence has some similiarities with CQRS and Event Sourcing. Generally, there are fewer collaborating types 
+> As you can see System Prevalence has some similiarities with CQRS and Event Sourcing. Generally, there are fewer collaborating types
 in a prevalent system architecture:
 
 > * Engine

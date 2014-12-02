@@ -2,10 +2,11 @@
 title: Building a CMS with LiveDB - part 1
 layout: layout
 comments: true
+excerpt: This is the first article in a series aiming to provide more detail of liveDB development than the auick start guide does. You can hack along or sit back and enjoy the ride and download the zipped VS2010 project later.
 ---
 
 # {{page.title}}
-This is the first article in a series aiming to provide more detail of #liveDB development  than the getting start guide does. You can hack along or sit back and enjoy the ride and download the zipped VS2010 project later.
+This is the first article in a series aiming to provide more detail of #liveDB development than the getting start guide does. You can hack along or sit back and enjoy the ride and download the zipped VS2010 project later.
 
 So, why on earth a CMS when there are so many available out-of-the box? Well, we’re actually building this for a client and they have pretty basic requirements at the moment, so integrating an existing CMS will probably cost more than implementing from scratch using #liveDB. Also, the client has kindly agreed to let us release the code under an open-source license. We believe it will serve as a good example for learning #liveDB. The primary focus will be on building the CMS backend. UI, if any will, be very limited.
 
@@ -59,7 +60,7 @@ Now that we have an entity, a model and some commands, lets write some tests. Ri
 
 {% gist rofr/b8d73a302d2ea08422b4 %}
 
-Here’s the contents of the c:\livedb\cms folder. If you run the SmokeTest again, the in-memory model will be restored from these files. For each run there will be one more document in the database! 
+Here’s the contents of the c:\livedb\cms folder. If you run the SmokeTest again, the in-memory model will be restored from these files. For each run there will be one more document in the database!
 
 <img src="/images/building-cms-1.png"/>
 

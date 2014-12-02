@@ -4,9 +4,8 @@ layout: layout
 ---
 
 # Articles
-<ul>
 {% for post in site.posts %}
-    <li><a href="{{post.url}}">{{post.title}}</a><br/>
-	{{post.date | date_to_string}}
+<h3>{{post.title}}</h3>
+<div>{{post.excerpt}}</div>
+<a href="{{post.url}}">Read more</a> - {{post.date | date_to_string}}
 {% endfor %}
-</ul>

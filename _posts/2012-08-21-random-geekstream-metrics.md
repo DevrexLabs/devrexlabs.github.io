@@ -2,6 +2,7 @@
 title: Some random Geekstream metrics
 layout: layout
 comments: true
+excerpt: Here is some technical data about the LiveDB database backing the Geekstream search engine. The data was collected on 2012-08-21. Geekstream runs on a virtual win2008 standard server with 2GB of RAM assigned. The web application has a pool of stateful tcp/ip connections to the LiveDB server running on the same virtual machine. Also, an XSockets server is running to handle websocket connections for the LiveSearch feature.
 ---
 
 # {{page.title}}

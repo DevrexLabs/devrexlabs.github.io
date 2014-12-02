@@ -2,6 +2,7 @@
 title: In memory databases presentation
 layout: layout
 comments: true
+excerpt: Slides from a presentation for Swenug in Stockholm
 ---
 
 # {{page.title}}

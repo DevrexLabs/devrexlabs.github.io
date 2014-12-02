@@ -2,6 +2,7 @@
 title: Geekstream runtime performance issue!
 layout: layout
 comments: true
+excerpt: Whoa! Our first runtime performance issue with OrigoDB. To populate geekstream we run a background process which periodically checks a number of RSS feeds. The feeds are added manually, either individually or from opml file. Initially, I was eager to pull in a lot of content quickly. I was able to achieve this by gobbling some opml files found with google, the bigger the better. This resulted in some quality issues
 ---
 
 # {{page.title}}

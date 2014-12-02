@@ -2,6 +2,7 @@
 title: Slides from Devsum 2011
 layout: layout
 comments: true
+excerpt: A slideshare presentation
 ---
 
 # {{page.title}}

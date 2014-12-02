@@ -2,6 +2,7 @@
 title: OrigoDB from an RDBMS perspective
 layout: layout
 comments: true
+excerpt: In this article I will attempt to introduce OrigoDB from an RDBMS perspective, pointing out similarities and differences.
 ---
 
 # {{page.title}}
@@ -14,10 +15,10 @@ In a relational database data is stored in tables. Tables have rows and columns.
 ## The data
 SQL Server has one or more datafiles containing data. The data files are composed of 8kb blocks called data pages. Data is represented as b-trees or heaps and mapped onto  data pages. The buffer manager is the component responsible for loading blocks into memory (the buffer pool) and writing dirty pages back to disk during checkpoints.
 
-OrigoDB on the other hand has a single object graph which resides entirely in memory. Transactions are applied directly to the in-memory graph. The data is not mapped to disk in any way. There is no concept of dirty data that needs to be written to disk. OrigoDB does however support snapshots. Taking a snapshot involves writing the entire in-memory graph to storage. Depending on size, snapshots can take from seconds to tens of minutes to perfom during which updates (but not reads) to the graph are blocked.  The main purpose of snapshots is to be able to load faster during system startup, not persistence. 
- 
+OrigoDB on the other hand has a single object graph which resides entirely in memory. Transactions are applied directly to the in-memory graph. The data is not mapped to disk in any way. There is no concept of dirty data that needs to be written to disk. OrigoDB does however support snapshots. Taking a snapshot involves writing the entire in-memory graph to storage. Depending on size, snapshots can take from seconds to tens of minutes to perfom during which updates (but not reads) to the graph are blocked.  The main purpose of snapshots is to be able to load faster during system startup, not persistence.
+
 ## The transaction log
-For each transaction, the RDBMS writes new, modified, deleted and original data pages to the transaction log. The log needs to contain enough information to be able to rollback the transaction, but also to recover after an unclean shutdown. In OrigoDB  the command journal corresponds to the transaction log. The primary purpose of the journal is to persist commands needed to rebuild the in-memory graph. On startup, OrigoDB loads the most recent snapshot and then replays the subsequent commands. 
+For each transaction, the RDBMS writes new, modified, deleted and original data pages to the transaction log. The log needs to contain enough information to be able to rollback the transaction, but also to recover after an unclean shutdown. In OrigoDB  the command journal corresponds to the transaction log. The primary purpose of the journal is to persist commands needed to rebuild the in-memory graph. On startup, OrigoDB loads the most recent snapshot and then replays the subsequent commands.
 
 Commands are written to the journal using write-ahead logging. This is sometimes referred to as intent logging, in contrast to the traditional RDBMS which uses effect logging. By traditional RDBMS I mean the ones based on disk-centric b-tree architectures. VoltDB, a distributed rdbms redesigned from scratch to run entirely in-memory, uses intent logging.
 
@@ -28,16 +29,16 @@ With intent logging, the cause of the change is logged, not the resulting change
 
 
 ## OrigoDB Commands
-OrigoDB commands correspond roughly to stored procedures. Commands are the only mechanism through which data can be modified. Ad-hoc inserts, updates, deletes or any other modifications are not possible. Commands are written using any NET language. 
+OrigoDB commands correspond roughly to stored procedures. Commands are the only mechanism through which data can be modified. Ad-hoc inserts, updates, deletes or any other modifications are not possible. Commands are written using any NET language.
 
 ## OrigoDB Queries
 An OrigoDB query corresponds roughly to an RDBMS view, function or stored procedure given that no data is modified. Think of them as parameterized precompiled statements, written with any NET language and often using Linq.
 
 ## Transactions
-Command and Query objects are the transactional units of OrigoDB.  Multiple commands can easily be grouped into a single composite command. Explicit transactions with BEGIN TRAN, COMMIT TRAN and ROLLBACK TRAN are not necessary. 
+Command and Query objects are the transactional units of OrigoDB.  Multiple commands can easily be grouped into a single composite command. Explicit transactions with BEGIN TRAN, COMMIT TRAN and ROLLBACK TRAN are not necessary.
 
 ## Rollback
-OrigoDB does however have an automatic rollback function. If a command fails unexpectedly, we cannot be sure that the in-memory model has not been corrupted. In this case a full restore to the state prior to the failed command is performed which is an expensive operation! Fortunately, rollbacks can only be triggered by programming errors or system exceptions (OutOfMemory for example), never to reconcile two conflicting concurrent transactions, for instance deadlocks. 
+OrigoDB does however have an automatic rollback function. If a command fails unexpectedly, we cannot be sure that the in-memory model has not been corrupted. In this case a full restore to the state prior to the failed command is performed which is an expensive operation! Fortunately, rollbacks can only be triggered by programming errors or system exceptions (OutOfMemory for example), never to reconcile two conflicting concurrent transactions, for instance deadlocks.
 
 ## Isolation levels and consistency
 OrigoDB transactions are serialized. They execute one at a time providing perfect isolation and consistency. The default isolation level of SQL Server, and many other rdbms's,  is read committed.  This is a poor default in my opinion, sacrificing consistency and isolation in exchange for concurrency.
@@ -50,7 +51,3 @@ OrigoDB Server is a commercial dedicated host which can run as a service or from
 
 ## High Availability
 With OrigoDB Server you can set up the equivalent of Sql Server database mirroring. Commands are handled at master (principal) and queries can be handled by the master or any mirror. The master replicates commands to each mirror (synchronously or asynchronously). Automatic failover is not yet supported.
-
-
-
-

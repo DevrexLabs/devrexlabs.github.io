@@ -2,6 +2,7 @@
 title: Understanding object graphs
 layout: layout
 comments: true
+excerpt: Do you remember the days when file formats had to be hand crafted not to mention all </span>the code needed to read and write them? Or even more cumbersome, implementing a network communication protocol? In some cases you probably still need to but fortunately there is a simpler way. Most platforms support reading and writing objects to a stream, file or string taking care of all the gory details for you. I first discovered object serialization when learning Java. I was immediately impressed by the power and simplicity. Days of work could now be done in seconds using a few lines of code.
 ---
 
 # {{page.title}}

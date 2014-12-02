@@ -2,6 +2,7 @@
 title: Relational modeling and CRUD
 layout: layout
 comments: true
+excerpt: I’m experimenting with support for relational modeling for LiveDB based on generics. Here’s a peek at how this is progressing.
 ---
 
 # {{page.title}}

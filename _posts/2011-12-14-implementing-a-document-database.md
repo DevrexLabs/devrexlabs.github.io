@@ -2,6 +2,7 @@
 title: Implementing a document database
 layout: layout
 comments: true
+excerpt: A prevalence engine supports two types of transactions, commands and queries. This is a very simple and flexible generalization which can be utilized for persistence using several different approaches. One way is to define a domain-specific business model together with a set of commands, for example PlaceOrderCommand, ChangeCustomerAdressCommand and so on. This approach works very well with object-oriented domain modeling. One major benefit is that no mapping is required between the object-oriented model and a separate database model. The in-memory object-oriented model IS the database.
 ---
 
 # {{page.title}}

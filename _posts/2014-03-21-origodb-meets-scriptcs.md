@@ -2,6 +2,7 @@
 title: OrigoDB meets scriptcs
 layout: layout
 comments: true
+excerpt: Extending OrigoDB with some kind of scripting feature is something we have been thinking about for a long time. An obvious application would be the OrigoDB server console which now only understands 'exit'. Imagine the power of an interactive shell within the server process itself. So, I decided to play around with scriptcs to see what I could come up with.
 ---
 
 # {{page.title}}
@@ -46,4 +47,3 @@ Here's a transcript:
 
 
 Alright! This is fun and looks really promising. The next step is writing some useful examples like journal/snapshot maintenance, backups, ad-hoc qeurying, connecting to a remote OrigoDB server and finally hosting a server with scriptcs.
-

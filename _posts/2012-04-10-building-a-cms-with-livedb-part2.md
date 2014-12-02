@@ -2,6 +2,7 @@
 title: Building a CMS with LiveDB - part 2
 layout: layout
 comments: true
+excerpt: Welcome to part 2 of this series. In [part 1](), we set up a very simple model containing a Dictionary of Page objects. In this article we will extend the model to handle hierarchical menus. A complete VS2010 solution is available for download below. Let’s start by having a closer look at the requirements specifically related to menus.
 ---
 
 # {{page.title}}
@@ -50,4 +51,3 @@ Another thing to notice is that the menu being created is a fairly complex objec
 {% gist rofr/03e635ddb6beea5dae7d %}
 
 Thanks for tuning in, and feel free to add your comment below! <a href="/LiveDomain.Cms.Core-part2.zip">Download zipped VS2010 project</a>
-

@@ -2,6 +2,7 @@
 title: Implementing optimistic concurrency
 layout: layout
 comments: true
+excerpt: Optimistic concurrency is a strategy for dealing with conflicting writes to a database. The example often used is when two users update the same piece of information at the same time. If no strategy is in place to deal with this situation, information can go lost. This is referred to as "Last write wins". A pessimistic strategy would be to first obtain a lock on the piece of information to be updated. This ensures no one else can save until we have released the lock. Finally, an optimistic strategy involves validating that the piece of information hasn't been modified by a different user and hoping for the best. If it has been modified, the operation is canceled and we have to somehow resolve the conflict. One simple way to detect conflicts is to compare the initial state of an entity with it's current state in the database.
 ---
 
 # {{page.title}}
@@ -17,13 +18,13 @@ public class UpdateCustomerCommand : Command<MyModel>
    public int Id;
    public Customer Original;
    public Customer Modified;
-   
+
    public override void Execute(MyModel db)
    {
       var current = db.GetCustomerById(Id);
 	  if (Original.Name != current.Name) Command.Abort("Optimistic concurrency conflict");
 	  //todo: compare more fields...
-	  
+
 	  //finally, if no conflicts...
 	  db.Customers[Id] = Modified;
    }
@@ -39,7 +40,7 @@ public class ChangeEmailCommand : Command<MyModel>
   public readonly string From;
   public readonly string To;
   public readonly int UserId;
-   
+
   public override void Execute(MyModel db)
   {
     var user = db.GetUserById(Id);
@@ -187,7 +188,7 @@ The Model base class has a Revision property which is incremented by the engine 
 
         protected Entity() : this(RandomKey())
         {
-                
+
         }
 
         protected Entity(string key)
@@ -208,7 +209,7 @@ public class PlaceBid : Command<AuctionModel>
    public readonly int AssumedHighestBid;
    public readonly int Bid;
    public readonly int ItemId;
-   
+
    public override void Execute(AuctionModel db)
    {
       var item = db.ItemsById(ItemId);
@@ -219,4 +220,4 @@ public class PlaceBid : Command<AuctionModel>
 {% endhighlight %}
 
 ## Summary
-Having a strategy for dealing with write conflicts in a concurrent system is an absolute necessity. In addition, you need to consider the possible anomalies on a per transaction basis. The generic entity example above will not prevent conflicts of the kind in the PlaceBid example. 
+Having a strategy for dealing with write conflicts in a concurrent system is an absolute necessity. In addition, you need to consider the possible anomalies on a per transaction basis. The generic entity example above will not prevent conflicts of the kind in the PlaceBid example.
