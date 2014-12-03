@@ -151,7 +151,7 @@ public ActionResult ChangePassword(ChangePasswordModel model)
   if (currentUser.Authenticate(model.OldPassword))
   {
     var hashedPassword = HashedPassword.Create(model.NewPassword);
-    var command = new ChangePasswordCommand(userId, hashedPassword);
+    var command = new ChangePasswordCommand(currentUser.UserId, hashedPassword);
     Engine.For<MyModel>().Execute(command);
     currentUser.SetHashedPassword(hashedPassword);
   }
