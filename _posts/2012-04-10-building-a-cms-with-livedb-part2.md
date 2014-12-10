@@ -22,14 +22,14 @@ A MenuItem has a name which is used to identify the top level menu objects or as
 
 These classes are pretty straight forward and anemic, so for brevity, only one listing is provided, ExternalMenuItem.  (The complete VS2010 project is available  for download at the end of the article.)  We’re cutting some corners here with this loose anemic design. Initially we started out with an immutable  design using readonly fields and validation logic in the constructors. That could have gotten us into more trouble later on than the anemic design will,  for example issues with JSON serialization and automapping to strongly typed views in ASP.NET MVC. It’s probably a good idea to redesign later when the overall architecture has settled.
 
-{%highlight csharp%}
+{% highlight csharp %}
 [Serializable]
 public class ExternalMenuItem : MenuItem
 {
 	public string Url { get; set; }
 
 }
-{%endhighlight%}
+{% endhighlight %}
 
 ## Adding a menu collection to the model and versioning
 Next, we add a dictionary field to the CmsModel class mapping menu names to menus and initialize it in the constructor. However, this will not work when we load a snapshot created from a previous version of the model, because the default serializer doesn’t call the constructor during deserialization! There are two solutions to this problem, we can override SnapshotRestored and assign the field if it is null or we can delete all the snapshots forcing the engine to create a new instance of the model and replay the entire sequence of commands. Let’s use the former approach.
