@@ -7,13 +7,13 @@ excerpt: Here are some of the talks we will giving at conferences during 2015
 
 # {{page.title}}
 
-Here are some of the talks we will giving at conferences during 2015. If you run a conference or user group and like what you see, please get in touch!
+Here are some of the talks we have given/will be giving at conferences during 2015. If you run a conference or user group and like what you see, please get in touch!
 
 * OrigoDB - take the red pill
 * IMDB showdown - comparing OrigoDB, Redis and Sql Server Hekaton
 * OrigoDB extreme async makeover
 * DDD dead simple using OrigoDB
-* OrigoDB developer workshop
+* OrigoDB - build faster systems faster (workshop)
 
 ## OrigoDB - take the red pill
 OrigoDB is an in-memory database engine for Mono/NET providing full ACID support, lightning fast performance and offering a significant reduction of development and operational costs. No more relational modeling - use POCO’s and collections to define your domain model. No more stored procedures - write commands using your favorite .NET language and use LINQ for queries. No more data access code or object/relational mapping - just work with your in-memory domain model and let the OrigoDB engine transparently take care of persistence and consistency.
@@ -36,3 +36,14 @@ The subtitle of Eric Evans book "Domain Driven Design" is "Tackling complexity a
 With OrigoDB all the domain objects live in-memory as a single object graph modelled with NET types and collections. Read and write transactions are served from the same in-memory model with full ACID guarantees. There is no need to explicitly deal with events for persistence or rehydrating aggregates, it's all taken care of behind the scenes.
 
 In this session, Robert presents the Memory Image pattern (coined by Martin Fowler), OrigoDB and how it can be used to do DDD.
+
+## OrigoDB - build faster systems faster (workshop)
+OrigoDB is an open source in-memory database toolkit for NET/Mono featuring ACID transactions and transparent persistence based on command sourcing and snapshots.
+
+If the data fits in RAM, moving it back and forth between memory and disk is a waste of time and adds a lot of unnecessary complexity. With OrigoDB, you define a custom data model and transactions using your favorite CLR language, then just press play.
+
+In this 4 hour fast-paced hands-on session you will learn all about OrigoDB from one of the core developers. Bring a laptop and code along or just sit back and enjoy the ride.
+
+After a short introduction we'll dig into the coding basics including custom domain modeling, writing commands and queries, explicit vs. implicit transactions, unit testing, engine configuration and hosting.
+
+We'll proceed with a look at some alternative modeling approaches, including immutable models with lock free concurrency and round off with an OrigoDB Server demo.
