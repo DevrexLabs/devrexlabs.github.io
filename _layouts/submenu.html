@@ -4,20 +4,40 @@
 <div class="container-fluid">
 	<div class="row">
 	<div class="col-md-3" id="menu-sidebar">
-		{% include doc-menu.html %}
+		Loading menu...
 	</div>
 	<div class="col-md-9">
+  <ol class="breadcrumb">
+  </ol>
 		{{content}}
 	</div>
 	</div>
-	
 {% include footer.html %}
 <script>
 	   $(function(){
-		  $("#menu-sidebar a")
-			.addClass("list-group-item")
-			.filter(function(i,a){
-				return document.location.pathname == $(a).attr('href').concat("/");
-			}).addClass('active');
+			 var path = document.location.pathname;
+			 var parts = path.split('/');
+			 var url = "";
+			 var bc = $("ol.breadcrumb");
+			 for(var i = 1; i < parts.length-1; i++) {
+				 url += "/" + parts[i];
+				 if (i < parts.length - 2) {
+				 	$("<li><a href='" + url + "'>" + parts[i] + "</a></li>").appendTo(bc);
+				} else {
+					$("<li class='active'>" + parts[i] + "</li>").appendTo(bc);
+				}
+
+				var re = new RegExp("^/docs/.*?/");
+				var root = re.exec(path);
+				//load menu relative current location
+				$("#menu-sidebar").load(root + "menu.html", function(){
+					$("#menu-sidebar a").addClass("list-group-item")
+					  .each(function(){$(this).attr('href', root + $(this).attr('href'))})
+						.filter(function(i,a){
+								return path.indexOf($(a).attr('href').concat("/")) >= 0;
+						}).addClass('active');
+				});
+
+			 }
 	   });
 </script>

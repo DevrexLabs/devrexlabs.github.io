@@ -1,4 +1,32 @@
-﻿body {
+@media (max-width:992px){
+
+  #menu-sidebar a.active::before {
+     content: " [";
+  }
+
+  #menu-sidebar a.active::after {
+     content: "] ";
+  }
+
+  #menu-sidebar .list-group {
+    margin-left:5px;
+  }
+
+  #menu-sidebar .list-group-item {
+    border-style:none;
+  	padding: 0px;
+  	margin: 5px;
+  	display: inline;
+  	background-color:white;
+  	color:#337ab7;
+  }
+
+  #menu-sidebar a.active {
+    font-weight:bold;
+  }
+}
+
+body {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 h1{
@@ -62,10 +90,6 @@ ul.masthead-links{
 h1.pageHeader {
     margin-top: 50px;
 }
-
-
-
-
-    td:last-child a.btn {
+td:last-child a.btn {
         width:100px;
     }
