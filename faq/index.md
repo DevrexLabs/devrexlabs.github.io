@@ -1,5 +1,5 @@
 ---
-title: OrigoDB FAQ
+title: FAQ
 layout: layout
 ---
 

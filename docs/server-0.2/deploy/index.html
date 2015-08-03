@@ -1,5 +1,6 @@
 ---
 layout: submenu
+title: Deploy Database
 ---
 
 <h1>Deploying a database</h1>
@@ -15,7 +16,7 @@ layout: submenu
 <h2>Attach existing database</h2>
 <p>
 	If you want to deploy an existing database select "Attach Database" on the menu. This is useful when migrating from one server to another,
-	setting up a slave, switching from embedded mode, restoring a backup or setting up a test environment. 
+	setting up a slave, switching from embedded mode, restoring a backup or setting up a test environment.
 	First, put the assemblies and the datafiles in the desired location using this procedure.
 </p>
 <ol>
@@ -32,8 +33,8 @@ layout: submenu
 
 <h2>Detaching a database</h2>
 <p>Detaching a database removes it's registration from the server allowing you to delete or move the files.
-	Click the Detach dropdown button on the Database Status page. You have the option to include the configuration, 
-	including for example native host and port. The configuration will be written to a file named <code>configuration.json</code> in the database directory. 
+	Click the Detach dropdown button on the Database Status page. You have the option to include the configuration,
+	including for example native host and port. The configuration will be written to a file named <code>configuration.json</code> in the database directory.
 	The file will be picked up when the database is attached.
 </p>
 <p>

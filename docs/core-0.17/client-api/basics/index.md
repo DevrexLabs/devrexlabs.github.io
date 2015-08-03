@@ -8,7 +8,7 @@ The client API is used to communicate with in-process or remote OrigoDb instance
 The following classes implement `IEngine<T>`:
 * LocalEngineClient
 * RemoteEngineClient
-* [PartitionClusterClient](partition-client/) (code-only configuration)
+* [PartitionClusterClient](../partition-client/) (code-only configuration)
 
 ## Creating a client
 The recommended way to create a client is by calling `Engine.For<T>()` passing either a connection string, an `EngineConfiguration`, both or nothing at all.

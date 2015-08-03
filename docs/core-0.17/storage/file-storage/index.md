@@ -13,14 +13,12 @@ This path is relative to either the current directory or relative App_Data if ru
 If unassigned, Location will default to the class name of the Model.
 
 ## Snapshots
-Snapshots are written to the same directory unless `EngineConfiguration.SnapshotLocation`
-is set to point to somewhere else. SnapshotLocation follows the same resolution rules as
-described above for `Location`.
+Snapshots are written to the same directory as the journal files unless `EngineConfiguration.Location.OfSnapshots` is set to point to somewhere else.
 
 ## Example code
 {% highlight csharp %}
 var config = EngineConfiguration.Create();
-config.Location = "\\Storage\journal";
-config.SnapshotLocation = "\\Storage\snapshots";
+config.Location.OfJournal = "\\Storage\journal";
+config.Location.OfSnapshots = "\\Storage\snapshots";
 var engine = Engine.For<MyModel>(config);
 {% endhighlight %}

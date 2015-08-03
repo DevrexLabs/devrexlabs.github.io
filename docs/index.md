@@ -5,12 +5,12 @@ layout: layout
 
 ## {{page.title}}
 
-### OrigoDB Core
-The core documentation covers basic development, the client library, extensibility,
-
 * [OrigoDB Core 0.17](core-0.17/) (latest release)
+* [OrigoDB Server 0.2](server-0.2/)
 
-### OrigoDB Server
-Server documentation covers installing and operating an OrigoDB cluster.
 
-* [OrigoDB Server 0.2](server-docs/)
+### Community and commercial support
+
+* [Community support forum and general discussion list](https://groups.google.com/forum/#!forum/origodb)
+* [Commercial support](/order) - training, workshops and consulting services, on site or remote.
+* [Chat with the team on gitter](https://gitter.im/devrexlabs/origodb)

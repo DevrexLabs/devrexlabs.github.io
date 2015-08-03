@@ -1,5 +1,6 @@
 ---
 layout: submenu
+title: Replication
 ---
 
 <h1>Replication</h1>
@@ -17,8 +18,8 @@ layout: submenu
 
 <h2>Failover</h2>
 <p>
-	Failover is when a slave takes on the master role in the event of a failure at the master. OrigoDB supports manual failover 
-	meaning a slave can be promoted to new master even if the connection to the master is lost. 
+	Failover is when a slave takes on the master role in the event of a failure at the master. OrigoDB supports manual failover
+	meaning a slave can be promoted to new master even if the connection to the master is lost.
 </p>
 <p>
 </p>
@@ -30,25 +31,25 @@ layout: submenu
 </p>
 <h2>Readonly vs. Standby mode</h2>
 <p>
-	A readonly slave will respond to queries and commands on the native interface. 
+	A readonly slave will respond to queries and commands on the native interface.
 	This is useful for distributing heavy read load across multiple servers.
-	In standby mode, a slave will not listen on the native interface. 
+	In standby mode, a slave will not listen on the native interface.
 	Use standby mode to have a hot standby replica ready to take on the
 	role of master. Standby mode requires no additional license.
 </p>
 
 <h2>Sync vs. Async</h2>
 <p>
-	Each slave can be configured with either synchronous or asynchronous replication. 
+	Each slave can be configured with either synchronous or asynchronous replication.
 	In sync mode the master will wait for the slave to acknowledge each transaction.
 	Sync mode provides 100% consistency and protection against data loss but adds latency
-	to each transaction. 
+	to each transaction.
 </p>
 <p>
-	In async mode, the master puts commands in an internal queue and commits immediately, 
+	In async mode, the master puts commands in an internal queue and commits immediately,
 	eliminating extra latency. The internal queue is processed in the background. Under load, async slaves can lag behind. If the
 	master were to crash the queued commands will never reach the slave. Promoting a slave to master under
-	this condition will result in lost transactions. 
+	this condition will result in lost transactions.
 </p>
 <h2>Example use cases</h2>
 <p>

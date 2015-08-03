@@ -1,4 +1,5 @@
 ---
+title: Install
 layout: submenu
 ---
 
@@ -19,7 +20,7 @@ layout: submenu
 <h2>Configure</h2>
 <p>
 	Most configuration is done using the web based interface. However, some information needs to be passed to the server during startup.
-	Modify the <code>scripts/origo.config</code> xml file if you need to change any of the following defaults: 
+	Modify the <code>scripts/origo.config</code> xml file if you need to change any of the following defaults:
 </p>
 <table class="table table-bordered table-condensed table-striped">
 	<tr>
@@ -57,10 +58,10 @@ In a production Windows environment OrigoDB should be run as a Windows service. 
 
 <h2>Multiple instances</h2>
 <p>
-	You can create or attach multiple databases to a single OrigoDB server process. 
+	You can create or attach multiple databases to a single OrigoDB server process.
 	However, the current version only supports a single database online at a time.
-	If you need multiple databases, you can run multiple server processes. 
-	Setting it up is a bit tricky. You need a separate data directory for the master database, 
+	If you need multiple databases, you can run multiple server processes.
+	Setting it up is a bit tricky. You need a separate data directory for the master database,
 	a unique endpoint for the web based ui and a unique service name.
 	Here's the procedure for setting up a second server instance as a windows service:
 	</p>
@@ -81,7 +82,7 @@ In a production Windows environment OrigoDB should be run as a Windows service. 
 	The rest of the scripts will use the settings from <code>set-env.cmd</code>
 </p>
 <p>
-	<strong>Important!</strong>When running multiple instances, make sure the native and sync interfaces have unique ip/port combinations. 
+	<strong>Important!</strong>When running multiple instances, make sure the native and sync interfaces have unique ip/port combinations.
 	This is configured on the "Configuration" tab of each database.
 </p>
 

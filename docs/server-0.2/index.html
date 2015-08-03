@@ -1,0 +1,18 @@
+---
+title: OrigoDB Server 0.2 Documentation
+layout: submenu
+---
+<h2>{{page.title}}</h2>
+
+OrigoDB server runs as a windows service or console application accepting commands/queries from connected clients. The client API is part of the OrigoDB Core library.
+
+The server is used to host a database in a standalone process, it is not required when running the embedded engine, only the OrigoDB Core Library is needed. So if you are just learning and want to try OrigoDB, check out the <a href="/docs/">core documentation</a>.
+
+<h3>Features</h3>
+<ul>
+	<li>Web based administration console</li>
+	<li>Razor queries</li>
+	<li>Json over http API</li>
+	<li>Native TCP command/query interface (port 3001)</li>
+	<li>Multi server replication (single leader with multiple replicas)</li>
+</ul>

@@ -1,6 +1,6 @@
 ---
 layout: submenu
-title: Quick start guide
+title: Quick Start Guide
 ---
 
 <h1>Quick start guide</h1>
@@ -59,9 +59,9 @@ title: Quick start guide
 </p>
 {% highlight html %}
 @using Todo.Core
- 
+
 @{}
- 
+
 <pre>
 @Json(Query(db => db))
 </pre>
@@ -80,7 +80,7 @@ var listNames = Query(m => m.Lists.Select(list => list.Name).ToArray());
 {
 	var tasks = Query(db => db.Lists.Single(list => list.Name == name)
 		.Tasks.Select(task => task.Title).ToArray());
-	
+
 	<li>@name</li>
 	<ul>
 	@foreach(var task in tasks)
@@ -94,9 +94,8 @@ var listNames = Query(m => m.Lists.Select(list => list.Name).ToArray());
 
 <h2>Shutting down</h2>
 <p>
-	Type exit and hit the return key in the server console window. Behind the scenes, a <code>c:\data</code> folder was created, 
-	with <code>.origo</code> and <code>Todo</code> subfolders for the system configuration and todo database respectively. 
+	Type exit and hit the return key in the server console window. Behind the scenes, a <code>c:\data</code> folder was created,
+	with <code>.origo</code> and <code>Todo</code> subfolders for the system configuration and todo database respectively.
 </p>
 <h2>Summary</h2>
 Well, that was a short tutorial to give a little taste of the basics.
-
