@@ -75,7 +75,7 @@ int numCustomers = engine.Execute(new CustomerCountQuery());
 Lambda queries are simply generic functions that take the model as input and return some value. They're suitable for simple queries, ad-hoc querying with scriptcs, LinqPad or the OrigoDB server web ui. Example given the same model as above:
 
 {% highlight csharp %}
- var customerView = engine.Execute(db => db.Customers[42].ToView());
+var customerView = engine.Execute(db => db.Customers[42].ToView());
 {% endhighlight %}
 
 ### Parameterized lambda queries
@@ -99,7 +99,7 @@ public ActionResult GetVipCustomers(int regionId)
 }
 {% endhighlight %}
 
-As you can see this can get messy fast not to mention how difficult it is to test. A pattern which solves this problem is using query functions, functions that take parameters and return lambda queries:
+As you can see this can get messy fast, not to mention how difficult it is to test. A pattern which solves this problem is using query functions, functions that take parameters and return lambda queries:
 
 {% highlight csharp %}
 public static class Queries
@@ -125,23 +125,22 @@ Example usage:
 {% highlight csharp %}
 var customerView = engine.Execute(Queries.CustomerById(customerId));
 var vipCustomers = engine.Execute(Queries.VipCustomers(regionId, orderThreshold));
-}
 {% endhighlight %}
 
 ## Serializability
 Mark your query classes with a `Serializable` attribute to ensure they can be passed to a remote origodb server.
 
-Lambdas can't be sent across the wire. Therefore the `Engine.Execute` overload is not available on the `IEngine` interface returned by `Engine.For<TModel>()`. If you know you have a local engine, cast from  [IEngine](https://github.com/DevrexLabs/OrigoDB/blob/master/src/OrigoDB.Core/IEngine%5BM%5D.cs) to [Engine](https://github.com/DevrexLabs/OrigoDB/blob/master/src/OrigoDB.Core/Engine%5BM%5D.cs) to access the feature.
+Lambdas/expression trees can't easily be sent across the wire. So the `Engine.Execute` overload which takes a Func is not available on the `IEngine` interface returned by `Engine.For<TModel>()`. If you know you have a local engine, cast from  [IEngine](https://github.com/DevrexLabs/OrigoDB/blob/master/src/OrigoDB.Core/IEngine%5BM%5D.cs) to [Engine](https://github.com/DevrexLabs/OrigoDB/blob/master/src/OrigoDB.Core/Engine%5BM%5D.cs) to access the overload.
 
 ## Queries and transactions
-Queries are executed within a fully isolated transaction, (unless you change the default ISynchronizer).
+Queries are fully isolated from commands, the state of the model will not change while the query is executing (unless you change the default ISynchronizer).
 
 ## Query result cloning
 To protect you from returning references to mutable objects, query results are deep cloned. See [Views](../views)
 
 ## Performance
-For optimal throughput and low latencies, queries (and commands) should execute as quickly as possible. Some guidelines:
+For optimal throughput and low latency, queries (and commands) should execute as quickly as possible. Some guidelines:
 * Don't do anything unnecessary within the execute method, do it before or after.
-* Tune your models data structures, algorithms and queries for optimal runtime performance.
+* Tune your models data structures and algorithms for optimal runtime performance.
 * Return as little data as possible, minimizing the cost of serialization
 * Return immutable results, they will not be cloned

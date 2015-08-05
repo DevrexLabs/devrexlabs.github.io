@@ -12,7 +12,7 @@ If a command fails with an unexpected exception, the in-memory model will be res
 Serialized isolation guarantees the strongest possible consistency.
 
 ### Isolation
-Commands are executed sequentially, thus fully isolated. The default `ISynchronizer` uses a `ReaderWriterLockSlim` to allow either a single writer or multiple readers at any given time. This guarantees that reads always see the most recent state (and that the state is not modified) for the entire duration of the transaction. By default, query results are cloned to prevent accidentally returning references to mutable objects within the model. 
+Commands are executed sequentially, thus fully isolated. The default `ISynchronizer` uses a `ReaderWriterLockSlim` to allow either a single writer or multiple readers at any given time. This guarantees that reads always see the most recent state (and that the state is not modified) for the entire duration of the transaction. By default, query results are cloned to prevent accidentally returning references to mutable objects within the model.
 
 ### Durability
 Commands are written and flushed to the journal before execution, also known as write ahead logging.

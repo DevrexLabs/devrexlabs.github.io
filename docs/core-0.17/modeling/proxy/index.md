@@ -46,42 +46,38 @@ At this time nothing else is proxied. And it won't work with out, ref or params 
 So keep it simple!
 
 
-Sometimes you want to return something from a command method. To avoid it being interpreted as a query, tag it with a `ProxyMethod` attribute:
+Sometimes you want to return something from a command method. To avoid it being interpreted as a query, tag it with a `Command` attribute:
 {% highlight csharp %}
-    [ProxyMethod(OperationType.Command)]
-    public bool Remove(string key)
-    {
-       ...
-       return keyWasRemoved;
-    }
+[Command]
+public bool Remove(string key)
+{
+  ...
+  return keyWasRemoved;
+}
 {% endhighlight %}
-_Warning! If you forget the attribute, nothing gets recorded in the journal, the change is lost and you have a logically corrupt model on your hands._
+_Warning! If you forget the attribute, nothing gets recorded in the journal, the change is lost and you have an inconsistent model on your hands._
 
 ### Safe results
-If your command or query returns results that don't need to be cloned you can set the `ResultIsSafe` property on the `ProxyMethod` attribute:
+If your command or query returns results that don't need to be cloned you can set the `CloneResult` property on the `Command` or `Query` attribute:
 
 {% highlight csharp %}
-    [ProxyMethod(ResultIsSafe=true)]
-    public ReminderView[] GetRemindersDue(DateTime dueBy)
-    {
-       return _reminders.Where(r => r.Due <= dueBy)
-          .Select(r => new ReminderView(r)).ToArray();
-    }
+[Query(CloneResult=false)]
+public ReminderView[] GetRemindersDue(DateTime dueBy)
+{
+  return reminders.Where(r => r.Due <= dueBy)
+    .Select(r => new ReminderView(r)).ToArray();
+}
 {% endhighlight %}
 
-
-_Note. This is ugly design and needs reworking_
 ##  Design Considerations
-Keep in mind that query and command results and parameters are cloned. All results and arguments have to be serializable.
-Design your model as a facade for your domain and keep it simple!
-The following code will not do as intended because the object returned by `GetReminder()` is a clone of the real object.
+Keep in mind that query and command results and parameters are cloned. All results and arguments have to be serializable. Design your model as a facade for your domain and keep it simple! The following code will not do as intended because the object returned by `GetReminder()` is a clone of the real object.
 
 {% highlight csharp %}
-    //wrong! modifying a copy of the object
-    modelProxy.GetReminder(id).SetCompleted();
+//wrong! modifying a copy of the object
+modelProxy.GetReminder(id).SetCompleted();
 
-    //better
-    model.SetCompleted(id);
+//better
+model.SetCompleted(id);
 {% endhighlight %}
 ## Versioning
 If you change a method signature on the model, `ProxyCommand` objects in the journal could fail.
