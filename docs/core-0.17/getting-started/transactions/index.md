@@ -22,8 +22,7 @@ Commands are written and flushed to the journal before execution, also known as 
 OrigoDB supports the MVCC concurrency model. With this model, writes are serialized but will not block reads, which use snapshot isolation. Snapshots are based on the most recently committed write transaction. See the section on [Immutability](../../modeling/immutability) for details.
 
 ## Explicit transactions?
-There are no explicit transactions in OrigoDB. You cannot begin a transaction, make changes, then commit or rollback. Relational databases use the rollback mechanism to resolve conflicting changes caused by concurrent transactions. OrigoDB does not have concurrent transactions so there is no need for explicit transactions. If you need to perform multiple commands as a single atomic unit, consider using the composite command pattern:
-
+There are no explicit transactions in OrigoDB. You cannot begin a transaction, make changes, then commit or rollback. Relational databases use the rollback mechanism to resolve conflicting changes caused by concurrent transactions. OrigoDB does not have concurrent transactions so there is no need for explicit transactions. If you need to perform multiple commands as a single atomic unit, consider using the composite command pattern which batches multiple commands in a single transaction:
 
 {% highlight csharp %}
 [Serializable]

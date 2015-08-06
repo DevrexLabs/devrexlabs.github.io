@@ -18,9 +18,7 @@ layout: submenu
 ### Local connection string parameters
 When mode is "embedded" the connection string properties are mapped to an instance of `EngineConfiguration`.
 See [EngineComfiguration](../engine) for a full list of properties, only a few are shown below. When mode is remote, the properties will be mapped to an instance of  `RemoteClientConfiguration`
-<style>
-table, tr, td, th { border-width:1px; padding:4px; border-style:solid; border-color:black;}
-</style>
+
 *Name* | *Type* | *Default* | *Description*
 -------|--------|-----------|--------------
 location | string | empty string | file path or sql server connection string name
