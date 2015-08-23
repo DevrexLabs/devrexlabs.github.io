@@ -19,7 +19,7 @@ MyModel model = Db.For<MyModel>();
 
 Or you can create it explicitly:
 
-```
+```csharp
 //create proxy explicitly
 using OrigoDb.Core.Proxy;
 var engine = Engine.For<MyModel>();
@@ -48,14 +48,14 @@ So keep it simple!
 
 
 Sometimes you want to return something from a command method. To avoid it being interpreted as a query, tag it with a `Command` attribute:
-{% highlight csharp %}
+```csharp
 [Command]
 public bool Remove(string key)
 {
   ...
   return keyWasRemoved;
 }
-{% endhighlight %}
+```
 _Warning! If you forget the attribute, nothing gets recorded in the journal, the change is lost and you have an inconsistent model on your hands._
 
 ### Safe results
