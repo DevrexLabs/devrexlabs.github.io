@@ -48,6 +48,7 @@ So keep it simple!
 
 
 Sometimes you want to return something from a command method. To avoid it being interpreted as a query, tag it with a `Command` attribute:
+
 ```csharp
 [Command]
 public bool Remove(string key)
