@@ -12,13 +12,13 @@ Transparent proxy is implemented as an extension method of `IEngine<T>`. This me
 
 The absolute easiest way to create a proxy is using `Db.For<MyModel>()`. This will call `Engine.For<MyModel>()` and call the `GetProxy()` extension method of `IEngine<MyModel>` from the `OrigoDb.Core.Proxy` namespace:
 
-```csharp
+{% highlight csharp %}
 //create proxy using Db.For
 MyModel model = Db.For<MyModel>();
-```
+{% endhighlight%}
 Or you can create it explicitly:
 
-```csharp
+{% highlight csharp %}
 //create proxy explicitly
 using OrigoDb.Core.Proxy;
 var engine = Engine.For<MyModel>();
@@ -26,7 +26,7 @@ MyModel model = engine.GetProxy();
 
 //call a method on the proxy
 model.AddReminder("Write more documentation", DateTime.Now.AddDays(1));
-```
+{% endhighlight %}
 Here's what's happening under the hood:
 
 * The proxy intercepts the call to AddRemimder
