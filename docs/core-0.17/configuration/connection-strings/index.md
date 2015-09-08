@@ -17,7 +17,7 @@ layout: submenu
 
 ### Local connection string parameters
 When mode is "embedded" the connection string properties are mapped to an instance of `EngineConfiguration`.
-See [EngineComfiguration](../engine) for a full list of properties, only a few are shown below. When mode is remote, the properties will be mapped to an instance of  `RemoteClientConfiguration`
+See [EngineConfiguration](../engine-configuration) for a full list of properties, only a few are shown below. When mode is remote, the properties will be mapped to an instance of  `RemoteClientConfiguration`
 
 *Name* | *Type* | *Default* | *Description*
 -------|--------|-----------|--------------
