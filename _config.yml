@@ -5,5 +5,5 @@ redcarpet:
   extensions: ['tables']
 name: OrigoDB Blog
 description: Build faster systems faster using OrigoDB, an in-memory database for NET/Mono.
-url: http://dev.origodb.com/blog
+url: http://origodb.com/blog
 exclude: ['build-docs.pl']
