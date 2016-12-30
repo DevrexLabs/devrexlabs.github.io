@@ -4,6 +4,7 @@ layout: layout
 ---
 
 ## {{page.title}}
+* [OrigoDB Core 0.19](core-0.19/)
 * [OrigoDB Core 0.18](core-0.18/)
 * [OrigoDB Core 0.17](core-0.17/)
 * [OrigoDB Server 0.2](server-0.2/)
