@@ -50,6 +50,13 @@
 		return href;
 	});
 
+    const storageKey = 'memstate-modal-dismissed';
+    let modalDismissed = sessionStorage && sessionStorage.getItem(storageKey);
+    if (!modalDismissed) { 
+        $('#myModal').modal('show');
+        if (sessionStorage) sessionStorage.setItem(storageKey, 'yes');
+    }
+
 </script>
  </body>
  </html>

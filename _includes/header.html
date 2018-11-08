@@ -47,9 +47,54 @@
 			<li><a href="/docs/">Documentation</a></li>
 			<li><a href="/blog/">Blog</a></li>
       <li><a href="/faq/">FAQ</a></li>
+      <li><a href="#" onclick='$("#myModal").modal("show")'>Memstate</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
     <div class="container">
 		<div class="">
+        <button type="button" style="display:none" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+            Launch demo modal
+          </button>
+          
+          <!-- Modal -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <style> .modal-header {margin-right:-1px; border-width: 1px; border-color: gray; border-style: solid; border-radius: 3px; background-color:black;color:white;}</style>
+                <div class="modal-header">
+                  <h2 class="modal-title" id="myModalLabel"><img height ="30px" src="/images/memstate-logo-inverted.png"/> <img height = "30px" src="/images/memstate-logo-text-inverted.png"/></h2>
+                </div>
+                <div class="modal-body">
+                  <p>
+                  <a href="https://github.com/devrexlabs/memstate">Memstate</a> is a complete redesign of OrigoDB with major improvements in key areas such as performance, availability, licensing, cross-platform, docker and cloud support.
+                  </p>
+                  <ul>
+                    <style>li{margin-top:5px}</style>
+                    <li>
+                      <strong>Performance</strong> - OrigoDB can process up to 3K write transactions per second, Memstate can process up to 100K, a 33x improvement!
+                    </li>
+                    <li>
+                      <strong>High Availability</strong> - An OrigoDB cluster has a single primary and one or more read-only replicas. If the primary fails one of the replicas can be promoted to new primary but this requires manual intervention. Nodes in a Memstate cluster are all read/write.
+                    </li>
+
+                    <li>
+                      <strong>Licensing</strong> - OrigoDB Server is a commercial offering while Memstate server is OSS and free for commercial use.
+                    </li>
+
+                    <li>
+                      <strong>Cross platform</strong> - Memstate targets .NET Standard 2.0 which means it runs on both .NET Framework >= 4.6.1 and .NET Core >=2.0, Mono, Xamarin, UWP.
+                    </li>
+                  </ul>
+                  <p>
+                    Please visit <a href="https://github.com/devrexlabs/memstate">Memstate on Github</a> for more information!
+                  </p>
+                
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                </div>
+              </div>
+            </div>
+          </div>
